@@ -1,0 +1,5 @@
+/.venv
+/.idea
+/slides
+/media
+build/
