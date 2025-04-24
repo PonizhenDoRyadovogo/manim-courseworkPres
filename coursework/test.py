@@ -123,7 +123,7 @@ class Graphics(Scene):
             for x, y in zip(x_vals, y_vals)
         ])
 
-        self.play(Create(axes), run_time=1)
+        self.play(Create(axes), run_time=2)
         self.play(Write(y_label), Write(x_label), run_time=1)
         # показываем засечки и их подписи
         self.play(
@@ -137,6 +137,132 @@ class Graphics(Scene):
         for pt in points:
             self.play(Restore(pt), run_time=0.15)
         self.wait()
+
+        # результат 3
+        new_result_title_1 = MathTex(r"\hat{T}_3", color="#343434").next_to(result_title, RIGHT, buff=0.2)
+        self.play(FadeOut(points), run_time=1)
+        self.remove(points)
+        self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
+                  FadeOut(x_label), run_time=1)
+        self.play(Transform(result_title_1, new_result_title_1))
+        self.remove(axes, y_labels, x_ticks, x_labels)
+        axes = Axes(
+            x_range=[0, 1050, 100],
+            y_range=[53, 57, 0.5],
+            axis_config={"include_tip": True, "color": "#343434"},
+        )
+        y_label = MathTex("\\hat{T}_3", color="#343434").next_to(axes.y_axis.get_end(), UP + LEFT, buff=0.2)
+
+        new_y_values = np.arange(53, 57, 0.5)
+        new_y_labels = VGroup(*[
+            MathTex(f"{val:.1f}", color="#343434")
+                              .scale(0.6)
+                              .next_to(axes.c2p(0, val), LEFT, buff=0.2)
+            for val in new_y_values
+        ])
+        new_y_labels.set_opacity(1)
+
+        # Засечки и подписи по X
+        x_ticks = axes.x_axis.ticks.copy()
+        x_ticks.set_opacity(0)
+
+        tick_vals = np.arange(0, 1001, 100)  # 0,100,200,…1000
+        x_labels = VGroup(*[
+            MathTex(str(int(val)), color="#343434")
+                          .scale(0.5)
+                          # ставим ТОЛЬКО там, где действительно лежит ось:
+                          .next_to(axes.x_axis.n2p(val), DOWN, buff=0.2)
+            for val in tick_vals if val != 0
+        ])
+        x_labels.set_opacity(1)
+
+        y_vals = [56.4, 53.85, 55.80, 55.60, 55.20, 54.90, 55.70, 55.70, 54.85, 55.10, 55.05, 54.95, 55.27, 55.40, 55.35, 55.35, 55.15, 55.20, 55.10, 55.15]
+        points = VGroup(*[
+            Dot(axes.c2p(x, y), radius=0.07, color="#343434")
+                        .save_state()
+                        .shift(UP * 3)
+            for x, y in zip(x_vals, y_vals)
+        ])
+
+        self.play(Create(axes), run_time=2)
+        self.play(Write(y_label), Write(x_label), run_time=1)
+        # показываем засечки и их подписи
+        self.play(
+            FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
+            FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
+            run_time=1
+        )
+        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=1)
+        y_labels = new_y_labels
+        # падают точки по одной
+        for pt in points:
+            self.play(Restore(pt), run_time=0.15)
+        self.wait()
+
+        # результат 4
+        new_result_title_1 = MathTex(r"\hat{T}_4", color="#343434").next_to(result_title, RIGHT, buff=0.2)
+        self.play(FadeOut(points), run_time=1)
+        self.remove(points)
+        self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
+                  FadeOut(x_label), run_time=1)
+        self.play(Transform(result_title_1, new_result_title_1))
+        self.remove(axes, y_labels, x_ticks, x_labels)
+        axes = Axes(
+            x_range=[0, 1050, 100],
+            y_range=[66, 70, 0.5],
+            axis_config={"include_tip": True, "color": "#343434"},
+        )
+        y_label = MathTex("\\hat{T}_4", color="#343434").next_to(axes.y_axis.get_end(), UP + LEFT, buff=0.2)
+
+        new_y_values = np.arange(66, 70, 0.5)
+        new_y_labels = VGroup(*[
+            MathTex(f"{val:.1f}", color="#343434")
+                              .scale(0.6)
+                              .next_to(axes.c2p(0, val), LEFT, buff=0.2)
+            for val in new_y_values
+        ])
+        new_y_labels.set_opacity(1)
+
+        # Засечки и подписи по X
+        x_ticks = axes.x_axis.ticks.copy()
+        x_ticks.set_opacity(0)
+
+        tick_vals = np.arange(0, 1001, 100)  # 0,100,200,…1000
+        x_labels = VGroup(*[
+            MathTex(str(int(val)), color="#343434")
+                          .scale(0.5)
+                          # ставим ТОЛЬКО там, где действительно лежит ось:
+                          .next_to(axes.x_axis.n2p(val), DOWN, buff=0.2)
+            for val in tick_vals if val != 0
+        ])
+        x_labels.set_opacity(1)
+
+        y_vals = [
+            66.75, 69.40, 67.85, 67.70, 68.45, 68.75, 68.55, 68.55, 69.20, 68.55,
+            68.75, 68.65, 68.55, 68.45, 68.70, 68.75, 68.30, 68.30, 68.75, 68.80
+        ]
+        points = VGroup(*[
+            Dot(axes.c2p(x, y), radius=0.07, color="#343434")
+                        .save_state()
+                        .shift(UP * 3)
+            for x, y in zip(x_vals, y_vals)
+        ])
+
+        self.play(Create(axes), run_time=2)
+        self.play(Write(y_label), Write(x_label), run_time=1)
+        # показываем засечки и их подписи
+        self.play(
+            FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
+            FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
+            run_time=1
+        )
+        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=1)
+        y_labels = new_y_labels
+        # падают точки по одной
+        for pt in points:
+            self.play(Restore(pt), run_time=0.15)
+        self.wait()
+
 
 # class Presentation(Slide):
 #     def construct(self):
