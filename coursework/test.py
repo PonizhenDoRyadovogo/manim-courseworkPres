@@ -347,12 +347,12 @@ class Presentation(Slide):
         self.play(Write(box_backgrund))
 
         header_text = (
-            "Имитационная модель обобщенного \nсинхронного потока событий\n"
+            "Статистические эксперименты на имитационной\nмодели обобщенного синхронного потока событий\n"
             "второго порядка с произвольным числом состояний"
         )
         header = Text(header_text, fill_color="#343434", weight=BOLD, font_size=36)
         # Размещаем заголовок в верхней части экрана
-        header.to_edge(UP, buff=1)
+        header.to_edge(UP, buff=0.5)
 
         # Создаем линию под заголовком с помощью функции Underline
         underline = Underline(header, color="#343434")
@@ -384,13 +384,14 @@ class Presentation(Slide):
         )
 
         # Группируем и выравниваем по правому краю
-        info_group = VGroup(supervisor_info1, supervisor_info2, author_info1, author_info2).arrange(DOWN, aligned_edge=RIGHT)
+        info_group = VGroup(supervisor_info1, supervisor_info2, author_info1, author_info2).arrange(DOWN,
+                                                                                                    aligned_edge=RIGHT)
         info_group.to_corner(DR, buff=0.5)
 
         # Линия справа внизу
         vertical_bar = Rectangle(width=info_group.width * 0.009, height=info_group.height) \
             .next_to(info_group, RIGHT, buff=0.1) \
-            .set_style(fill_color="#343434", fill_opacity=1, stroke_width=0 )
+            .set_style(fill_color="#343434", fill_opacity=1, stroke_width=0)
 
         vertical_bar_bk = Rectangle(width=info_group.width, height=info_group.height) \
             .next_to(info_group, RIGHT, buff=0) \
@@ -407,7 +408,8 @@ class Presentation(Slide):
 
         self.play(GrowFromCenter(underline), Write(vertical_bar))
         self.add(vg_title, vg_info_group)
-        self.play(vg_title.animate.shift(UP*underline_bk.height), vg_info_group.animate.shift(LEFT*info_group.width))
+        self.play(vg_title.animate.shift(UP * underline_bk.height),
+                  vg_info_group.animate.shift(LEFT * info_group.width))
         self.play(ShrinkToCenter(underline), ShrinkToCenter(vertical_bar))
         self.remove(vg_title, header, info_group, vg_info_group)
 
@@ -726,10 +728,10 @@ class Presentation(Slide):
 
         self.play(Write(schem_title), Write(schem_title_ul))
 
-        schem_img = ImageMobject("img/schem.jpg").scale(0.65).shift(DOWN*0.4)
-        schem_img_rect = SurroundingRectangle(schem_img, color="#343434", buff=0.2)
+        schem_img = ImageMobject("img/schem.png").scale(0.65).shift(DOWN*0.4)
 
-        self.play(FadeIn(schem_img), Create(schem_img_rect))
+
+        self.play(FadeIn(schem_img))
 
         self.wait()
         self.next_slide()
@@ -738,68 +740,63 @@ class Presentation(Slide):
         slide_6.to_corner(DR, buff=0.1)
         self.play(Transform(slide_1, slide_6))
 
-        self.play(FadeOut(schem_img), Uncreate(schem_img_rect))
+        self.play(FadeOut(schem_img))
 
-        schem_img_1 = ImageMobject("img/schem_1.jpg").scale(2)
-        schem_img_1_rect = SurroundingRectangle(schem_img_1, color="#343434", buff=0.2)
+        schem_img_1 = ImageMobject("img/schem_1.png").scale(2)
 
-        self.play(FadeIn(schem_img_1), Create(schem_img_1_rect))
+        self.play(FadeIn(schem_img_1))
 
         self.wait()
         self.next_slide()
-        self.play(FadeOut(schem_img_1), Uncreate(schem_img_1_rect))
+        self.play(FadeOut(schem_img_1))
 
         slide_7 = Text("7", font_size=20, fill_color="#343434")
         slide_7.to_corner(DR, buff=0.1)
         self.play(Transform(slide_1, slide_7))
 
-        schem_img_2 = ImageMobject("img/schem_2.jpg").scale(1.75)
-        schem_img_2_rect = SurroundingRectangle(schem_img_2, color="#343434", buff=0.2)
+        schem_img_2 = ImageMobject("img/schem_2.png").scale(1.75)
 
-        self.play(FadeIn(schem_img_2), Create(schem_img_2_rect))
+        self.play(FadeIn(schem_img_2))
 
         self.wait()
         self.next_slide()
-        self.play(FadeOut(schem_img_2), Uncreate(schem_img_2_rect))
+        self.play(FadeOut(schem_img_2))
 
         slide_8 = Text("8", font_size=20, fill_color="#343434")
         slide_8.to_corner(DR, buff=0.1)
         self.play(Transform(slide_1, slide_8))
 
-        schem_img_3 = ImageMobject("img/schem_3.jpg").scale(1.75)
-        schem_img_3_rect = SurroundingRectangle(schem_img_3, color="#343434", buff=0.2)
+        schem_img_3 = ImageMobject("img/schem_3.png").scale(1.75)
 
-        self.play(FadeIn(schem_img_3), Create(schem_img_3_rect))
+        self.play(FadeIn(schem_img_3))
         self.wait()
         self.next_slide()
 
-        self.play(FadeOut(schem_img_3), Uncreate(schem_img_3_rect))
+        self.play(FadeOut(schem_img_3))
 
         slide_9 = Text("9", font_size=20, fill_color="#343434")
         slide_9.to_corner(DR, buff=0.1)
         self.play(Transform(slide_1, slide_9))
 
-        schem_img_4 = ImageMobject("img/schem_4.jpg").scale(1.75)
-        schem_img_4_rect = SurroundingRectangle(schem_img_4, color="#343434", buff=0.2)
+        schem_img_4 = ImageMobject("img/schem_4.png").scale(1.75)
 
-        self.play(FadeIn(schem_img_4), Create(schem_img_4_rect))
+        self.play(FadeIn(schem_img_4))
 
         self.wait()
         self.next_slide()
-        self.play(FadeOut(schem_img_4), Uncreate(schem_img_4_rect))
+        self.play(FadeOut(schem_img_4))
 
         slide_10 = Text("10", font_size=20, fill_color="#343434")
         slide_10.to_corner(DR, buff=0.1)
         self.play(Transform(slide_1, slide_10))
 
-        schem_img_5 = ImageMobject("img/schem_5.jpg")
-        schem_img_5_rect = SurroundingRectangle(schem_img_5, color="#343434", buff=0.2)
+        schem_img_5 = ImageMobject("img/schem_5.png")
 
-        self.play(FadeIn(schem_img_5), Create(schem_img_5_rect))
+        self.play(FadeIn(schem_img_5))
         self.wait()
         self.next_slide()
 
-        self.play(FadeOut(schem_img_5), Uncreate(schem_img_5_rect), Unwrite(schem_title), Unwrite(schem_title_ul))
+        self.play(FadeOut(schem_img_5), Unwrite(schem_title), Unwrite(schem_title_ul))
         self.wait()
 
         gui_app_title = Text("GUI-приложение имитационной модели", font_size=36, weight=BOLD, fill_color="#343434")
