@@ -3,6 +3,187 @@ from manim import *  # or: from manimlib import *
 from manim_slides.slide import Slide
 import random
 
+class Tables(Slide):
+    def construct(self):
+        box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
+        self.play(Write(box_backgrund))
+
+        experiment_1_title = Text("1 статистический эксперимент", font_size=36, weight=BOLD, fill_color="#343434")
+        experiment_1_title.to_edge(UP, buff=0.1)
+        experiment_1_title_ul = Underline(experiment_1_title, color="#343434")
+        self.play(Write(experiment_1_title), Write(experiment_1_title_ul))
+
+        experiment_body_1 = Text(
+            "Этапы эксперимента:\n1)для фиксированного набора параметров, вероятностей переходов и длительности\n"
+            "времени наблюдения за потоком моделируется обобщенный синхронный поток событий\nвторого порядка с произвольным числом состояний;",
+            font_size=20, fill_color="#343434")
+        experiment_body_1.to_edge(UP * 2 + LEFT)
+        self.play(Write(experiment_body_1))
+
+        self.wait()
+        self.next_slide()
+
+        experiment_body_2 = Text("2)осуществляется расчет длительности пребывания процесса в i-ом состоянии системы: ",
+                                 font_size=20, fill_color="#343434")
+        experiment_body_2.next_to(experiment_body_1, DOWN, buff=0.1)
+        experiment_body_2_continius = MathTex(r"T_i^{(j)}, i=\overline{1,n}, j=\overline{1,n}", font_size=22,
+                                              color="#343434")
+        experiment_body_2_continius.next_to(experiment_body_2, RIGHT, buff=0.1)
+        self.play(Write(experiment_body_2))
+        self.play(Write(experiment_body_2_continius))
+
+        self.wait()
+        self.next_slide()
+
+        experiment_body_3 = Text("3)повторяем N раз шаги 1, 2", font_size=20, fill_color="#343434")
+        experiment_body_3.next_to(experiment_body_2, DOWN, buff=0.1)
+        experiment_body_3.shift(LEFT * 4)
+        self.play(Write(experiment_body_3))
+
+        self.wait()
+        self.next_slide()
+
+        experiment_body_4 = Text(
+            "Вычисляем выборочные средние (оценки) значения длительностей пребывания процесса\nв i-ом состоянии:",
+            font_size=20, fill_color="#343434")
+        experiment_body_4.next_to(experiment_body_3, DOWN)
+        experiment_body_4.shift(RIGHT * 4.1)
+        self.play(Write(experiment_body_4))
+
+        experiment_body_5 = MathTex(r"\hat{T}_i=\frac{1}{N}\sum_{j=1}^{N}T_i^{(j)}, i=\overline{1,n}", font_size=28,
+                                    color="#343434")
+        experiment_body_5.to_edge(ORIGIN + DOWN * 6)
+        experiment_body_5_rect = SurroundingRectangle(experiment_body_5, color="#343434", buff=0.2)
+        self.play(Write(experiment_body_5), Create(experiment_body_5_rect))
+
+        self.wait()
+        self.next_slide()
+
+        # Заголовок таблицы
+        title_1 = Text(
+            "Вероятности переходов по первой случайной величине",
+            font_size=14,
+            color="#343434"
+        ).to_edge(UP, buff=0.3)
+
+        # Данные ячеек — передаём чистые строки,
+        #    но Table обернёт их в MathTex:
+        table_data_1 = [
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.5",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.4",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.1",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.3"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.125",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.2",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.5",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.5"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.125",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.2",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.2",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.1"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.25",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.2",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.2",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.1"],
+        ]
+
+        # Подписи столбцов — сразу MathTex
+        col_labels_1 = [
+            MathTex(r"\lambda_1=4,\ \alpha_1=4", font_size=40, color="#343434"),
+            MathTex(r"\lambda_2=2,\ \alpha_2=2", font_size=40, color="#343434"),
+            MathTex(r"\lambda_3=1,\ \alpha_3=0.7", font_size=40, color="#343434"),
+            MathTex(r"\lambda_4=0.5,\ \alpha_4=1.6", font_size=40, color="#343434"),
+        ]
+
+        # Строим таблицу
+        table_1 = MathTable(
+            table_data_1,
+            col_labels=col_labels_1,
+            include_outer_lines=True,
+            line_config={
+                "stroke_color": "#343434",
+                "stroke_width": 2,  # при желании можно прописать толщину
+            },
+            top_left_entry=MathTex("", font_size=40, color="#343434"),
+            # оборачивать каждую ячейку в MathTex
+            element_to_mobject=MathTex,
+            element_to_mobject_config={
+                "font_size": 40,
+                "color": "#343434",
+            },
+        )
+        table_1.scale(0.35).shift(LEFT*3.5 + DOWN*2.5)
+        title_1.next_to(table_1, DOWN, buff=0.1)
+
+        # Заголовок таблицы
+        title_2 = Text(
+            "Вероятности переходов по второй случайной величине",
+            font_size=14,
+            color="#343434"
+        ).to_edge(UP, buff=0.3)
+
+        # Данные ячеек — передаём чистые строки,
+        #    но Table обернёт их в MathTex:
+        table_data_2 = [
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.2",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.125",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.6",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.25"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.5",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.5",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.15",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.25"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.15",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.125",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.15",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.125"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.15",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.25",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.1",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.375"],
+        ]
+
+        # Подписи столбцов — сразу MathTex
+        col_labels_2 = [
+            MathTex(r"\lambda_1=4,\ \alpha_1=4", font_size=40, color="#343434"),
+            MathTex(r"\lambda_2=2,\ \alpha_2=2", font_size=40, color="#343434"),
+            MathTex(r"\lambda_3=1,\ \alpha_3=0.7", font_size=40, color="#343434"),
+            MathTex(r"\lambda_4=0.5,\ \alpha_4=1.6", font_size=40, color="#343434"),
+        ]
+
+        # Строим таблицу
+        table_2 = MathTable(
+            table_data_2,
+            col_labels=col_labels_2,
+            include_outer_lines=True,
+            line_config={
+                "stroke_color": "#343434",
+                "stroke_width": 2,  # при желании можно прописать толщину
+            },
+            top_left_entry=MathTex("", font_size=40, color="#343434"),
+            # оборачивать каждую ячейку в MathTex
+            element_to_mobject=MathTex,
+            element_to_mobject_config={
+                "font_size": 40,
+                "color": "#343434",
+            },
+        )
+        table_2.scale(0.35).shift(RIGHT * 3.5 + DOWN * 2.5)
+        title_2.next_to(table_2, DOWN, buff=0.1)
+
+        # Анимация
+        self.play(Write(title_1), Write(title_2))
+        self.play(Write(table_1), Write(table_2), run_time=3)
+        self.wait()
+
+        self.play(Unwrite(experiment_1_title), Unwrite(experiment_1_title_ul), Unwrite(experiment_body_1), Unwrite(experiment_body_2),
+                  Unwrite(experiment_body_2_continius),Unwrite(experiment_body_3), Unwrite(experiment_body_4),
+                  Unwrite(experiment_body_5), Unwrite(experiment_body_5_rect), Unwrite(title_1),
+                  Unwrite(title_2), Unwrite(table_1), Unwrite(table_2))
+        self.wait()
+
+
+
 class Introduction(Slide):
     def construct(self):
         box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
@@ -840,18 +1021,21 @@ class Presentation(Slide):
         experiment_1_title_ul = Underline(experiment_1_title, color="#343434")
         self.play(Write(experiment_1_title), Write(experiment_1_title_ul))
 
-        experiment_body_1 = Text("Этапы эксперимента:\n1)для фиксированного набора параметров, вероятностей переходов и длительности\n"
-                               "времени наблюдения за потоком моделируется обобщенный синхронный поток событий\nвторого порядка с произвольным числом состояний;",
-                               font_size=20, fill_color="#343434")
-        experiment_body_1.to_edge(UP*2 + LEFT)
+        experiment_body_1 = Text(
+            "Этапы эксперимента:\n1)для фиксированного набора параметров, вероятностей переходов и длительности\n"
+            "времени наблюдения за потоком моделируется обобщенный синхронный поток событий\nвторого порядка с произвольным числом состояний;",
+            font_size=20, fill_color="#343434")
+        experiment_body_1.to_edge(UP * 2 + LEFT)
         self.play(Write(experiment_body_1))
 
         self.wait()
         self.next_slide()
 
-        experiment_body_2 = Text("2)осуществляется расчет длительности пребывания процесса в i-ом состоянии системы: ", font_size=20, fill_color="#343434")
+        experiment_body_2 = Text("2)осуществляется расчет длительности пребывания процесса в i-ом состоянии системы: ",
+                                 font_size=20, fill_color="#343434")
         experiment_body_2.next_to(experiment_body_1, DOWN, buff=0.1)
-        experiment_body_2_continius = MathTex(r"T_i^{(j)}, i=\overline{1,n}, j=\overline{1,n}", font_size=22, color="#343434")
+        experiment_body_2_continius = MathTex(r"T_i^{(j)}, i=\overline{1,n}, j=\overline{1,n}", font_size=22,
+                                              color="#343434")
         experiment_body_2_continius.next_to(experiment_body_2, RIGHT, buff=0.1)
         self.play(Write(experiment_body_2))
         self.play(Write(experiment_body_2_continius))
@@ -859,43 +1043,152 @@ class Presentation(Slide):
         self.wait()
         self.next_slide()
 
-        experiment_body_3 = Text("3)повторяем N раз шаги 1,2", font_size=20, fill_color="#343434")
+        experiment_body_3 = Text("3)повторяем N раз шаги 1, 2", font_size=20, fill_color="#343434")
         experiment_body_3.next_to(experiment_body_2, DOWN, buff=0.1)
-        experiment_body_3.shift(LEFT*4)
+        experiment_body_3.shift(LEFT * 4)
         self.play(Write(experiment_body_3))
 
         self.wait()
         self.next_slide()
 
-        experiment_body_4 = Text("Вычисляем выборочные средние (оценки) значения длительностей пребывания процесса\nв i-ом состоянии:", font_size=20, fill_color="#343434")
+        experiment_body_4 = Text(
+            "Вычисляем выборочные средние (оценки) значения длительностей пребывания процесса\nв i-ом состоянии:",
+            font_size=20, fill_color="#343434")
         experiment_body_4.next_to(experiment_body_3, DOWN)
-        experiment_body_4.shift(RIGHT*4.1)
+        experiment_body_4.shift(RIGHT * 4.1)
         self.play(Write(experiment_body_4))
 
-        experiment_body_5 = MathTex(r"\hat{T}_i=\frac{1}{N}\sum_{j=1}^{N}T_i^{(j)}, i=\overline{1,n}", font_size=28, color="#343434")
-        experiment_body_5.to_edge(ORIGIN + DOWN*6)
+        experiment_body_5 = MathTex(r"\hat{T}_i=\frac{1}{N}\sum_{j=1}^{N}T_i^{(j)}, i=\overline{1,n}", font_size=28,
+                                    color="#343434")
+        experiment_body_5.to_edge(ORIGIN + DOWN * 6)
         experiment_body_5_rect = SurroundingRectangle(experiment_body_5, color="#343434", buff=0.2)
         self.play(Write(experiment_body_5), Create(experiment_body_5_rect))
 
         self.wait()
         self.next_slide()
 
-        first_img = ImageMobject("img/first.png").scale(0.7).shift(LEFT*3.5 + DOWN*2.5)
-        second_img = ImageMobject("img/second.png").scale(0.7).shift(RIGHT*3.5 + DOWN*2.5)
-        first_img_rect = SurroundingRectangle(first_img, color="#343434", buff=0.1)
-        second_img_rect = SurroundingRectangle(second_img, color="#343434", buff=0.1)
-        first_img_label = Text("Вероятности перехода по первой случайной величине", font_size=15, fill_color="#343434")
-        second_img_label = Text("Вероятности перехода по второй случайной величине", font_size=15, fill_color="#343434")
-        first_img_label.next_to(first_img_rect, DOWN*0.5)
-        second_img_label.next_to(second_img_rect, DOWN*0.5)
-        self.play(FadeIn(first_img), FadeIn(second_img), Create(first_img_rect), Create(second_img_rect), Write(first_img_label), Write(second_img_label))
+        # Заголовок таблицы
+        title_1 = Text(
+            "Вероятности переходов по первой случайной величине",
+            font_size=14,
+            color="#343434"
+        ).to_edge(UP, buff=0.3)
 
+        # Данные ячеек — передаём чистые строки,
+        #    но Table обернёт их в MathTex:
+        table_data_1 = [
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.5",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.4",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.1",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.3"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.125",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.2",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.5",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.5"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.125",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.2",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.2",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.1"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.25",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.2",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.2",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.1"],
+        ]
+
+        # Подписи столбцов — сразу MathTex
+        col_labels_1 = [
+            MathTex(r"\lambda_1=4,\ \alpha_1=4", font_size=40, color="#343434"),
+            MathTex(r"\lambda_2=2,\ \alpha_2=2", font_size=40, color="#343434"),
+            MathTex(r"\lambda_3=1,\ \alpha_3=0.7", font_size=40, color="#343434"),
+            MathTex(r"\lambda_4=0.5,\ \alpha_4=1.6", font_size=40, color="#343434"),
+        ]
+
+        # Строим таблицу
+        table_1 = MathTable(
+            table_data_1,
+            col_labels=col_labels_1,
+            include_outer_lines=True,
+            line_config={
+                "stroke_color": "#343434",
+                "stroke_width": 2,  # при желании можно прописать толщину
+            },
+            top_left_entry=MathTex("", font_size=40, color="#343434"),
+            # оборачивать каждую ячейку в MathTex
+            element_to_mobject=MathTex,
+            element_to_mobject_config={
+                "font_size": 40,
+                "color": "#343434",
+            },
+        )
+        table_1.scale(0.35).shift(LEFT * 3.5 + DOWN * 2.5)
+        title_1.next_to(table_1, DOWN, buff=0.1)
+
+        # Заголовок таблицы
+        title_2 = Text(
+            "Вероятности переходов по второй случайной величине",
+            font_size=14,
+            color="#343434"
+        ).to_edge(UP, buff=0.3)
+
+        # Данные ячеек — передаём чистые строки,
+        #    но Table обернёт их в MathTex:
+        table_data_2 = [
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.2",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.125",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.6",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.25"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.5",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.5",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.15",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.25"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.15",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.125",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.15",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.125"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.15",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.25",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.1",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.375"],
+        ]
+
+        # Подписи столбцов — сразу MathTex
+        col_labels_2 = [
+            MathTex(r"\lambda_1=4,\ \alpha_1=4", font_size=40, color="#343434"),
+            MathTex(r"\lambda_2=2,\ \alpha_2=2", font_size=40, color="#343434"),
+            MathTex(r"\lambda_3=1,\ \alpha_3=0.7", font_size=40, color="#343434"),
+            MathTex(r"\lambda_4=0.5,\ \alpha_4=1.6", font_size=40, color="#343434"),
+        ]
+
+        # Строим таблицу
+        table_2 = MathTable(
+            table_data_2,
+            col_labels=col_labels_2,
+            include_outer_lines=True,
+            line_config={
+                "stroke_color": "#343434",
+                "stroke_width": 2,  # при желании можно прописать толщину
+            },
+            top_left_entry=MathTex("", font_size=40, color="#343434"),
+            # оборачивать каждую ячейку в MathTex
+            element_to_mobject=MathTex,
+            element_to_mobject_config={
+                "font_size": 40,
+                "color": "#343434",
+            },
+        )
+        table_2.scale(0.35).shift(RIGHT * 3.5 + DOWN * 2.5)
+        title_2.next_to(table_2, DOWN, buff=0.1)
+
+        # Анимация
+        self.play(Write(title_1), Write(title_2))
+        self.play(Write(table_1), Write(table_2), run_time=3)
         self.wait()
-        self.next_slide()
 
-        self.play(Unwrite(experiment_1_title), Unwrite(experiment_1_title_ul), Unwrite(experiment_body_1), Unwrite(experiment_body_2), Unwrite(experiment_body_2_continius), Unwrite(experiment_body_3),
-                  Unwrite(experiment_body_4), Unwrite(experiment_body_5), Uncreate(experiment_body_5_rect), FadeOut(first_img), Uncreate(first_img_rect),
-                  Unwrite(first_img_label), FadeOut(second_img), Uncreate(second_img_rect), Unwrite(second_img_label))
+        self.play(Unwrite(experiment_1_title), Unwrite(experiment_1_title_ul), Unwrite(experiment_body_1),
+                  Unwrite(experiment_body_2),
+                  Unwrite(experiment_body_2_continius), Unwrite(experiment_body_3), Unwrite(experiment_body_4),
+                  Unwrite(experiment_body_5), Unwrite(experiment_body_5_rect), Unwrite(title_1),
+                  Unwrite(title_2), Unwrite(table_1), Unwrite(table_2))
 
         slide_14 = Text("14", font_size=20, fill_color="#343434")
         slide_14.to_corner(DR, buff=0.1)
