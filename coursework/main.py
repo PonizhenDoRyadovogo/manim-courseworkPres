@@ -112,21 +112,83 @@ class Presentation(Slide):
         self.next_slide()
         self.play(Write(body_3))
 
-        # Слайд 3
+        self.wait()
+        self.next_slide()
+        self.play(Unwrite(introduction_title), Unwrite(introduction_title_ul), Unwrite(body_1), Unwrite(body_2),
+                  Unwrite(body_3))
+        slide_2 = Text("2", font_size=20, fill_color="#343434")
+        slide_2.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_2))
+
+        title_introduction = Text("Цель и задачи работы", font_size=36, color="#343434")
+        title_introduction.to_edge(UP, buff=0.1)
+        title_introduction_ul = Underline(title_introduction, color="#343434")
+        self.play(Write(title_introduction), Write(title_introduction_ul))
+
+        target_text = Text(
+            "Цель - построение алгоритма имитационной модели обощенного синхронного\nпотока событий второго порядка с "
+            "произвольным числом состояний,\nа также его реализация на языке программирования C++\nдля получения выборки моментов наступления событий",
+            font_size=26, color="#343434")
+        target_text.to_edge(UP * 1.6 + LEFT)
+        self.play(Write(target_text))
+
+        # Список задач
+        items = ["Изучить научную литературу по теме исследования", "Построить математическую модель потока",
+                 "Построить блок-схему алгоритма", "Реализовать графическую составляющую, то есть написать"
+                                                   "GUI-приложение\nс использованием фреймворка Qt на C++"
+            , "Провести серию статистических экспериментов"]
+        # 1) квадраты
+        boxes = VGroup(*[
+            Square(side_length=0.4, color="#343434")
+                       .set_fill(None, opacity=0)  # пока пустые
+            for _ in items
+        ])
+        # 2) подписи
+        labels = VGroup(*[
+            Text(text, font_size=26, color="#343434")
+            for text in items
+        ])
+        # 3) сгруппировать пары [квадрат + текст] и расположить вниз
+        rows = VGroup(*[
+            VGroup(box, lbl).arrange(RIGHT, buff=0.2)
+            for box, lbl in zip(boxes, labels)
+        ])
+        rows.arrange(DOWN, aligned_edge=LEFT, buff=0.5)
+        rows.to_edge(UP * 5 + LEFT)
+
+        # 4 анимация
+        self.play(Create(boxes[0]), Write(labels[0]), run_time=0.5)
         self.wait()
         self.next_slide()
 
-        slide_2 = Text("2", font_size=20, fill_color="#343434")
-        slide_2.to_corner(DR, buff=0.1)
+        self.play(Create(boxes[1]), Write(labels[1]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+
+        self.play(Create(boxes[2]), Write(labels[2]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+
+        self.play(Create(boxes[3]), Write(labels[3]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+
+        self.play(Create(boxes[4]), Write(labels[4]), run_time=0.5)
+        self.wait()
+
+        self.next_slide()
+        self.play(Unwrite(title_introduction), Unwrite(title_introduction_ul), Unwrite(target_text), Uncreate(boxes),
+                  Unwrite(labels))
+
+        slide_3 = Text("3", font_size=20, fill_color="#343434")
+        slide_3.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_3))
 
         model_title = Text("Математическая модель", font_size=36, weight=BOLD, fill_color="#343434")
         model_title.to_edge(UP, buff=1)
         model_title_ul = Underline(model_title, color="#343434")
 
-        self.play(Unwrite(introduction_title),Unwrite(introduction_title_ul),Unwrite(body_1), Unwrite(body_2), Unwrite(body_3))
-        self.play(Transform(slide_1, slide_2))
         self.play(Write(model_title), Write(model_title_ul))
-
         model_text_1 = MathTex( r"\lambda(t) ", color="#343434")
         model_text_1.to_edge(UP*4 + LEFT*0.75)
         model_text_1_continius = Text("– кусочно-постоянный процесс с n состояниями:", font_size=28, fill_color="#343434")
@@ -159,48 +221,117 @@ class Presentation(Slide):
         self.wait()
         self.next_slide()
 
-        lambda_text_5 = MathTex(r"\eta=min(\eta^{(1)}, \eta^{(2)}),", color="#343434")
+        lambda_text_5 = MathTex(r"F_i^{(1)}(t) = 1-e^{-\lambda_it}, F_i^{(2)}(t)=1-e^{-\alpha_it}", color="#343434")
         lambda_text_5.to_edge(DOWN*5.75 + LEFT*0.75)
         self.play(Write(lambda_text_5))
-        lambda_text_6 = Text("где", font_size=28, fill_color="#343434")
-        lambda_text_6.next_to(lambda_text_5, RIGHT, buff=0.1)
+
+        self.wait()
+        self.next_slide()
+
+        lambda_text_6 = MathTex(r"P_1^{(1)}(\lambda_j|\lambda_i), P_1^{(2)}(\lambda_j|\lambda_i), i,j=\overline{1,n}", color="#343434")
+        lambda_text_6.to_edge(DOWN*4 + LEFT*0.75)
         self.play(Write(lambda_text_6))
-        lambda_text_7 = MathTex(r"\eta^{(1)} \sim Exp(\lambda_i), \eta^{(2)} \sim Exp(\alpha_i)", color="#343434")
-        lambda_text_7.next_to(lambda_text_6, RIGHT, buff=0.2)
-        self.play(Write(lambda_text_7))
 
         self.wait()
         self.next_slide()
 
-        lambda_text_8 = MathTex(r"F_i^{(1)}(t) = 1-e^{-\lambda_it}, F_i^{(2)}(t)=1-e^{-\alpha_it}", color="#343434")
-        lambda_text_8.to_edge(DOWN*4 + LEFT*0.75)
-        self.play(Write(lambda_text_8))
-
-        self.wait()
-        self.next_slide()
-
-        lambda_text_9 = MathTex(r"P_1^{(1)}(\lambda_j|\lambda_i), P_1^{(2)}(\lambda_j|\lambda_i), i,j=\overline{1,n}", color="#343434")
-        lambda_text_9.to_edge(DOWN*2 + LEFT*0.75)
-        self.play(Write(lambda_text_9))
-
-        self.wait()
-        self.next_slide()
-
-        lambda_text_10 = MathTex(r"\sum_{i=1}^nP_1^{(1)}(\lambda_j|\lambda_i)=1, j=\overline{1,n}; \sum_{i=1}^nP_1^{(2)}(\lambda_j|\lambda_i)=1, j=\overline{1,n}",
+        lambda_text_7 = MathTex(r"\sum_{i=1}^nP_1^{(1)}(\lambda_j|\lambda_i)=1, j=\overline{1,n}; \sum_{i=1}^nP_1^{(2)}(\lambda_j|\lambda_i)=1, j=\overline{1,n}",
                                  color="#343434")
-        lambda_text_10.to_edge(DOWN + LEFT*0.75)
-        self.play(Transform(lambda_text_9, lambda_text_10))
+        lambda_text_7.to_edge(DOWN*2 + LEFT*0.75)
+        self.play(Write(lambda_text_7))
 
         self.wait()
         self.next_slide()
 
         self.play(Unwrite(model_title), Unwrite(model_title_ul), Unwrite(model_text_1), Unwrite(model_text_1_continius),
                   Unwrite(state_text), Unwrite(lambda_text_1), Unwrite(lambda_text_2), Unwrite(lambda_text_3), Unwrite(lambda_text_4),
-                  Unwrite(lambda_text_5), Unwrite(lambda_text_6), Unwrite(lambda_text_7), Unwrite(lambda_text_8), Unwrite(lambda_text_9),
-                  Unwrite(lambda_text_10))
-        slide_3 = Text("3", font_size=20, fill_color="#343434")
-        slide_3.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_3))
+                  Unwrite(lambda_text_5), Unwrite(lambda_text_6), Unwrite(lambda_text_7))
+
+        slide_4 = Text("4", font_size=20, fill_color="#343434")
+        slide_4.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_4))
+
+        imitation_title = Text("Метод обратных функций", font_size=36, weight=BOLD, fill_color="#343434")
+        imitation_title.to_edge(UP, buff=0.1)
+        imitation_title_ul = Underline(imitation_title, color="#343434")
+        self.play(Write(imitation_title), Write(imitation_title_ul))
+
+        imitation_modeling = Text(
+            "Имитационное моделирование представляет собой метод исследования сложных систем путем\nих воспроизведения"
+            "в виде компьютерных моделей. "
+            "Имитационное моделирование является\nмощным инструментом анализа сложных систем, позволяя воспроизводить их поведение с учетом\n"
+            "вероятностных характеристик. Одним из ключевых методов генерации "
+            "случайных событий в таких\nмоделях является метод обратных функций", font_size=20, fill_color="#343434")
+        imitation_modeling.to_edge(UP * 2 + LEFT)
+        self.play(Write(imitation_modeling))
+        self.wait()
+        self.next_slide()
+
+        reverse_function = Text("Применение метода обратных функций включает следующие этапы:", font_size=20,
+                                fill_color="#343434")
+        reverse_function.next_to(imitation_modeling, DOWN, buff=0.1)
+        self.play(Write(reverse_function))
+        self.wait()
+        block_1 = Text("1) Генерация случайного числа U из равномерного распределения [0;1]", font_size=20,
+                       fill_color="#343434")
+        block_1.next_to(reverse_function, DOWN, buff=0.1)
+        block_1.shift(LEFT * 2)
+        self.play(Write(block_1))
+        self.wait()
+        self.next_slide()
+        block_2 = Text("2) Вычисление значения", font_size=20, fill_color="#343434")
+        block_2.next_to(block_1, DOWN, buff=0.1)
+        block_2.shift(LEFT * 2.9)
+        block_2_continius = MathTex(r"X=F^{-1}(U)", fill_color="#343434").scale(0.5)
+        block_2_continius.next_to(block_2, RIGHT, buff=0.1)
+        self.play(Write(block_2))
+        self.play(Write(block_2_continius))
+        self.wait()
+        self.next_slide()
+        block_3 = Text("3) Использование полученного значения X в моделировании системы", font_size=20,
+                       fill_color="#343434")
+        block_3.next_to(block_2, DOWN, buff=0.1)
+        block_3.shift(RIGHT * 2.9)
+        self.play(Write(block_3))
+        self.wait()
+        self.next_slide()
+        block_4 = Text(
+            "Применение метода обратных функций для получения случайной величины, распределенной\nэкспоненциально:",
+            font_size=20, fill_color="#343434")
+        block_4.next_to(block_3, DOWN, buff=0.2)
+        block_4.shift(RIGHT * 1.5)
+        self.play(Write(block_4))
+        self.wait()
+        self.next_slide()
+        block_5 = Text("1) Генерируется равномерно распределенное случайное число U на отрезке [0;1)", font_size=20,
+                       fill_color="#343434")
+        block_5.next_to(block_4, DOWN, buff=0.1)
+        block_5.shift(LEFT * 0.75)
+        self.play(Write(block_5))
+        self.wait()
+        self.next_slide()
+        block_6 = MathTex(r"2) t=F^{-1}(U), t=-\frac{1}{\theta_i}ln(1-U), \theta_i \in \{\lambda_i,\alpha_i\}",
+                          fill_color="#343434").scale(0.6)
+        block_6.next_to(block_5, DOWN, buff=0.1)
+        block_6.shift(LEFT * 2.2)
+        self.play(Write(block_6))
+        self.wait()
+        self.next_slide()
+        block_7 = Text("Таким образом, получается случайная величина t, распределенная по экспоненциальному закону",
+                       font_size=20, fill_color="#343434")
+        block_7.next_to(block_6, DOWN, buff=0.2)
+        block_7.shift(RIGHT * 3.25)
+        self.play(Write(block_7))
+        self.wait()
+        self.next_slide()
+        self.play(Unwrite(imitation_title), Unwrite(imitation_title_ul), Unwrite(imitation_modeling),
+                  Unwrite(reverse_function),
+                  Unwrite(block_1), Unwrite(block_2), Unwrite(block_2_continius), Unwrite(block_3), Unwrite(block_4),
+                  Unwrite(block_5), Unwrite(block_6), Unwrite(block_7))
+
+        slide_5 = Text("5", font_size=20, fill_color="#343434")
+        slide_5.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_5))
 
         stream_title = Text("Формирование наблюдаемого потока событий", font_size=36, weight=BOLD, fill_color="#343434")
         stream_title.to_edge(UP, buff=0.5)
@@ -367,10 +498,10 @@ class Presentation(Slide):
         self.wait()
         self.next_slide()
 
-        slide_4 = Text("4", font_size=20, fill_color="#343434")
-        slide_4.to_corner(DR, buff=0.1)
+        slide_6 = Text("6", font_size=20, fill_color="#343434")
+        slide_6.to_corner(DR, buff=0.1)
         self.play(Uncreate(vertical_line), Uncreate(horizontal_line), Uncreate(x_tick_marks), Uncreate(y_tick_marks),
-                  Unwrite(x_labels), Unwrite(y_labels), Unwrite(axes), Unwrite(transition_text), Transform(slide_1, slide_4))
+                  Unwrite(x_labels), Unwrite(y_labels), Unwrite(axes), Unwrite(transition_text), Transform(slide_1, slide_6))
 
         stream_img = ImageMobject("img/streamExample.jpg").scale(2)
         stream_img_rect = SurroundingRectangle(stream_img, color="#343434", buff=0.2)
@@ -379,10 +510,10 @@ class Presentation(Slide):
         self.wait()
         self.next_slide()
 
-        slide_5 = Text("5", font_size=20, fill_color="#343434")
-        slide_5.to_corner(DR, buff=0.1)
+        slide_7 = Text("7", font_size=20, fill_color="#343434")
+        slide_7.to_corner(DR, buff=0.1)
 
-        self.play(Unwrite(stream_title), Unwrite(stream_title_ul), Transform(slide_1, slide_5), FadeOut(stream_img), Uncreate(stream_img_rect))
+        self.play(Unwrite(stream_title), Unwrite(stream_title_ul), Transform(slide_1, slide_7), FadeOut(stream_img), Uncreate(stream_img_rect))
 
         schem_title = Text("Блок-схема имитацинной модели", font_size=36, weight=BOLD, fill_color="#343434")
         schem_title.to_edge(UP, buff=0.1)
@@ -398,9 +529,9 @@ class Presentation(Slide):
         self.wait()
         self.next_slide()
 
-        slide_6 = Text("6", font_size=20, fill_color="#343434")
-        slide_6.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_6))
+        slide_8 = Text("8", font_size=20, fill_color="#343434")
+        slide_8.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_8))
 
         self.play(FadeOut(schem_img))
 
@@ -412,9 +543,9 @@ class Presentation(Slide):
         self.next_slide()
         self.play(FadeOut(schem_img_1))
 
-        slide_7 = Text("7", font_size=20, fill_color="#343434")
-        slide_7.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_7))
+        slide_9 = Text("7", font_size=20, fill_color="#343434")
+        slide_9.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_9))
 
         schem_img_2 = ImageMobject("img/schem_2.png").scale(1.75)
 
@@ -424,9 +555,9 @@ class Presentation(Slide):
         self.next_slide()
         self.play(FadeOut(schem_img_2))
 
-        slide_8 = Text("8", font_size=20, fill_color="#343434")
-        slide_8.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_8))
+        slide_10 = Text("10", font_size=20, fill_color="#343434")
+        slide_10.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_10))
 
         schem_img_3 = ImageMobject("img/schem_3.png").scale(1.75)
 
@@ -436,9 +567,9 @@ class Presentation(Slide):
 
         self.play(FadeOut(schem_img_3))
 
-        slide_9 = Text("9", font_size=20, fill_color="#343434")
-        slide_9.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_9))
+        slide_11 = Text("11", font_size=20, fill_color="#343434")
+        slide_11.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_11))
 
         schem_img_4 = ImageMobject("img/schem_4.png").scale(1.75)
 
@@ -448,9 +579,9 @@ class Presentation(Slide):
         self.next_slide()
         self.play(FadeOut(schem_img_4))
 
-        slide_10 = Text("10", font_size=20, fill_color="#343434")
-        slide_10.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_10))
+        slide_12 = Text("12", font_size=20, fill_color="#343434")
+        slide_12.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_12))
 
         schem_img_5 = ImageMobject("img/schem_5.png")
 
@@ -466,10 +597,10 @@ class Presentation(Slide):
         gui_app_title_ul = Underline(gui_app_title, color="#343434")
         self.play(Write(gui_app_title), Write(gui_app_title_ul))
 
-        slide_11 = Text("11", font_size=20, fill_color="#343434")
-        slide_11.to_corner(DR, buff=0.1)
+        slide_13 = Text("13", font_size=20, fill_color="#343434")
+        slide_13.to_corner(DR, buff=0.1)
 
-        self.play(Transform(slide_1, slide_11))
+        self.play(Transform(slide_1, slide_13))
 
         win_img = ImageMobject("img/win.png").scale(0.75).shift(DOWN*0.25)
         win_img_rect = SurroundingRectangle(win_img, color="#343434", buff=0.2)
@@ -480,9 +611,9 @@ class Presentation(Slide):
 
         self.play(FadeOut(win_img), Uncreate(win_img_rect))
 
-        slide_12 = Text("12", font_size=20, fill_color="#343434")
-        slide_12.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_12))
+        slide_14 = Text("14", font_size=20, fill_color="#343434")
+        slide_14.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_14))
 
         example_img = ImageMobject("img/example.png").scale(0.85).shift(DOWN*0.5)
         example_img_rect = SurroundingRectangle(example_img, color="#343434", buff=0.2)
@@ -493,9 +624,9 @@ class Presentation(Slide):
 
         self.play(FadeOut(example_img), Uncreate(example_img_rect), Unwrite(gui_app_title), Unwrite(gui_app_title_ul))
 
-        slide_13 = Text("13", font_size=20, fill_color="#343434")
-        slide_13.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_13))
+        slide_15 = Text("15", font_size=20, fill_color="#343434")
+        slide_15.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_15))
 
         experiment_1_title = Text("1 статистический эксперимент", font_size=36, weight=BOLD, fill_color="#343434")
         experiment_1_title.to_edge(UP, buff=0.1)
@@ -671,9 +802,9 @@ class Presentation(Slide):
                   Unwrite(experiment_body_5), Unwrite(experiment_body_5_rect), Unwrite(title_1),
                   Unwrite(title_2), Unwrite(table_1), Unwrite(table_2))
 
-        slide_14 = Text("14", font_size=20, fill_color="#343434")
-        slide_14.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_14))
+        slide_16 = Text("16", font_size=20, fill_color="#343434")
+        slide_16.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_16))
 
         result_title = Text("График зависимости", font_size=36, color="#343434")
         result_title.to_edge(UP + LEFT * 25, buff=0.1)
@@ -756,9 +887,9 @@ class Presentation(Slide):
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
-        slide_15 = Text("15", font_size=20, fill_color="#343434")
-        slide_15.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_15))
+        slide_17 = Text("17", font_size=20, fill_color="#343434")
+        slide_17.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_17))
 
         axes = Axes(
             x_range=[0, 1050, 100],
@@ -824,9 +955,9 @@ class Presentation(Slide):
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
-        slide_16 = Text("16", font_size=20, fill_color="#343434")
-        slide_16.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_16))
+        slide_18 = Text("18", font_size=20, fill_color="#343434")
+        slide_18.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_18))
 
         axes = Axes(
             x_range=[0, 1050, 100],
@@ -893,9 +1024,9 @@ class Presentation(Slide):
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
-        slide_17 = Text("17", font_size=20, fill_color="#343434")
-        slide_17.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_17))
+        slide_19 = Text("19", font_size=20, fill_color="#343434")
+        slide_19.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_19))
 
         axes = Axes(
             x_range=[0, 1050, 100],
@@ -961,9 +1092,9 @@ class Presentation(Slide):
         self.remove(axes, y_labels, x_ticks, x_labels)
         self.play(Unwrite(title), Unwrite(result_title_ul))
 
-        slide_18 = Text("18", font_size=20, fill_color="#343434")
-        slide_18.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_18))
+        slide_20 = Text("20", font_size=20, fill_color="#343434")
+        slide_20.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_20))
 
         experiment_2_title = Text("2 статистический эксперимент", font_size=36, weight=BOLD, fill_color="#343434")
         experiment_2_title.to_edge(UP, buff=0.1)
@@ -993,9 +1124,9 @@ class Presentation(Slide):
         self.play(FadeOut(big_prob_1), Uncreate(big_prob_1_rect), Unwrite(big_prob_1_label), FadeOut(big_prob_2), Uncreate(big_prob_2_rect), Unwrite(big_prob_2_label),
                   Unwrite(experiment_2), Unwrite(experiment_2_title), Unwrite(experiment_2_title_ul))
 
-        slide_19 = Text("19", font_size=20, fill_color="#343434")
-        slide_19.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_19))
+        slide_21 = Text("21", font_size=20, fill_color="#343434")
+        slide_21.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_21))
 
         result_title = Text("График зависимости", font_size=36, color="#343434")
         result_title.to_edge(UP + LEFT * 25, buff=0.1)
@@ -1078,9 +1209,9 @@ class Presentation(Slide):
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
-        slide_20 = Text("20", font_size=20, fill_color="#343434")
-        slide_20.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_20))
+        slide_22 = Text("22", font_size=20, fill_color="#343434")
+        slide_22.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_22))
 
         axes = Axes(
             x_range=[0, 1050, 100],
@@ -1148,9 +1279,9 @@ class Presentation(Slide):
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
-        slide_21 = Text("21", font_size=20, fill_color="#343434")
-        slide_21.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_21))
+        slide_23 = Text("23", font_size=20, fill_color="#343434")
+        slide_23.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_23))
 
         axes = Axes(
             x_range=[0, 1050, 100],
@@ -1218,9 +1349,9 @@ class Presentation(Slide):
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
-        slide_22 = Text("22", font_size=20, fill_color="#343434")
-        slide_22.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_22))
+        slide_24 = Text("24", font_size=20, fill_color="#343434")
+        slide_24.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_24))
 
         axes = Axes(
             x_range=[0, 1050, 100],
@@ -1286,9 +1417,9 @@ class Presentation(Slide):
         self.remove(axes, y_labels, x_ticks, x_labels)
         self.play(Unwrite(title), Unwrite(result_title_ul))
 
-        slide_23 = Text("23", font_size=20, fill_color="#343434")
-        slide_23.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_23))
+        slide_25 = Text("25", font_size=20, fill_color="#343434")
+        slide_25.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_25))
 
         experiment_3_title = Text("3 статистический эксперимент", font_size=36, fill_color="#343434")
         experiment_3_title.to_edge(UP, buff=0.1)
@@ -1320,9 +1451,9 @@ class Presentation(Slide):
 
         self.play(Unwrite(experiment_3), Unwrite(experiment_3_1), Unwrite(experiment_3_2))
 
-        slide_24 = Text("24", font_size=20, fill_color="#343434")
-        slide_24.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_24))
+        slide_26 = Text("26", font_size=20, fill_color="#343434")
+        slide_26.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_26))
 
         graph = ImageMobject("img/graph.png").scale(0.75)
         graph_rect = SurroundingRectangle(graph, color="#343434", buff=0.2)
