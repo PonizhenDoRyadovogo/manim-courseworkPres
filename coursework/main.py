@@ -1101,28 +1101,132 @@ class Presentation(Slide):
         experiment_2_title_ul = Underline(experiment_2_title, color="#343434")
         self.play(Write(experiment_2_title), Write(experiment_2_title_ul))
 
-        experiment_2 = Text("Изменим вероятности переходов по первой и второй случайной величине, \nтак чтобы вероятность оказаться в первом состоянии была максимальна",
-                            font_size=20, fill_color="#343434")
-        experiment_2.to_edge(UP*2 + LEFT)
+        experiment_2 = Text(
+            "Изменим вероятности переходов по первой и второй случайной величине, \nтак чтобы вероятность оказаться в первом состоянии была максимальна",
+            font_size=20, fill_color="#343434")
+        experiment_2.to_edge(UP * 2 + LEFT)
         self.play(Write(experiment_2))
-
-        big_prob_1 = ImageMobject("img/bigFirst.png").shift(UP)
-        big_prob_1_rect = SurroundingRectangle(big_prob_1, color="#343434", buff=0.2)
-        big_prob_1_label = Text("Вероятности перехода по первой случаной величине", font_size=15, fill_color="#343434")
-        big_prob_1_label.next_to(big_prob_1_rect, DOWN*0.5)
-
-        big_prob_2 = ImageMobject("img/bigSecond.png").shift(DOWN*2)
-        big_prob_2_rect = SurroundingRectangle(big_prob_2, color="#343434", buff=0.2)
-        big_prob_2_label = Text("Вероятности перехода по второй случаной величине", font_size=15, fill_color="#343434")
-        big_prob_2_label.next_to(big_prob_2_rect, DOWN*0.5)
-
-        self.play(FadeIn(big_prob_1), Create(big_prob_1_rect), Write(big_prob_1_label), FadeIn(big_prob_2), Create(big_prob_2_rect), Write(big_prob_2_label))
-
         self.wait()
         self.next_slide()
 
-        self.play(FadeOut(big_prob_1), Uncreate(big_prob_1_rect), Unwrite(big_prob_1_label), FadeOut(big_prob_2), Uncreate(big_prob_2_rect), Unwrite(big_prob_2_label),
-                  Unwrite(experiment_2), Unwrite(experiment_2_title), Unwrite(experiment_2_title_ul))
+        # Заголовок таблицы
+        title_1 = Text(
+            "Вероятности переходов по первой случайной величине",
+            font_size=14,
+            color="#343434"
+        ).to_edge(UP, buff=0.3)
+
+        table_data_1 = [
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.97"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.01"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.01"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.01"],
+        ]
+
+        # Подписи столбцов — сразу MathTex
+        col_labels_1 = [
+            MathTex(r"\lambda_1=4,\ \alpha_1=4", font_size=40, color="#343434"),
+            MathTex(r"\lambda_2=2,\ \alpha_2=2", font_size=40, color="#343434"),
+            MathTex(r"\lambda_3=1,\ \alpha_3=0.7", font_size=40, color="#343434"),
+            MathTex(r"\lambda_4=0.5,\ \alpha_4=1.6", font_size=40, color="#343434"),
+        ]
+
+        # Строим таблицу
+        table_1 = MathTable(
+            table_data_1,
+            col_labels=col_labels_1,
+            include_outer_lines=True,
+            line_config={
+                "stroke_color": "#343434",
+                "stroke_width": 2,  # при желании можно прописать толщину
+            },
+            top_left_entry=MathTex("", font_size=40, color="#343434"),
+            # оборачивать каждую ячейку в MathTex
+            element_to_mobject=MathTex,
+            element_to_mobject_config={
+                "font_size": 40,
+                "color": "#343434",
+            },
+        )
+        table_1.scale(0.35).shift(UP)
+        title_1.next_to(table_1, DOWN, buff=0.1)
+
+        self.play(Write(table_1), Write(title_1))
+
+        # Заголовок таблицы
+        title_2 = Text(
+            "Вероятности переходов по второй случайной величине",
+            font_size=14,
+            color="#343434"
+        ).to_edge(UP, buff=0.3)
+
+        # Данные ячеек — передаём чистые строки,
+        #    но Table обернёт их в MathTex:
+        table_data_2 = [
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.97"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.01"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.01"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.01"],
+        ]
+
+        # Подписи столбцов — сразу MathTex
+        col_labels_2 = [
+            MathTex(r"\lambda_1=4,\ \alpha_1=4", font_size=40, color="#343434"),
+            MathTex(r"\lambda_2=2,\ \alpha_2=2", font_size=40, color="#343434"),
+            MathTex(r"\lambda_3=1,\ \alpha_3=0.7", font_size=40, color="#343434"),
+            MathTex(r"\lambda_4=0.5,\ \alpha_4=1.6", font_size=40, color="#343434"),
+        ]
+
+        # Строим таблицу
+        table_2 = MathTable(
+            table_data_2,
+            col_labels=col_labels_2,
+            include_outer_lines=True,
+            line_config={
+                "stroke_color": "#343434",
+                "stroke_width": 2,  # при желании можно прописать толщину
+            },
+            top_left_entry=MathTex("", font_size=40, color="#343434"),
+            # оборачивать каждую ячейку в MathTex
+            element_to_mobject=MathTex,
+            element_to_mobject_config={
+                "font_size": 40,
+                "color": "#343434",
+            },
+        )
+        table_2.scale(0.35).shift(DOWN * 2)
+        title_2.next_to(table_2, DOWN, buff=0.1)
+        self.play(Write(table_2), Write(title_2))
+        self.wait()
+        self.next_slide()
+
+        self.play(Unwrite(title_1), Unwrite(title_2), Unwrite(table_1), Unwrite(table_2), Unwrite(experiment_2_title),
+                  Unwrite(experiment_2_title_ul),
+                  Unwrite(experiment_2), run_time=2)
 
         slide_21 = Text("21", font_size=20, fill_color="#343434")
         slide_21.to_corner(DR, buff=0.1)
