@@ -3,10 +3,93 @@ from manim import *  # or: from manimlib import *
 from manim_slides.slide import Slide
 import random
 
+class Ending(Slide):
+    def construct(self):
+        box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
+        self.play(Write(box_backgrund))
+
+        end_title = Text("Заключение", fill_color="#343434", font_size=36)
+        end_title.to_edge(UP, buff=0.5)
+        end_title_ul = Underline(end_title, color="#343434", buff=0.1)
+        self.play(Write(end_title), Write(end_title_ul))
+
+        # Список задач
+        items = ["Изучена литература по теме исследования", "Построена мат. модель потока", "Выведены формулы, по которым производится моделирование",
+                 "Построен алгоритм имитационной модели", "Алгорит имитационной модели реализован на ЯП C++",
+                 "Написано GUI-приложение", "Проведена серия статистических экспериментов"]
+        # 1) квадраты
+        boxes = VGroup(*[
+            Square(side_length=0.4, color="#343434")
+                       .set_fill(None, opacity=0)  # пока пустые
+            for _ in items
+        ])
+        # 2) подписи
+        labels = VGroup(*[
+            Text(text, font_size=26, color="#343434")
+            for text in items
+        ])
+        # 3) сгруппировать пары [квадрат + текст] и расположить вниз
+        rows = VGroup(*[
+            VGroup(box, lbl).arrange(RIGHT, buff=0.2)
+            for box, lbl in zip(boxes, labels)
+        ])
+        rows.arrange(DOWN, aligned_edge=LEFT, buff=0.5)
+        rows.to_edge(UP * 3 + LEFT)
+
+        self.play(
+            *[Create(box) for box in boxes],
+            *[Write(lbl) for lbl in labels],
+            run_time=1
+        )
+
+        checks = VGroup(
+            *[
+                VGroup(
+                    # левая ножка галочки
+                    Line(
+                        box.get_corner(UL) + DOWN * 0.2 + RIGHT * 0.1,
+                        box.get_center() + DOWN * 0.1
+                    ),
+                    # правая ножка
+                    Line(
+                        box.get_center() + DOWN * 0.1,
+                        box.get_corner(UR) + DOWN * 0.1 + LEFT * 0.05
+                    ),
+                )
+                .set_color("#83C167")
+                .set_stroke(width=3)
+                for box in boxes
+            ]
+        )
+
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[0]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[1]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[2]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[3]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[4]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[5]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[6]), run_time=0.1)
+
+        self.wait()
 
 
 class Exp3(Slide):
     def construct(self):
+
         axes = Axes(
             x_range=[0, 1050, 100],
             y_range=[0.31, 0.32, 0.002],
@@ -1134,7 +1217,7 @@ class Presentation(Slide):
 
         lambda_text_7 = MathTex(r"\sum_{i=1}^nP_1^{(1)}(\lambda_j|\lambda_i)=1, j=\overline{1,n}; \sum_{i=1}^nP_1^{(2)}(\lambda_j|\lambda_i)=1, j=\overline{1,n}",
                                  color="#343434")
-        lambda_text_7.to_edge(DOWN*2 + LEFT*0.75)
+        lambda_text_7.to_edge(DOWN + LEFT*0.75)
         self.play(Write(lambda_text_7))
 
         self.wait()
@@ -1692,6 +1775,7 @@ class Presentation(Slide):
         self.play(Write(title_1), Write(title_2))
         self.play(Write(table_1), Write(table_2), run_time=3)
         self.wait()
+        self.next_slide()
 
         self.play(Unwrite(experiment_1_title), Unwrite(experiment_1_title_ul), Unwrite(experiment_body_1),
                   Unwrite(experiment_body_2),
@@ -1759,14 +1843,14 @@ class Presentation(Slide):
 
         # 5) Анимация
         self.play(Create(axes), run_time=1)
-        self.play(FadeIn(y_label, shift=LEFT), FadeIn(x_label, shift=DOWN))
+        self.play(FadeIn(y_label, shift=LEFT), FadeIn(x_label, shift=DOWN), run_time=1)
         self.play(FadeIn(y_labels, shift=LEFT, lag_ratio=0.1), run_time=1)
 
         # показываем засечки и их подписи
         self.play(
             FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
             FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
-            run_time=1
+            run_time=0.5
         )
         # падают точки по одной
         for pt in points:
@@ -1780,7 +1864,7 @@ class Presentation(Slide):
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
         self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
-                  FadeOut(x_label), run_time=1)
+                  FadeOut(x_label), run_time=0.5)
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
@@ -1828,14 +1912,14 @@ class Presentation(Slide):
         ])
 
         self.play(Create(axes), run_time=1)
-        self.play(Write(y_label), Write(x_label), run_time=1)
+        self.play(Write(y_label), Write(x_label), run_time=0.5)
         # показываем засечки и их подписи
         self.play(
             FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
             FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
-            run_time=1
+            run_time=0.5
         )
-        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=1)
+        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=0.5)
         y_labels = new_y_labels
         # падают точки по одной
         for pt in points:
@@ -1848,7 +1932,7 @@ class Presentation(Slide):
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
         self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
-                  FadeOut(x_label), run_time=1)
+                  FadeOut(x_label), run_time=0.5)
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
@@ -1896,14 +1980,14 @@ class Presentation(Slide):
         ])
 
         self.play(Create(axes), run_time=1)
-        self.play(Write(y_label), Write(x_label), run_time=1)
+        self.play(Write(y_label), Write(x_label), run_time=0.5)
         # показываем засечки и их подписи
         self.play(
             FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
             FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
-            run_time=1
+            run_time=0.5
         )
-        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=1)
+        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=0.5)
         y_labels = new_y_labels
         # падают точки по одной
         for pt in points:
@@ -1917,7 +2001,7 @@ class Presentation(Slide):
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
         self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
-                  FadeOut(x_label), run_time=1)
+                  FadeOut(x_label), run_time=0.5)
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
@@ -1967,14 +2051,14 @@ class Presentation(Slide):
         ])
 
         self.play(Create(axes), run_time=1)
-        self.play(Write(y_label), Write(x_label), run_time=1)
+        self.play(Write(y_label), Write(x_label), run_time=0.5)
         # показываем засечки и их подписи
         self.play(
             FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
             FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
-            run_time=1
+            run_time=0.5
         )
-        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=1)
+        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=0.5)
         y_labels = new_y_labels
         # падают точки по одной
         for pt in points:
@@ -1985,7 +2069,7 @@ class Presentation(Slide):
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
         self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
-                  FadeOut(x_label), run_time=1)
+                  FadeOut(x_label), run_time=0.5)
         self.remove(axes, y_labels, x_ticks, x_labels)
         self.play(Unwrite(title), Unwrite(result_title_ul))
 
@@ -1998,28 +2082,132 @@ class Presentation(Slide):
         experiment_2_title_ul = Underline(experiment_2_title, color="#343434")
         self.play(Write(experiment_2_title), Write(experiment_2_title_ul))
 
-        experiment_2 = Text("Изменим вероятности переходов по первой и второй случайной величине, \nтак чтобы вероятность оказаться в первом состоянии была максимальна",
-                            font_size=20, fill_color="#343434")
-        experiment_2.to_edge(UP*2 + LEFT)
+        experiment_2 = Text(
+            "Изменим вероятности переходов по первой и второй случайной величине, \nтак чтобы вероятность оказаться в первом состоянии была максимальна",
+            font_size=20, fill_color="#343434")
+        experiment_2.to_edge(UP * 2 + LEFT)
         self.play(Write(experiment_2))
-
-        big_prob_1 = ImageMobject("img/bigFirst.png").shift(UP)
-        big_prob_1_rect = SurroundingRectangle(big_prob_1, color="#343434", buff=0.2)
-        big_prob_1_label = Text("Вероятности перехода по первой случаной величине", font_size=15, fill_color="#343434")
-        big_prob_1_label.next_to(big_prob_1_rect, DOWN*0.5)
-
-        big_prob_2 = ImageMobject("img/bigSecond.png").shift(DOWN*2)
-        big_prob_2_rect = SurroundingRectangle(big_prob_2, color="#343434", buff=0.2)
-        big_prob_2_label = Text("Вероятности перехода по второй случаной величине", font_size=15, fill_color="#343434")
-        big_prob_2_label.next_to(big_prob_2_rect, DOWN*0.5)
-
-        self.play(FadeIn(big_prob_1), Create(big_prob_1_rect), Write(big_prob_1_label), FadeIn(big_prob_2), Create(big_prob_2_rect), Write(big_prob_2_label))
-
         self.wait()
         self.next_slide()
 
-        self.play(FadeOut(big_prob_1), Uncreate(big_prob_1_rect), Unwrite(big_prob_1_label), FadeOut(big_prob_2), Uncreate(big_prob_2_rect), Unwrite(big_prob_2_label),
-                  Unwrite(experiment_2), Unwrite(experiment_2_title), Unwrite(experiment_2_title_ul))
+        # Заголовок таблицы
+        title_1 = Text(
+            "Вероятности переходов по первой случайной величине",
+            font_size=14,
+            color="#343434"
+        ).to_edge(UP, buff=0.3)
+
+        table_data_1 = [
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.97"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.01"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.01"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.01"],
+        ]
+
+        # Подписи столбцов — сразу MathTex
+        col_labels_1 = [
+            MathTex(r"\lambda_1=4,\ \alpha_1=4", font_size=40, color="#343434"),
+            MathTex(r"\lambda_2=2,\ \alpha_2=2", font_size=40, color="#343434"),
+            MathTex(r"\lambda_3=1,\ \alpha_3=0.7", font_size=40, color="#343434"),
+            MathTex(r"\lambda_4=0.5,\ \alpha_4=1.6", font_size=40, color="#343434"),
+        ]
+
+        # Строим таблицу
+        table_1 = MathTable(
+            table_data_1,
+            col_labels=col_labels_1,
+            include_outer_lines=True,
+            line_config={
+                "stroke_color": "#343434",
+                "stroke_width": 2,  # при желании можно прописать толщину
+            },
+            top_left_entry=MathTex("", font_size=40, color="#343434"),
+            # оборачивать каждую ячейку в MathTex
+            element_to_mobject=MathTex,
+            element_to_mobject_config={
+                "font_size": 40,
+                "color": "#343434",
+            },
+        )
+        table_1.scale(0.35).shift(UP)
+        title_1.next_to(table_1, DOWN, buff=0.1)
+
+        self.play(Write(table_1), Write(title_1))
+
+        # Заголовок таблицы
+        title_2 = Text(
+            "Вероятности переходов по второй случайной величине",
+            font_size=14,
+            color="#343434"
+        ).to_edge(UP, buff=0.3)
+
+        # Данные ячеек — передаём чистые строки,
+        #    но Table обернёт их в MathTex:
+        table_data_2 = [
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.97"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.01"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.01"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.01"],
+        ]
+
+        # Подписи столбцов — сразу MathTex
+        col_labels_2 = [
+            MathTex(r"\lambda_1=4,\ \alpha_1=4", font_size=40, color="#343434"),
+            MathTex(r"\lambda_2=2,\ \alpha_2=2", font_size=40, color="#343434"),
+            MathTex(r"\lambda_3=1,\ \alpha_3=0.7", font_size=40, color="#343434"),
+            MathTex(r"\lambda_4=0.5,\ \alpha_4=1.6", font_size=40, color="#343434"),
+        ]
+
+        # Строим таблицу
+        table_2 = MathTable(
+            table_data_2,
+            col_labels=col_labels_2,
+            include_outer_lines=True,
+            line_config={
+                "stroke_color": "#343434",
+                "stroke_width": 2,  # при желании можно прописать толщину
+            },
+            top_left_entry=MathTex("", font_size=40, color="#343434"),
+            # оборачивать каждую ячейку в MathTex
+            element_to_mobject=MathTex,
+            element_to_mobject_config={
+                "font_size": 40,
+                "color": "#343434",
+            },
+        )
+        table_2.scale(0.35).shift(DOWN * 2)
+        title_2.next_to(table_2, DOWN, buff=0.1)
+        self.play(Write(table_2), Write(title_2))
+        self.wait()
+        self.next_slide()
+
+        self.play(Unwrite(title_1), Unwrite(title_2), Unwrite(table_1), Unwrite(table_2), Unwrite(experiment_2_title),
+                  Unwrite(experiment_2_title_ul),
+                  Unwrite(experiment_2), run_time=2)
 
         slide_21 = Text("21", font_size=20, fill_color="#343434")
         slide_21.to_corner(DR, buff=0.1)
@@ -2082,14 +2270,14 @@ class Presentation(Slide):
 
         # 5) Анимация
         self.play(Create(axes), run_time=1)
-        self.play(FadeIn(y_label, shift=LEFT), FadeIn(x_label, shift=DOWN))
-        self.play(FadeIn(y_labels, shift=LEFT, lag_ratio=0.1), run_time=1)
+        self.play(FadeIn(y_label, shift=LEFT), FadeIn(x_label, shift=DOWN), run_time=0.5)
+        self.play(FadeIn(y_labels, shift=LEFT, lag_ratio=0.1), run_time=0.5)
 
         # показываем засечки и их подписи
         self.play(
             FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
             FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
-            run_time=1
+            run_time=0.5
         )
         # падают точки по одной
         for pt in points:
@@ -2102,7 +2290,7 @@ class Presentation(Slide):
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
         self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
-                  FadeOut(x_label), run_time=1)
+                  FadeOut(x_label), run_time=0.5)
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
@@ -2152,14 +2340,14 @@ class Presentation(Slide):
         ])
 
         self.play(Create(axes), run_time=1)
-        self.play(Write(y_label), Write(x_label), run_time=1)
+        self.play(Write(y_label), Write(x_label), run_time=0.5)
         # показываем засечки и их подписи
         self.play(
             FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
             FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
-            run_time=1
+            run_time=0.5
         )
-        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=1)
+        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=0.5)
         y_labels = new_y_labels
         # падают точки по одной
         for pt in points:
@@ -2172,7 +2360,7 @@ class Presentation(Slide):
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
         self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
-                  FadeOut(x_label), run_time=1)
+                  FadeOut(x_label), run_time=0.5)
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
@@ -2222,14 +2410,14 @@ class Presentation(Slide):
         ])
 
         self.play(Create(axes), run_time=1)
-        self.play(Write(y_label), Write(x_label), run_time=1)
+        self.play(Write(y_label), Write(x_label), run_time=0.5)
         # показываем засечки и их подписи
         self.play(
             FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
             FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
-            run_time=1
+            run_time=0.5
         )
-        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=1)
+        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=0.5)
         y_labels = new_y_labels
         # падают точки по одной
         for pt in points:
@@ -2292,6 +2480,226 @@ class Presentation(Slide):
         ])
 
         self.play(Create(axes), run_time=1)
+        self.play(Write(y_label), Write(x_label), run_time=0.5)
+        # показываем засечки и их подписи
+        self.play(
+            FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
+            FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
+            run_time=0.5
+        )
+        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=0.5)
+        y_labels = new_y_labels
+        # падают точки по одной
+        for pt in points:
+            self.play(Restore(pt), run_time=0.15)
+        self.wait()
+        self.next_slide()
+
+        self.play(FadeOut(points), run_time=1)
+        self.remove(points)
+        self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
+                  FadeOut(x_label), run_time=0.5)
+        self.remove(axes, y_labels, x_ticks, x_labels)
+        self.play(Unwrite(title), Unwrite(result_title_ul))
+
+        slide_25 = Text("25", font_size=20, fill_color="#343434")
+        slide_25.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_25))
+
+        experiment_3_title = Text("3 статистический эксперимент", font_size=36, fill_color="#343434")
+        experiment_3_title.to_edge(UP, buff=0.5)
+        experiment_3_title_ul = Underline(experiment_3_title, color="#343434")
+        self.play(Write(experiment_3_title), Write(experiment_3_title_ul))
+
+        experiment_3 = Text(
+            "Этапы эксперимента:\n1)для фиксированного набора параметров, вероятностей переходов и количества\nитераций N/длительности времени "
+            "моделирования реализуется обобщенный синхронный поток событий \nвторого порядка с произвольным кол-ом состояний",
+            font_size=20, fill_color="#343434")
+        experiment_3.to_edge(UP * 3 + LEFT)
+        self.play(Write(experiment_3))
+        self.wait()
+        self.next_slide()
+
+        experiment_3_1 = MathTex(r"2)\hat{\tau}_j=\frac{1}{k_j}\sum_{i=1}^{k_j}\tau_i^{(j)},j=\overline{1,N}",
+                                 color="#343434",
+                                 font_size=28)
+        experiment_3_1.next_to(experiment_3, DOWN)
+        experiment_3_1.shift(LEFT * 5.05)
+        self.play(Write(experiment_3_1))
+        self.wait()
+        self.next_slide()
+
+        experiment_3_2 = Text("3) осуществляем повторение N раз шагов 1, 2", font_size=20, fill_color="#343434")
+        experiment_3_2.next_to(experiment_3_1, DOWN)
+        experiment_3_2.shift(RIGHT * 1.2)
+        self.play(Write(experiment_3_2))
+
+        self.wait()
+        self.next_slide()
+
+        experiment_3_3 = Text(
+            "Вычисляем выборочные средние (оценки) значения длительности интервала между моментами\nнаступления событий в рассматриваемом потоке:",
+            font_size=20, fill_color="#343434")
+        experiment_3_3.next_to(experiment_3_2, DOWN, buff=0.2)
+        experiment_3_3.shift(RIGHT * 3.25)
+        self.play(Write(experiment_3_3))
+        self.wait()
+        self.next_slide()
+
+        experiment_3_4 = MathTex(r"\hat{\overline{\tau}}=\frac{1}{N}\sum_{j=1}^N \hat{\tau}_j", fill_color="#343434")
+        experiment_3_4.next_to(experiment_3_3, DOWN, buff=0.5)
+        experiment_3_4_rect = SurroundingRectangle(experiment_3_4, color="#343434", buff=0.2)
+
+        self.play(Write(experiment_3_4), Write(experiment_3_4_rect))
+        self.wait()
+        self.next_slide()
+
+        self.play(Unwrite(experiment_3_title), Unwrite(experiment_3_title_ul), Unwrite(experiment_3), Unwrite(experiment_3_1), Unwrite(experiment_3_2), Unwrite(experiment_3_3),
+                  Unwrite(experiment_3_4), Unwrite(experiment_3_4_rect))
+
+        slide_26 = Text("26", font_size=20, fill_color="#343434")
+        slide_26.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_26))
+
+        title_3 = Text("График зависимости", fill_color="#343434", font_size=36)
+        title_3.to_edge(UP + LEFT * 15, buff=0.2)
+        title_3_1 = MathTex(r"\hat{\overline{\tau}}", fill_color="#343434")
+        title_3_1.next_to(title_3, RIGHT, buff=0.2)
+        title_3_2 = Text("от значений", fill_color="#343434", font_size=36)
+        title_3_2.next_to(title_3, RIGHT, buff=0.7).shift(UP * 0.06)
+        title_3_3 = MathTex(r"N", fill_color="#343434")
+        title_3_3.next_to(title_3_2, RIGHT, buff=0.2)
+        tl = VGroup(title_3, title_3_1, title_3_2, title_3_3)
+        tl_ul = Underline(tl, color="#343434", buff=0.1)
+        self.play(Write(tl), Write(tl_ul))
+
+        axes = Axes(
+            x_range=[0, 1050, 100],
+            y_range=[0.31, 0.32, 0.002],
+            axis_config={"include_tip": True, "color": "#343434"},
+        )
+        axes.y_axis.ticks[-1].set_opacity(0)
+        x_label = MathTex("N", color="#343434").next_to(axes.x_axis.get_end(), RIGHT + DOWN, buff=0.2)
+        y_label = MathTex(r"\hat{\overline{\tau}}", color="#343434").next_to(axes.y_axis.get_end(), UP + LEFT, buff=0.2)
+
+        # 2) Метки по Y
+        y_values = np.arange(0.31, 0.319, 0.002)  # [23.0, 23.5, …, 25.5]
+        y_labels = VGroup(*[
+            MathTex(f"{val:.3f}", color="#343434")
+                          .scale(0.6)
+                          .next_to(axes.c2p(0, val), LEFT, buff=0.2)
+            for val in y_values
+        ])
+        y_labels.set_opacity(1)
+
+        # 3) Падающие точки
+        x_vals = list(range(50, 1001, 50))
+        y_vals = [
+            0.3120, 0.3130, 0.3113, 0.3132, 0.3132, 0.3120, 0.3131, 0.3134, 0.3128, 0.3127,
+            0.3133, 0.3124, 0.3132, 0.3127, 0.3123, 0.3130, 0.3122, 0.3134, 0.3128, 0.3129
+        ]
+        points = VGroup(*[
+            Dot(axes.c2p(x, y), radius=0.07, color="#343434")
+                        .save_state()
+                        .shift(UP * 3)
+            for x, y in zip(x_vals, y_vals)
+        ])
+
+        # 4) Засечки и подписи по X
+        x_ticks = axes.x_axis.ticks.copy()
+        x_ticks.set_opacity(0)
+
+        tick_vals = np.arange(0, 1001, 100)  # 0,100,200,…1000
+        x_labels = VGroup(*[
+            MathTex(str(int(val)), color="#343434")
+                          .scale(0.5)
+                          # ставим ТОЛЬКО там, где действительно лежит ось:
+                          .next_to(axes.x_axis.n2p(val), DOWN, buff=0.2)
+            for val in tick_vals if val != 0
+        ])
+        x_labels.set_opacity(1)
+
+        # 5) Анимация
+        self.play(Create(axes), run_time=1)
+        self.play(FadeIn(y_label, shift=LEFT), FadeIn(x_label, shift=DOWN))
+        self.play(FadeIn(y_labels, shift=LEFT, lag_ratio=0.1), run_time=1)
+
+        # показываем засечки и их подписи
+        self.play(
+            FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
+            FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
+            run_time=1
+        )
+        # падают точки по одной
+        for pt in points:
+            self.play(Restore(pt), run_time=0.15)
+        self.wait()
+        self.next_slide()
+
+
+        self.play(FadeOut(points), run_time=1)
+        self.remove(points)
+        self.play(Unwrite(tl), Unwrite(tl_ul), FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
+                  FadeOut(x_label), run_time=1)
+        self.remove(axes, y_labels, x_ticks, x_labels)
+
+        slide_27 = Text("27", font_size=20, fill_color="#343434")
+        slide_27.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_27))
+
+        title_3 = Text("График зависимости", fill_color="#343434", font_size=30)
+        title_3.to_edge(UP + LEFT * 12, buff=0.2)
+        title_3_1 = MathTex(r"\hat{\overline{\tau}}", fill_color="#343434")
+        title_3_1.next_to(title_3, RIGHT, buff=0.2)
+        title_3_2 = Text("от времени моделирования", fill_color="#343434", font_size=30)
+        title_3_2.next_to(title_3, RIGHT, buff=0.7).shift(DOWN * 0.06)
+        title_3_3 = MathTex(r"T_m", fill_color="#343434")
+        title_3_3.next_to(title_3_2, RIGHT, buff=0.2)
+        tl = VGroup(title_3, title_3_1, title_3_2, title_3_3)
+        tl_ul = Underline(tl, color="#343434", buff=0.1)
+        self.play(Write(tl), Write(tl_ul))
+
+        axes = Axes(
+            x_range=[0, 550, 50],
+            y_range=[0.31, 0.32, 0.002],
+            axis_config={"include_tip": True, "color": "#343434"},
+        )
+        axes.y_axis.ticks[-1].set_opacity(0)
+        x_label = MathTex(r"T_m", color="#343434").next_to(axes.x_axis.get_end(), RIGHT + DOWN, buff=0.2)
+        y_label = MathTex(r"\hat{\overline{\tau}}", color="#343434").next_to(axes.y_axis.get_end(), UP + LEFT, buff=0.2)
+
+        new_y_values = np.arange(0.31, 0.319, 0.002)
+        new_y_labels = VGroup(*[
+            MathTex(f"{val:.3f}", color="#343434")
+                              .scale(0.6)
+                              .next_to(axes.c2p(0, val), LEFT, buff=0.2)
+            for val in new_y_values
+        ])
+        new_y_labels.set_opacity(1)
+
+        # Засечки и подписи по X
+        x_ticks = axes.x_axis.ticks.copy()
+        x_ticks.set_opacity(0)
+
+        tick_vals = np.arange(0, 550, 50)  # 0,100,200,…1000
+        x_labels = VGroup(*[
+            MathTex(str(int(val)), color="#343434")
+                          .scale(0.5)
+                          # ставим ТОЛЬКО там, где действительно лежит ось:
+                          .next_to(axes.x_axis.n2p(val), DOWN, buff=0.2)
+            for val in tick_vals if val != 0
+        ])
+        x_labels.set_opacity(1)
+
+        y_vals = [0.3108, 0.3121, 0.3130, 0.3128, 0.3132, 0.3127, 0.3131, 0.3130, 0.3129, 0.3130]
+        points = VGroup(*[
+            Dot(axes.c2p(x, y), radius=0.07, color="#343434")
+                        .save_state()
+                        .shift(UP * 3)
+            for x, y in zip(x_vals, y_vals)
+        ])
+
+        self.play(Create(axes), run_time=1)
         self.play(Write(y_label), Write(x_label), run_time=1)
         # показываем засечки и их подписи
         self.play(
@@ -2309,53 +2717,89 @@ class Presentation(Slide):
 
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
-        self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
-                  FadeOut(x_label), run_time=1)
-        self.remove(axes, y_labels, x_ticks, x_labels)
-        self.play(Unwrite(title), Unwrite(result_title_ul))
+        self.play(Unwrite(tl), Unwrite(tl_ul), FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks),
+                  FadeOut(x_labels), FadeOut(x_label), run_time=1)
+        self.remove(axes, y_labels, x_ticks, x_labels, x_label, y_label)
 
-        slide_25 = Text("25", font_size=20, fill_color="#343434")
-        slide_25.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_25))
+        slide_28 = Text("28", font_size=20, fill_color="#343434")
+        slide_28.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_28))
 
-        experiment_3_title = Text("3 статистический эксперимент", font_size=36, fill_color="#343434")
-        experiment_3_title.to_edge(UP, buff=0.1)
-        experiment_3_title_ul = Underline(experiment_3_title, color="#343434")
-        self.play(Write(experiment_3_title), Write(experiment_3_title_ul))
+        end_title = Text("Заключение", fill_color="#343434", font_size=36)
+        end_title.to_edge(UP, buff=0.5)
+        end_title_ul = Underline(end_title, color="#343434", buff=0.1)
+        self.play(Write(end_title), Write(end_title_ul))
 
-        experiment_3 = Text("Этапы эксперимента:\n1)для фиксированного набора параметров, вероятностей переходов и количества\nитераций N/длительности времени "
-                           "моделирования реализуется обобщенный синхронный поток событий \nвторого порядка с произвольным кол-ом состояний",
-                           font_size=20, fill_color="#343434")
-        experiment_3.to_edge(UP*3 + LEFT)
-        self.play(Write(experiment_3))
+        # Список задач
+        items = ["Изучена литература по теме исследования", "Построена мат. модель потока",
+                 "Выведены формулы, по которым производится моделирование",
+                 "Построен алгоритм имитационной модели", "Алгорит имитационной модели реализован на ЯП C++",
+                 "Написано GUI-приложение", "Проведена серия статистических экспериментов"]
+        # 1) квадраты
+        boxes = VGroup(*[
+            Square(side_length=0.4, color="#343434")
+                       .set_fill(None, opacity=0)  # пока пустые
+            for _ in items
+        ])
+        # 2) подписи
+        labels = VGroup(*[
+            Text(text, font_size=26, color="#343434")
+            for text in items
+        ])
+        # 3) сгруппировать пары [квадрат + текст] и расположить вниз
+        rows = VGroup(*[
+            VGroup(box, lbl).arrange(RIGHT, buff=0.2)
+            for box, lbl in zip(boxes, labels)
+        ])
+        rows.arrange(DOWN, aligned_edge=LEFT, buff=0.5)
+        rows.to_edge(UP * 3 + LEFT)
+
+        self.play(
+            *[Create(box) for box in boxes],
+            *[Write(lbl) for lbl in labels],
+            run_time=1
+        )
+
+        checks = VGroup(
+            *[
+                VGroup(
+                    # левая ножка галочки
+                    Line(
+                        box.get_corner(UL) + DOWN * 0.2 + RIGHT * 0.1,
+                        box.get_center() + DOWN * 0.1
+                    ),
+                    # правая ножка
+                    Line(
+                        box.get_center() + DOWN * 0.1,
+                        box.get_corner(UR) + DOWN * 0.1 + LEFT * 0.05
+                    ),
+                )
+                .set_color("#83C167")
+                .set_stroke(width=3)
+                for box in boxes
+            ]
+        )
+
         self.wait()
         self.next_slide()
-
-        experiment_3_1 = MathTex(r"2)\hat{\tau}_j=\frac{1}{k_j}\sum_{i=1}^{k_j}\tau_i^{(j)}", color="#343434", font_size=28)
-        experiment_3_1.next_to(experiment_3, DOWN)
-        experiment_3_1.shift(LEFT*5.7)
-        self.play(Write(experiment_3_1))
+        self.play(Create(checks[0]), run_time=0.5)
         self.wait()
         self.next_slide()
-
-        experiment_3_2 = Text("3) осуществляем повторение N раз шагов 1,2", font_size=20, fill_color="#343434")
-        experiment_3_2.next_to(experiment_3_1, DOWN)
-        experiment_3_2.shift(RIGHT*1.75)
-        self.play(Write(experiment_3_2))
-
+        self.play(Create(checks[1]), run_time=0.5)
         self.wait()
         self.next_slide()
-
-        self.play(Unwrite(experiment_3), Unwrite(experiment_3_1), Unwrite(experiment_3_2))
-
-        slide_26 = Text("26", font_size=20, fill_color="#343434")
-        slide_26.to_corner(DR, buff=0.1)
-        self.play(Transform(slide_1, slide_26))
-
-        graph = ImageMobject("img/graph.png").scale(0.75)
-        graph_rect = SurroundingRectangle(graph, color="#343434", buff=0.2)
-        self.play(FadeIn(graph), Create(graph_rect))
-
+        self.play(Create(checks[2]), run_time=0.5)
         self.wait()
+        self.next_slide()
+        self.play(Create(checks[3]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[4]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[5]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[6]), run_time=0.5)
 
 

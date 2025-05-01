@@ -1573,12 +1573,24 @@ class Presentation(Slide):
         self.wait()
         self.next_slide()
 
-        self.play(Unwrite(experiment_3), Unwrite(experiment_3_1), Unwrite(experiment_3_2), Unwrite(experiment_3_3),
+        self.play(Unwrite(experiment_3_title), Unwrite(experiment_3_title_ul), Unwrite(experiment_3), Unwrite(experiment_3_1), Unwrite(experiment_3_2), Unwrite(experiment_3_3),
                   Unwrite(experiment_3_4), Unwrite(experiment_3_4_rect))
 
         slide_26 = Text("26", font_size=20, fill_color="#343434")
         slide_26.to_corner(DR, buff=0.1)
         self.play(Transform(slide_1, slide_26))
+
+        title_3 = Text("График зависимости", fill_color="#343434", font_size=36)
+        title_3.to_edge(UP + LEFT * 15, buff=0.2)
+        title_3_1 = MathTex(r"\hat{\overline{\tau}}", fill_color="#343434")
+        title_3_1.next_to(title_3, RIGHT, buff=0.2)
+        title_3_2 = Text("от значений", fill_color="#343434", font_size=36)
+        title_3_2.next_to(title_3, RIGHT, buff=0.7).shift(UP * 0.06)
+        title_3_3 = MathTex(r"N", fill_color="#343434")
+        title_3_3.next_to(title_3_2, RIGHT, buff=0.2)
+        tl = VGroup(title_3, title_3_1, title_3_2, title_3_3)
+        tl_ul = Underline(tl, color="#343434", buff=0.1)
+        self.play(Write(tl), Write(tl_ul))
 
         axes = Axes(
             x_range=[0, 1050, 100],
@@ -1646,13 +1658,25 @@ class Presentation(Slide):
 
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
-        self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
+        self.play(Unwrite(tl), Unwrite(tl_ul), FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
                   FadeOut(x_label), run_time=1)
         self.remove(axes, y_labels, x_ticks, x_labels)
 
         slide_27 = Text("27", font_size=20, fill_color="#343434")
         slide_27.to_corner(DR, buff=0.1)
         self.play(Transform(slide_1, slide_27))
+
+        title_3 = Text("График зависимости", fill_color="#343434", font_size=30)
+        title_3.to_edge(UP + LEFT * 12, buff=0.2)
+        title_3_1 = MathTex(r"\hat{\overline{\tau}}", fill_color="#343434")
+        title_3_1.next_to(title_3, RIGHT, buff=0.2)
+        title_3_2 = Text("от времени моделирования", fill_color="#343434", font_size=30)
+        title_3_2.next_to(title_3, RIGHT, buff=0.7).shift(DOWN * 0.06)
+        title_3_3 = MathTex(r"T_m", fill_color="#343434")
+        title_3_3.next_to(title_3_2, RIGHT, buff=0.2)
+        tl = VGroup(title_3, title_3_1, title_3_2, title_3_3)
+        tl_ul = Underline(tl, color="#343434", buff=0.1)
+        self.play(Write(tl), Write(tl_ul))
 
         axes = Axes(
             x_range=[0, 550, 50],
@@ -1712,13 +1736,92 @@ class Presentation(Slide):
 
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
-        self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
-                  FadeOut(x_label), run_time=1)
+        self.play(Unwrite(tl), Unwrite(tl_ul), FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks),
+                  FadeOut(x_labels), FadeOut(x_label), run_time=1)
         self.remove(axes, y_labels, x_ticks, x_labels, x_label, y_label)
 
         slide_28 = Text("28", font_size=20, fill_color="#343434")
         slide_28.to_corner(DR, buff=0.1)
         self.play(Transform(slide_1, slide_28))
+
+        end_title = Text("Заключение", fill_color="#343434", font_size=36)
+        end_title.to_edge(UP, buff=0.5)
+        end_title_ul = Underline(end_title, color="#343434", buff=0.1)
+        self.play(Write(end_title), Write(end_title_ul))
+
+        # Список задач
+        items = ["Изучена литература по теме исследования", "Построена мат. модель потока",
+                 "Выведены формулы, по которым производится моделирование",
+                 "Построен алгоритм имитационной модели", "Алгорит имитационной модели реализован на ЯП C++",
+                 "Написано GUI-приложение", "Проведена серия статистических экспериментов"]
+        # 1) квадраты
+        boxes = VGroup(*[
+            Square(side_length=0.4, color="#343434")
+                       .set_fill(None, opacity=0)  # пока пустые
+            for _ in items
+        ])
+        # 2) подписи
+        labels = VGroup(*[
+            Text(text, font_size=26, color="#343434")
+            for text in items
+        ])
+        # 3) сгруппировать пары [квадрат + текст] и расположить вниз
+        rows = VGroup(*[
+            VGroup(box, lbl).arrange(RIGHT, buff=0.2)
+            for box, lbl in zip(boxes, labels)
+        ])
+        rows.arrange(DOWN, aligned_edge=LEFT, buff=0.5)
+        rows.to_edge(UP * 3 + LEFT)
+
+        self.play(
+            *[Create(box) for box in boxes],
+            *[Write(lbl) for lbl in labels],
+            run_time=1
+        )
+
+        checks = VGroup(
+            *[
+                VGroup(
+                    # левая ножка галочки
+                    Line(
+                        box.get_corner(UL) + DOWN * 0.2 + RIGHT * 0.1,
+                        box.get_center() + DOWN * 0.1
+                    ),
+                    # правая ножка
+                    Line(
+                        box.get_center() + DOWN * 0.1,
+                        box.get_corner(UR) + DOWN * 0.1 + LEFT * 0.05
+                    ),
+                )
+                .set_color("#83C167")
+                .set_stroke(width=3)
+                for box in boxes
+            ]
+        )
+
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[0]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[1]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[2]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[3]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[4]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[5]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[6]), run_time=0.5)
+
+
 
 
 
