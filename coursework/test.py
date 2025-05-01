@@ -3,6 +3,60 @@ from manim import *  # or: from manimlib import *
 from manim_slides.slide import Slide
 import random
 
+class Experiment3(Slide):
+    def construct(self):
+        box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
+        self.play(Write(box_backgrund))
+        experiment_3_title = Text("3 статистический эксперимент", font_size=36, fill_color="#343434")
+        experiment_3_title.to_edge(UP, buff=0.5)
+        experiment_3_title_ul = Underline(experiment_3_title, color="#343434")
+        self.play(Write(experiment_3_title), Write(experiment_3_title_ul))
+
+        experiment_3 = Text(
+            "Этапы эксперимента:\n1)для фиксированного набора параметров, вероятностей переходов и количества\nитераций N/длительности времени "
+            "моделирования реализуется обобщенный синхронный поток событий \nвторого порядка с произвольным кол-ом состояний",
+            font_size=20, fill_color="#343434")
+        experiment_3.to_edge(UP * 3 + LEFT)
+        self.play(Write(experiment_3))
+        self.wait()
+        self.next_slide()
+
+        experiment_3_1 = MathTex(r"2)\hat{\tau}_j=\frac{1}{k_j}\sum_{i=1}^{k_j}\tau_i^{(j)},j=\overline{1,N}", color="#343434",
+                                 font_size=28)
+        experiment_3_1.next_to(experiment_3, DOWN)
+        experiment_3_1.shift(LEFT * 5.05)
+        self.play(Write(experiment_3_1))
+        self.wait()
+        self.next_slide()
+
+        experiment_3_2 = Text("3) осуществляем повторение N раз шагов 1, 2", font_size=20, fill_color="#343434")
+        experiment_3_2.next_to(experiment_3_1, DOWN)
+        experiment_3_2.shift(RIGHT * 1.2)
+        self.play(Write(experiment_3_2))
+
+        self.wait()
+        self.next_slide()
+
+        experiment_3_3 = Text("Вычисляем выборочные средние (оценки) значения длительности интервала между моментами\nнаступления событий в рассматриваемом потоке:",
+                              font_size=20, fill_color="#343434")
+        experiment_3_3.next_to(experiment_3_2, DOWN, buff=0.2)
+        experiment_3_3.shift(RIGHT * 3.25)
+        self.play(Write(experiment_3_3))
+        self.wait()
+        self.next_slide()
+
+        experiment_3_4 = MathTex(r"\hat{\overline{t}}=\frac{1}{N}\sum_{j=1}^N \hat{t}_j", fill_color="#343434")
+        experiment_3_4.next_to(experiment_3_3, DOWN, buff=0.5)
+        experiment_3_4_rect = SurroundingRectangle(experiment_3_4, color="#343434", buff=0.2)
+
+        self.play(Write(experiment_3_4), Write(experiment_3_4_rect))
+        self.wait()
+        self.next_slide()
+
+        self.play(Unwrite(experiment_3), Unwrite(experiment_3_1), Unwrite(experiment_3_2), Unwrite(experiment_3_3),
+                  Unwrite(experiment_3_4), Unwrite(experiment_3_4_rect))
+
+
 class Experiment2(Slide):
     def construct(self):
         box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
