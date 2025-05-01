@@ -1565,7 +1565,7 @@ class Presentation(Slide):
         self.wait()
         self.next_slide()
 
-        experiment_3_4 = MathTex(r"\hat{\overline{t}}=\frac{1}{N}\sum_{j=1}^N \hat{t}_j", fill_color="#343434")
+        experiment_3_4 = MathTex(r"\hat{\overline{\tau}}=\frac{1}{N}\sum_{j=1}^N \hat{\tau}_j", fill_color="#343434")
         experiment_3_4.next_to(experiment_3_3, DOWN, buff=0.5)
         experiment_3_4_rect = SurroundingRectangle(experiment_3_4, color="#343434", buff=0.2)
 
@@ -1580,10 +1580,147 @@ class Presentation(Slide):
         slide_26.to_corner(DR, buff=0.1)
         self.play(Transform(slide_1, slide_26))
 
-        graph = ImageMobject("img/graph.png").scale(0.75)
-        graph_rect = SurroundingRectangle(graph, color="#343434", buff=0.2)
-        self.play(FadeIn(graph), Create(graph_rect))
+        axes = Axes(
+            x_range=[0, 1050, 100],
+            y_range=[0.31, 0.32, 0.002],
+            axis_config={"include_tip": True, "color": "#343434"},
+        )
+        axes.y_axis.ticks[-1].set_opacity(0)
+        x_label = MathTex("N", color="#343434").next_to(axes.x_axis.get_end(), RIGHT + DOWN, buff=0.2)
+        y_label = MathTex(r"\hat{\overline{\tau}}", color="#343434").next_to(axes.y_axis.get_end(), UP + LEFT, buff=0.2)
 
+        # 2) Метки по Y
+        y_values = np.arange(0.31, 0.319, 0.002)  # [23.0, 23.5, …, 25.5]
+        y_labels = VGroup(*[
+            MathTex(f"{val:.3f}", color="#343434")
+                          .scale(0.6)
+                          .next_to(axes.c2p(0, val), LEFT, buff=0.2)
+            for val in y_values
+        ])
+        y_labels.set_opacity(1)
+
+        # 3) Падающие точки
+        x_vals = list(range(50, 1001, 50))
+        y_vals = [
+            0.3120, 0.3130, 0.3113, 0.3132, 0.3132, 0.3120, 0.3131, 0.3134, 0.3128, 0.3127,
+            0.3133, 0.3124, 0.3132, 0.3127, 0.3123, 0.3130, 0.3122, 0.3134, 0.3128, 0.3129
+        ]
+        points = VGroup(*[
+            Dot(axes.c2p(x, y), radius=0.07, color="#343434")
+                        .save_state()
+                        .shift(UP * 3)
+            for x, y in zip(x_vals, y_vals)
+        ])
+
+        # 4) Засечки и подписи по X
+        x_ticks = axes.x_axis.ticks.copy()
+        x_ticks.set_opacity(0)
+
+        tick_vals = np.arange(0, 1001, 100)  # 0,100,200,…1000
+        x_labels = VGroup(*[
+            MathTex(str(int(val)), color="#343434")
+                          .scale(0.5)
+                          # ставим ТОЛЬКО там, где действительно лежит ось:
+                          .next_to(axes.x_axis.n2p(val), DOWN, buff=0.2)
+            for val in tick_vals if val != 0
+        ])
+        x_labels.set_opacity(1)
+
+        # 5) Анимация
+        self.play(Create(axes), run_time=1)
+        self.play(FadeIn(y_label, shift=LEFT), FadeIn(x_label, shift=DOWN))
+        self.play(FadeIn(y_labels, shift=LEFT, lag_ratio=0.1), run_time=1)
+
+        # показываем засечки и их подписи
+        self.play(
+            FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
+            FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
+            run_time=1
+        )
+        # падают точки по одной
+        for pt in points:
+            self.play(Restore(pt), run_time=0.15)
         self.wait()
+        self.next_slide()
+
+
+        self.play(FadeOut(points), run_time=1)
+        self.remove(points)
+        self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
+                  FadeOut(x_label), run_time=1)
+        self.remove(axes, y_labels, x_ticks, x_labels)
+
+        slide_27 = Text("27", font_size=20, fill_color="#343434")
+        slide_27.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_27))
+
+        axes = Axes(
+            x_range=[0, 550, 50],
+            y_range=[0.31, 0.32, 0.002],
+            axis_config={"include_tip": True, "color": "#343434"},
+        )
+        axes.y_axis.ticks[-1].set_opacity(0)
+        x_label = MathTex(r"T_m", color="#343434").next_to(axes.x_axis.get_end(), RIGHT + DOWN, buff=0.2)
+        y_label = MathTex(r"\hat{\overline{\tau}}", color="#343434").next_to(axes.y_axis.get_end(), UP + LEFT, buff=0.2)
+
+        new_y_values = np.arange(0.31, 0.319, 0.002)
+        new_y_labels = VGroup(*[
+            MathTex(f"{val:.3f}", color="#343434")
+                              .scale(0.6)
+                              .next_to(axes.c2p(0, val), LEFT, buff=0.2)
+            for val in new_y_values
+        ])
+        new_y_labels.set_opacity(1)
+
+        # Засечки и подписи по X
+        x_ticks = axes.x_axis.ticks.copy()
+        x_ticks.set_opacity(0)
+
+        tick_vals = np.arange(0, 550, 50)  # 0,100,200,…1000
+        x_labels = VGroup(*[
+            MathTex(str(int(val)), color="#343434")
+                          .scale(0.5)
+                          # ставим ТОЛЬКО там, где действительно лежит ось:
+                          .next_to(axes.x_axis.n2p(val), DOWN, buff=0.2)
+            for val in tick_vals if val != 0
+        ])
+        x_labels.set_opacity(1)
+
+        y_vals = [0.3108, 0.3121, 0.3130, 0.3128, 0.3132, 0.3127, 0.3131, 0.3130, 0.3129, 0.3130]
+        points = VGroup(*[
+            Dot(axes.c2p(x, y), radius=0.07, color="#343434")
+                        .save_state()
+                        .shift(UP * 3)
+            for x, y in zip(x_vals, y_vals)
+        ])
+
+        self.play(Create(axes), run_time=1)
+        self.play(Write(y_label), Write(x_label), run_time=1)
+        # показываем засечки и их подписи
+        self.play(
+            FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
+            FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
+            run_time=1
+        )
+        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=1)
+        y_labels = new_y_labels
+        # падают точки по одной
+        for pt in points:
+            self.play(Restore(pt), run_time=0.15)
+        self.wait()
+        self.next_slide()
+
+        self.play(FadeOut(points), run_time=1)
+        self.remove(points)
+        self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
+                  FadeOut(x_label), run_time=1)
+        self.remove(axes, y_labels, x_ticks, x_labels, x_label, y_label)
+
+        slide_28 = Text("28", font_size=20, fill_color="#343434")
+        slide_28.to_corner(DR, buff=0.1)
+        self.play(Transform(slide_1, slide_28))
+
+
+
 
 
