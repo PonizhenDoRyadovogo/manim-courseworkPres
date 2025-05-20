@@ -8,24 +8,40 @@ class Presentation(Slide):
         box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
         self.play(Write(box_backgrund))
 
+        logo_tsu = ImageMobject("img/logo2.png").scale(0.5).to_edge(UP, buff=0.1)
+
+        title_confernce = Text("XII Международная молодежная научная конференция МПОИТЭС",
+                               font_size=17,
+                               fill_color="#343434").next_to(logo_tsu, DOWN, buff=0.2)
+
         header_text = (
             "Статистические эксперименты на имитационной\nмодели обобщенного синхронного потока событий\n"
             "второго порядка с произвольным числом состояний"
         )
         header = Text(header_text, fill_color="#343434", weight=BOLD, font_size=36)
         # Размещаем заголовок в верхней части экрана
-        header.to_edge(UP, buff=0.5)
+        header.next_to(title_confernce, DOWN, buff=0.2)
 
         # Создаем линию под заголовком с помощью функции Underline
         underline = Underline(header, color="#343434")
-        underline_bk = Rectangle(width=header.width, height=header.height * 1.6) \
+        underline_bk = Rectangle(width=header.width, height=header.height * 2.2) \
             .next_to(underline, DOWN, buff=0) \
             .set_style(fill_opacity=1, stroke_width=0, fill_color="#ece6e2")
         vg_title = VGroup(underline_bk, underline)
 
         # Создаем информационные надписи без параметра align
-        supervisor_info1 = Text(
-            "Руководитель работы д-р физ.-мат. наук, профессор:",
+        supervisor_info1_1 = Text(
+            "Руководитель работы",
+            font_size=20,
+            fill_color="#343434"
+        )
+        supervisor_info1_2 = Text(
+            "д-р физ.-мат. наук",
+            font_size=20,
+            fill_color="#343434"
+        )
+        supervisor_info1_3 = Text(
+            "профессор:",
             font_size=20,
             fill_color="#343434"
         )
@@ -34,8 +50,13 @@ class Presentation(Slide):
             font_size=20,
             fill_color="#343434"
         )
-        author_info1 = Text(
-            "Автор работы студент гр.932221:",
+        author_info1_1 = Text(
+            "Автор работы студент",
+            font_size=20,
+            fill_color="#343434"
+        )
+        author_info1_2 = Text(
+            "гр. 9322221:",
             font_size=20,
             fill_color="#343434"
         )
@@ -46,8 +67,9 @@ class Presentation(Slide):
         )
 
         # Группируем и выравниваем по правому краю
-        info_group = VGroup(supervisor_info1, supervisor_info2, author_info1, author_info2).arrange(DOWN,
-                                                                                                    aligned_edge=RIGHT)
+        info_group = VGroup(supervisor_info1_1, supervisor_info1_2, supervisor_info1_3, supervisor_info2,
+                            author_info1_1,
+                            author_info1_2, author_info2).arrange(DOWN, aligned_edge=RIGHT, buff=0.03)
         info_group.to_corner(DR, buff=0.5)
 
         # Линия справа внизу
@@ -61,6 +83,7 @@ class Presentation(Slide):
         vg_info_group = VGroup(vertical_bar_bk, vertical_bar)
 
         # Добавляем все объекты на сцену
+        self.play(FadeIn(logo_tsu), Write(title_confernce))
         self.play(Write(header))
         self.play(Write(info_group))
 
@@ -73,7 +96,7 @@ class Presentation(Slide):
         self.play(vg_title.animate.shift(UP * underline_bk.height),
                   vg_info_group.animate.shift(LEFT * info_group.width))
         self.play(ShrinkToCenter(underline), ShrinkToCenter(vertical_bar))
-        self.remove(vg_title, header, info_group, vg_info_group)
+        self.remove(vg_title, header, info_group, vg_info_group, logo_tsu, title_confernce)
 
         # 2 слайд
         introduction_title = Text("Введение", font_size=36, weight=BOLD, fill_color="#343434")
@@ -237,7 +260,7 @@ class Presentation(Slide):
 
         lambda_text_7 = MathTex(r"\sum_{i=1}^nP_1^{(1)}(\lambda_j|\lambda_i)=1, j=\overline{1,n}; \sum_{i=1}^nP_1^{(2)}(\lambda_j|\lambda_i)=1, j=\overline{1,n}",
                                  color="#343434")
-        lambda_text_7.to_edge(DOWN*2 + LEFT*0.75)
+        lambda_text_7.to_edge(DOWN + LEFT*0.75)
         self.play(Write(lambda_text_7))
 
         self.wait()
@@ -399,6 +422,8 @@ class Presentation(Slide):
         self.play(Write(text_eta), Write(text_eta_continius))
         text_eta_transform = MathTex(r"\eta^{(1)}", color="#343434")
         text_eta_transform.to_edge(UP*2.5 + RIGHT*5)
+        self.wait()
+        self.next_slide()
         self.play(Transform(text_eta_continius, text_eta_transform))
 
         self.play(Create(horizontal_line), Create(vertical_line))
@@ -543,7 +568,7 @@ class Presentation(Slide):
         self.next_slide()
         self.play(FadeOut(schem_img_1))
 
-        slide_9 = Text("7", font_size=20, fill_color="#343434")
+        slide_9 = Text("9", font_size=20, fill_color="#343434")
         slide_9.to_corner(DR, buff=0.1)
         self.play(Transform(slide_1, slide_9))
 
@@ -795,6 +820,7 @@ class Presentation(Slide):
         self.play(Write(title_1), Write(title_2))
         self.play(Write(table_1), Write(table_2), run_time=3)
         self.wait()
+        self.next_slide()
 
         self.play(Unwrite(experiment_1_title), Unwrite(experiment_1_title_ul), Unwrite(experiment_body_1),
                   Unwrite(experiment_body_2),
@@ -862,14 +888,14 @@ class Presentation(Slide):
 
         # 5) Анимация
         self.play(Create(axes), run_time=1)
-        self.play(FadeIn(y_label, shift=LEFT), FadeIn(x_label, shift=DOWN))
+        self.play(FadeIn(y_label, shift=LEFT), FadeIn(x_label, shift=DOWN), run_time=1)
         self.play(FadeIn(y_labels, shift=LEFT, lag_ratio=0.1), run_time=1)
 
         # показываем засечки и их подписи
         self.play(
             FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
             FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
-            run_time=1
+            run_time=0.5
         )
         # падают точки по одной
         for pt in points:
@@ -883,7 +909,7 @@ class Presentation(Slide):
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
         self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
-                  FadeOut(x_label), run_time=1)
+                  FadeOut(x_label), run_time=0.5)
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
@@ -931,14 +957,14 @@ class Presentation(Slide):
         ])
 
         self.play(Create(axes), run_time=1)
-        self.play(Write(y_label), Write(x_label), run_time=1)
+        self.play(Write(y_label), Write(x_label), run_time=0.5)
         # показываем засечки и их подписи
         self.play(
             FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
             FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
-            run_time=1
+            run_time=0.5
         )
-        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=1)
+        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=0.5)
         y_labels = new_y_labels
         # падают точки по одной
         for pt in points:
@@ -951,7 +977,7 @@ class Presentation(Slide):
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
         self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
-                  FadeOut(x_label), run_time=1)
+                  FadeOut(x_label), run_time=0.5)
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
@@ -999,14 +1025,14 @@ class Presentation(Slide):
         ])
 
         self.play(Create(axes), run_time=1)
-        self.play(Write(y_label), Write(x_label), run_time=1)
+        self.play(Write(y_label), Write(x_label), run_time=0.5)
         # показываем засечки и их подписи
         self.play(
             FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
             FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
-            run_time=1
+            run_time=0.5
         )
-        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=1)
+        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=0.5)
         y_labels = new_y_labels
         # падают точки по одной
         for pt in points:
@@ -1020,7 +1046,7 @@ class Presentation(Slide):
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
         self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
-                  FadeOut(x_label), run_time=1)
+                  FadeOut(x_label), run_time=0.5)
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
@@ -1070,14 +1096,14 @@ class Presentation(Slide):
         ])
 
         self.play(Create(axes), run_time=1)
-        self.play(Write(y_label), Write(x_label), run_time=1)
+        self.play(Write(y_label), Write(x_label), run_time=0.5)
         # показываем засечки и их подписи
         self.play(
             FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
             FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
-            run_time=1
+            run_time=0.5
         )
-        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=1)
+        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=0.5)
         y_labels = new_y_labels
         # падают точки по одной
         for pt in points:
@@ -1088,7 +1114,7 @@ class Presentation(Slide):
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
         self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
-                  FadeOut(x_label), run_time=1)
+                  FadeOut(x_label), run_time=0.5)
         self.remove(axes, y_labels, x_ticks, x_labels)
         self.play(Unwrite(title), Unwrite(result_title_ul))
 
@@ -1289,14 +1315,14 @@ class Presentation(Slide):
 
         # 5) Анимация
         self.play(Create(axes), run_time=1)
-        self.play(FadeIn(y_label, shift=LEFT), FadeIn(x_label, shift=DOWN))
-        self.play(FadeIn(y_labels, shift=LEFT, lag_ratio=0.1), run_time=1)
+        self.play(FadeIn(y_label, shift=LEFT), FadeIn(x_label, shift=DOWN), run_time=0.5)
+        self.play(FadeIn(y_labels, shift=LEFT, lag_ratio=0.1), run_time=0.5)
 
         # показываем засечки и их подписи
         self.play(
             FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
             FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
-            run_time=1
+            run_time=0.5
         )
         # падают точки по одной
         for pt in points:
@@ -1309,7 +1335,7 @@ class Presentation(Slide):
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
         self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
-                  FadeOut(x_label), run_time=1)
+                  FadeOut(x_label), run_time=0.5)
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
@@ -1359,14 +1385,14 @@ class Presentation(Slide):
         ])
 
         self.play(Create(axes), run_time=1)
-        self.play(Write(y_label), Write(x_label), run_time=1)
+        self.play(Write(y_label), Write(x_label), run_time=0.5)
         # показываем засечки и их подписи
         self.play(
             FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
             FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
-            run_time=1
+            run_time=0.5
         )
-        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=1)
+        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=0.5)
         y_labels = new_y_labels
         # падают точки по одной
         for pt in points:
@@ -1379,7 +1405,7 @@ class Presentation(Slide):
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
         self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
-                  FadeOut(x_label), run_time=1)
+                  FadeOut(x_label), run_time=0.5)
         self.play(Transform(result_title_1, new_result_title_1))
         self.remove(axes, y_labels, x_ticks, x_labels)
 
@@ -1429,14 +1455,14 @@ class Presentation(Slide):
         ])
 
         self.play(Create(axes), run_time=1)
-        self.play(Write(y_label), Write(x_label), run_time=1)
+        self.play(Write(y_label), Write(x_label), run_time=0.5)
         # показываем засечки и их подписи
         self.play(
             FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
             FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
-            run_time=1
+            run_time=0.5
         )
-        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=1)
+        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=0.5)
         y_labels = new_y_labels
         # падают точки по одной
         for pt in points:
@@ -1499,14 +1525,14 @@ class Presentation(Slide):
         ])
 
         self.play(Create(axes), run_time=1)
-        self.play(Write(y_label), Write(x_label), run_time=1)
+        self.play(Write(y_label), Write(x_label), run_time=0.5)
         # показываем засечки и их подписи
         self.play(
             FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
             FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
-            run_time=1
+            run_time=0.5
         )
-        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=1)
+        self.play(Write(new_y_labels, lag_ratio=0.1), run_time=0.5)
         y_labels = new_y_labels
         # падают точки по одной
         for pt in points:
@@ -1517,7 +1543,7 @@ class Presentation(Slide):
         self.play(FadeOut(points), run_time=1)
         self.remove(points)
         self.play(FadeOut(axes), FadeOut(y_label), FadeOut(y_labels), FadeOut(x_ticks), FadeOut(x_labels),
-                  FadeOut(x_label), run_time=1)
+                  FadeOut(x_label), run_time=0.5)
         self.remove(axes, y_labels, x_ticks, x_labels)
         self.play(Unwrite(title), Unwrite(result_title_ul))
 
@@ -1820,7 +1846,6 @@ class Presentation(Slide):
         self.wait()
         self.next_slide()
         self.play(Create(checks[6]), run_time=0.5)
-
 
 
 

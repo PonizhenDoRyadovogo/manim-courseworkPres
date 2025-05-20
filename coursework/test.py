@@ -3,6 +3,100 @@ from manim import *  # or: from manimlib import *
 from manim_slides.slide import Slide
 import random
 
+class Begin(Slide):
+    def construct(self):
+        box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
+        self.play(Write(box_backgrund))
+
+        logo_tsu = ImageMobject("img/logo2.png").scale(0.5).to_edge(UP, buff=0.1)
+
+        title_confernce = Text("XII Международная молодежная научная конференция МПОИТЭС",
+                               font_size=17,
+                               fill_color="#343434").next_to(logo_tsu, DOWN, buff=0.2)
+
+        header_text = (
+            "Статистические эксперименты на имитационной\nмодели обобщенного синхронного потока событий\n"
+            "второго порядка с произвольным числом состояний"
+        )
+        header = Text(header_text, fill_color="#343434", weight=BOLD, font_size=36)
+        # Размещаем заголовок в верхней части экрана
+        header.next_to(title_confernce, DOWN, buff=0.2)
+
+        # Создаем линию под заголовком с помощью функции Underline
+        underline = Underline(header, color="#343434")
+        underline_bk = Rectangle(width=header.width, height=header.height * 2.2) \
+            .next_to(underline, DOWN, buff=0) \
+            .set_style(fill_opacity=1, stroke_width=0, fill_color="#ece6e2")
+        vg_title = VGroup(underline_bk, underline)
+
+        # Создаем информационные надписи без параметра align
+        supervisor_info1_1 = Text(
+            "Руководитель работы",
+            font_size=20,
+            fill_color="#343434"
+        )
+        supervisor_info1_2 = Text(
+            "д-р физ.-мат. наук",
+            font_size=20,
+            fill_color="#343434"
+        )
+        supervisor_info1_3 = Text(
+            "профессор:",
+            font_size=20,
+            fill_color="#343434"
+        )
+        supervisor_info2 = Text(
+            "Л.А. Нежельская",
+            font_size=20,
+            fill_color="#343434"
+        )
+        author_info1_1 = Text(
+            "Автор работы студент",
+            font_size=20,
+            fill_color="#343434"
+        )
+        author_info1_2 = Text(
+            "гр. 9322221:",
+            font_size=20,
+            fill_color="#343434"
+        )
+        author_info2 = Text(
+            "А.С. Иванов",
+            font_size=20,
+            fill_color="#343434"
+        )
+
+        # Группируем и выравниваем по правому краю
+        info_group = VGroup(supervisor_info1_1, supervisor_info1_2, supervisor_info1_3, supervisor_info2, author_info1_1,
+                            author_info1_2, author_info2).arrange(DOWN, aligned_edge=RIGHT, buff=0.03)
+        info_group.to_corner(DR, buff=0.5)
+
+        # Линия справа внизу
+        vertical_bar = Rectangle(width=info_group.width * 0.009, height=info_group.height) \
+            .next_to(info_group, RIGHT, buff=0.1) \
+            .set_style(fill_color="#343434", fill_opacity=1, stroke_width=0)
+
+        vertical_bar_bk = Rectangle(width=info_group.width, height=info_group.height) \
+            .next_to(info_group, RIGHT, buff=0) \
+            .set_style(fill_opacity=1, stroke_width=0, fill_color="#ece6e2")
+        vg_info_group = VGroup(vertical_bar_bk, vertical_bar)
+
+        # Добавляем все объекты на сцену
+        self.play(FadeIn(logo_tsu), Write(title_confernce))
+        self.play(Write(header))
+        self.play(Write(info_group))
+
+        # Ждем, чтобы зритель увидел первый слайд
+        self.wait()
+        self.next_slide()
+
+        self.play(GrowFromCenter(underline), Write(vertical_bar))
+        self.add(vg_title, vg_info_group)
+        self.play(vg_title.animate.shift(UP * underline_bk.height),
+                  vg_info_group.animate.shift(LEFT * info_group.width))
+        self.play(ShrinkToCenter(underline), ShrinkToCenter(vertical_bar))
+        self.remove(vg_title, header, info_group, vg_info_group, logo_tsu, title_confernce)
+
 class Ending(Slide):
     def construct(self):
         box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
@@ -1379,6 +1473,8 @@ class Presentation(Slide):
         self.play(Write(text_eta), Write(text_eta_continius))
         text_eta_transform = MathTex(r"\eta^{(1)}", color="#343434")
         text_eta_transform.to_edge(UP*2.5 + RIGHT*5)
+        self.wait()
+        self.next_slide()
         self.play(Transform(text_eta_continius, text_eta_transform))
 
         self.play(Create(horizontal_line), Create(vertical_line))
