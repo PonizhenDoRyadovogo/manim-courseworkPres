@@ -1,5 +1,6 @@
 from manim import *  # or: from manimlib import *
 
+from manim import MarkupText
 from manim_slides.slide import Slide
 import random
 
@@ -8,52 +9,65 @@ class Begin(Slide):
         box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
         self.play(Write(box_backgrund))
 
-        introduction_title = Text("Введение", font_size=36, weight=BOLD, fill_color="#343434")
-        introduction_title.to_edge(UP, buff=0.75)
-        introduction_title_ul = Underline(introduction_title, color="#343434")
-        body_text_1 = (
-            "• В начале 20-го века в связи с бурным развитием \nтелекоммуникационных сетей возникла такая дисциплина \nкак теория массового обслуживания (ТМО)"
-        )
-        body_1 = Text(body_text_1, font_size=28, fill_color="#343434")
-        body_1.move_to(ORIGIN + UP * 1.25 + LEFT * 0.75)
+        title_introduction = Text("Цель и задачи работы", font_size=36, color="#343434")
+        title_introduction.to_edge(UP, buff=0.1)
+        title_introduction_ul = Underline(title_introduction, color="#343434")
+        self.play(Write(title_introduction), Write(title_introduction_ul))
 
-        body_text_2 = (
-            "• Первыми работами в этой области стали труды \nдатского инженера и математика А. К. Эрланга"
-        )
-        body_2 = Text(body_text_2, font_size=28, fill_color="#343434")
-        body_2.move_to(ORIGIN + DOWN + 0.9 + LEFT * 2.7)
+        target_text = MarkupText(
+            "<i><b>Цель</b></i> - построение алгоритма имитационной модели обощенного синхронного\nпотока событий второго порядка с "
+            "произвольным числом состояний,\nа также его реализация на языке программирования C++\nдля получения выборки моментов наступления событий",
+            font_size=26, color="#343434")
+        target_text.to_edge(UP * 1.6 + LEFT)
+        self.play(Write(target_text))
 
-        body_text_3 = (
-            "• Цифровые сети интегрального обслуживания, сокращенно ЦСИО"
-        )
-        body_3 = Text(body_text_3, font_size=28, fill_color="#343434")
-        body_3.move_to(ORIGIN + DOWN * 1.25 + LEFT * 0.1)
+        # Список задач
+        items = ["Изучить научную литературу по теме исследования", "Построить математическую модель потока",
+                 "Построить блок-схему алгоритма", "Реализовать графическую составляющую, то есть написать"
+                                                   "GUI-приложение\nс использованием фреймворка Qt на C++"
+            , "Провести серию статистических экспериментов"]
+        # 1) квадраты
+        boxes = VGroup(*[
+            Square(side_length=0.4, color="#343434")
+                       .set_fill(None, opacity=0)  # пока пустые
+            for _ in items
+        ])
+        # 2) подписи
+        labels = VGroup(*[
+            Text(text, font_size=26, color="#343434")
+            for text in items
+        ])
+        # 3) сгруппировать пары [квадрат + текст] и расположить вниз
+        rows = VGroup(*[
+            VGroup(box, lbl).arrange(RIGHT, buff=0.2)
+            for box, lbl in zip(boxes, labels)
+        ])
+        rows.arrange(DOWN, aligned_edge=LEFT, buff=0.5)
+        rows.to_edge(UP * 5 + LEFT)
 
-        body_4 = Text("• Все это послужило стимулом к появлению дважды стохастических\nпотоков событий",
-                      font_size=28, fill_color="#343434").move_to(ORIGIN + DOWN * 2.5 + LEFT * 0.0005)
-
-        slide_1 = Text("1", font_size=20, fill_color="#343434")
-        slide_1.to_corner(DR, buff=0.1)
-        self.play(Write(introduction_title), Write(introduction_title_ul), Write(slide_1))
-        self.play(Write(body_1))
-
+        # 4 анимация
+        self.play(Create(boxes[0]), Write(labels[0]), run_time=0.5)
         self.wait()
         self.next_slide()
 
-        self.play(Write(body_2))
-
+        self.play(Create(boxes[1]), Write(labels[1]), run_time=0.5)
         self.wait()
         self.next_slide()
-        self.play(Write(body_3))
 
+        self.play(Create(boxes[2]), Write(labels[2]), run_time=0.5)
         self.wait()
         self.next_slide()
-        self.play(Write(body_4))
 
+        self.play(Create(boxes[3]), Write(labels[3]), run_time=0.5)
         self.wait()
         self.next_slide()
-        self.play(Unwrite(introduction_title), Unwrite(introduction_title_ul), Unwrite(body_1), Unwrite(body_2),
-                  Unwrite(body_3), Unwrite(body_4))
+
+        self.play(Create(boxes[4]), Write(labels[4]), run_time=0.5)
+        self.wait()
+
+        self.next_slide()
+        self.play(Unwrite(title_introduction), Unwrite(title_introduction_ul), Unwrite(target_text), Uncreate(boxes),
+                  Unwrite(labels))
 
 class Ending(Slide):
     def construct(self):

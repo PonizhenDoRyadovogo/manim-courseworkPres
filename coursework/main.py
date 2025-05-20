@@ -1,5 +1,6 @@
 from manim import *  # or: from manimlib import *
 
+from manim import MarkupText
 from manim_slides.slide import Slide
 import random
 
@@ -145,7 +146,7 @@ class Presentation(Slide):
         self.next_slide()
         self.play(Unwrite(introduction_title), Unwrite(introduction_title_ul), Unwrite(body_1), Unwrite(body_2),
                   Unwrite(body_3), Unwrite(body_4))
-        
+
         slide_2 = Text("2", font_size=20, fill_color="#343434")
         slide_2.to_corner(DR, buff=0.1)
         self.play(Transform(slide_1, slide_2))
@@ -155,8 +156,8 @@ class Presentation(Slide):
         title_introduction_ul = Underline(title_introduction, color="#343434")
         self.play(Write(title_introduction), Write(title_introduction_ul))
 
-        target_text = Text(
-            "Цель - построение алгоритма имитационной модели обощенного синхронного\nпотока событий второго порядка с "
+        target_text = MarkupText(
+            "<i><b>Цель</b></i> - построение алгоритма имитационной модели обощенного синхронного\nпотока событий второго порядка с "
             "произвольным числом состояний,\nа также его реализация на языке программирования C++\nдля получения выборки моментов наступления событий",
             font_size=26, color="#343434")
         target_text.to_edge(UP * 1.6 + LEFT)
