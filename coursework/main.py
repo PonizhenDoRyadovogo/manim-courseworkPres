@@ -106,20 +106,22 @@ class Presentation(Slide):
             "• В начале 20-го века в связи с бурным развитием \nтелекоммуникационных сетей возникла такая дисциплина \nкак теория массового обслуживания (ТМО)"
         )
         body_1 = Text(body_text_1, font_size=28, fill_color="#343434")
-        body_1.move_to(ORIGIN + UP*1.25 + LEFT*0.75)
+        body_1.move_to(ORIGIN + UP * 1.25 + LEFT * 0.75)
 
         body_text_2 = (
             "• Первыми работами в этой области стали труды \nдатского инженера и математика А. К. Эрланга"
         )
         body_2 = Text(body_text_2, font_size=28, fill_color="#343434")
-        body_2.move_to(ORIGIN + DOWN+0.9 + LEFT*2.7)
+        body_2.move_to(ORIGIN + DOWN + 0.9 + LEFT * 2.7)
 
         body_text_3 = (
             "• Цифровые сети интегрального обслуживания, сокращенно ЦСИО"
         )
         body_3 = Text(body_text_3, font_size=28, fill_color="#343434")
-        body_3.move_to(ORIGIN + DOWN*1.25 + LEFT*0.1)
+        body_3.move_to(ORIGIN + DOWN * 1.25 + LEFT * 0.1)
 
+        body_4 = Text("• Все это послужило стимулом к появлению дважды стохастических\nпотоков событий",
+                      font_size=28, fill_color="#343434").move_to(ORIGIN + DOWN * 2.5 + LEFT * 0.0005)
 
         slide_1 = Text("1", font_size=20, fill_color="#343434")
         slide_1.to_corner(DR, buff=0.1)
@@ -137,8 +139,13 @@ class Presentation(Slide):
 
         self.wait()
         self.next_slide()
+        self.play(Write(body_4))
+
+        self.wait()
+        self.next_slide()
         self.play(Unwrite(introduction_title), Unwrite(introduction_title_ul), Unwrite(body_1), Unwrite(body_2),
-                  Unwrite(body_3))
+                  Unwrite(body_3), Unwrite(body_4))
+        
         slide_2 = Text("2", font_size=20, fill_color="#343434")
         slide_2.to_corner(DR, buff=0.1)
         self.play(Transform(slide_1, slide_2))

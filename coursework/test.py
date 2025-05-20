@@ -8,94 +8,52 @@ class Begin(Slide):
         box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
         self.play(Write(box_backgrund))
 
-        logo_tsu = ImageMobject("img/logo2.png").scale(0.5).to_edge(UP, buff=0.1)
-
-        title_confernce = Text("XII Международная молодежная научная конференция МПОИТЭС",
-                               font_size=17,
-                               fill_color="#343434").next_to(logo_tsu, DOWN, buff=0.2)
-
-        header_text = (
-            "Статистические эксперименты на имитационной\nмодели обобщенного синхронного потока событий\n"
-            "второго порядка с произвольным числом состояний"
+        introduction_title = Text("Введение", font_size=36, weight=BOLD, fill_color="#343434")
+        introduction_title.to_edge(UP, buff=0.75)
+        introduction_title_ul = Underline(introduction_title, color="#343434")
+        body_text_1 = (
+            "• В начале 20-го века в связи с бурным развитием \nтелекоммуникационных сетей возникла такая дисциплина \nкак теория массового обслуживания (ТМО)"
         )
-        header = Text(header_text, fill_color="#343434", weight=BOLD, font_size=36)
-        # Размещаем заголовок в верхней части экрана
-        header.next_to(title_confernce, DOWN, buff=0.2)
+        body_1 = Text(body_text_1, font_size=28, fill_color="#343434")
+        body_1.move_to(ORIGIN + UP * 1.25 + LEFT * 0.75)
 
-        # Создаем линию под заголовком с помощью функции Underline
-        underline = Underline(header, color="#343434")
-        underline_bk = Rectangle(width=header.width, height=header.height * 2.2) \
-            .next_to(underline, DOWN, buff=0) \
-            .set_style(fill_opacity=1, stroke_width=0, fill_color="#ece6e2")
-        vg_title = VGroup(underline_bk, underline)
+        body_text_2 = (
+            "• Первыми работами в этой области стали труды \nдатского инженера и математика А. К. Эрланга"
+        )
+        body_2 = Text(body_text_2, font_size=28, fill_color="#343434")
+        body_2.move_to(ORIGIN + DOWN + 0.9 + LEFT * 2.7)
 
-        # Создаем информационные надписи без параметра align
-        supervisor_info1_1 = Text(
-            "Руководитель работы",
-            font_size=20,
-            fill_color="#343434"
+        body_text_3 = (
+            "• Цифровые сети интегрального обслуживания, сокращенно ЦСИО"
         )
-        supervisor_info1_2 = Text(
-            "д-р физ.-мат. наук",
-            font_size=20,
-            fill_color="#343434"
-        )
-        supervisor_info1_3 = Text(
-            "профессор:",
-            font_size=20,
-            fill_color="#343434"
-        )
-        supervisor_info2 = Text(
-            "Л.А. Нежельская",
-            font_size=20,
-            fill_color="#343434"
-        )
-        author_info1_1 = Text(
-            "Автор работы студент",
-            font_size=20,
-            fill_color="#343434"
-        )
-        author_info1_2 = Text(
-            "гр. 9322221:",
-            font_size=20,
-            fill_color="#343434"
-        )
-        author_info2 = Text(
-            "А.С. Иванов",
-            font_size=20,
-            fill_color="#343434"
-        )
+        body_3 = Text(body_text_3, font_size=28, fill_color="#343434")
+        body_3.move_to(ORIGIN + DOWN * 1.25 + LEFT * 0.1)
 
-        # Группируем и выравниваем по правому краю
-        info_group = VGroup(supervisor_info1_1, supervisor_info1_2, supervisor_info1_3, supervisor_info2, author_info1_1,
-                            author_info1_2, author_info2).arrange(DOWN, aligned_edge=RIGHT, buff=0.03)
-        info_group.to_corner(DR, buff=0.5)
+        body_4 = Text("• Все это послужило стимулом к появлению дважды стохастических\nпотоков событий",
+                      font_size=28, fill_color="#343434").move_to(ORIGIN + DOWN * 2.5 + LEFT * 0.0005)
 
-        # Линия справа внизу
-        vertical_bar = Rectangle(width=info_group.width * 0.009, height=info_group.height) \
-            .next_to(info_group, RIGHT, buff=0.1) \
-            .set_style(fill_color="#343434", fill_opacity=1, stroke_width=0)
+        slide_1 = Text("1", font_size=20, fill_color="#343434")
+        slide_1.to_corner(DR, buff=0.1)
+        self.play(Write(introduction_title), Write(introduction_title_ul), Write(slide_1))
+        self.play(Write(body_1))
 
-        vertical_bar_bk = Rectangle(width=info_group.width, height=info_group.height) \
-            .next_to(info_group, RIGHT, buff=0) \
-            .set_style(fill_opacity=1, stroke_width=0, fill_color="#ece6e2")
-        vg_info_group = VGroup(vertical_bar_bk, vertical_bar)
-
-        # Добавляем все объекты на сцену
-        self.play(FadeIn(logo_tsu), Write(title_confernce))
-        self.play(Write(header))
-        self.play(Write(info_group))
-
-        # Ждем, чтобы зритель увидел первый слайд
         self.wait()
         self.next_slide()
 
-        self.play(GrowFromCenter(underline), Write(vertical_bar))
-        self.add(vg_title, vg_info_group)
-        self.play(vg_title.animate.shift(UP * underline_bk.height),
-                  vg_info_group.animate.shift(LEFT * info_group.width))
-        self.play(ShrinkToCenter(underline), ShrinkToCenter(vertical_bar))
-        self.remove(vg_title, header, info_group, vg_info_group, logo_tsu, title_confernce)
+        self.play(Write(body_2))
+
+        self.wait()
+        self.next_slide()
+        self.play(Write(body_3))
+
+        self.wait()
+        self.next_slide()
+        self.play(Write(body_4))
+
+        self.wait()
+        self.next_slide()
+        self.play(Unwrite(introduction_title), Unwrite(introduction_title_ul), Unwrite(body_1), Unwrite(body_2),
+                  Unwrite(body_3), Unwrite(body_4))
 
 class Ending(Slide):
     def construct(self):
