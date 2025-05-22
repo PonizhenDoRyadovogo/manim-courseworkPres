@@ -769,30 +769,30 @@ class Presentation(Slide):
         # Данные ячеек — передаём чистые строки,
         #    но Table обернёт их в MathTex:
         table_data_1 = [
-            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.5",
-             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.4",
-             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.1",
-             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.3"],
-            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.125",
-             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.2",
-             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.5",
-             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.5"],
-            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.125",
-             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.2",
-             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.2",
-             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.1"],
-            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.25",
-             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.2",
-             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.2",
-             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.1"],
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0,5",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0,4",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0,1",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0,3"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0,125",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0,2",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0,5",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0,5"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0,125",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0,2",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0,2",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0,1"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0,25",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0,2",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0,2",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0,1"],
         ]
 
         # Подписи столбцов — сразу MathTex
         col_labels_1 = [
             MathTex(r"\lambda_1=4,\ \alpha_1=4", font_size=40, color="#343434"),
             MathTex(r"\lambda_2=2,\ \alpha_2=2", font_size=40, color="#343434"),
-            MathTex(r"\lambda_3=1,\ \alpha_3=0.7", font_size=40, color="#343434"),
-            MathTex(r"\lambda_4=0.5,\ \alpha_4=1.6", font_size=40, color="#343434"),
+            MathTex(r"\lambda_3=1,\ \alpha_3=0,7", font_size=40, color="#343434"),
+            MathTex(r"\lambda_4=0,5,\ \alpha_4=1,6", font_size=40, color="#343434"),
         ]
 
         # Строим таблицу
@@ -825,30 +825,30 @@ class Presentation(Slide):
         # Данные ячеек — передаём чистые строки,
         #    но Table обернёт их в MathTex:
         table_data_2 = [
-            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.2",
-             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.125",
-             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.6",
-             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.25"],
-            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.5",
-             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.5",
-             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.15",
-             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.25"],
-            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.15",
-             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.125",
-             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.15",
-             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.125"],
-            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.15",
-             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.25",
-             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.1",
-             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.375"],
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0,2",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0,125",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0,6",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0,25"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0,5",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0,5",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0,15",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0,25"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0,15",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0,125",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0,15",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0,125"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0,15",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0,25",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0,1",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0,375"],
         ]
 
         # Подписи столбцов — сразу MathTex
         col_labels_2 = [
             MathTex(r"\lambda_1=4,\ \alpha_1=4", font_size=40, color="#343434"),
             MathTex(r"\lambda_2=2,\ \alpha_2=2", font_size=40, color="#343434"),
-            MathTex(r"\lambda_3=1,\ \alpha_3=0.7", font_size=40, color="#343434"),
-            MathTex(r"\lambda_4=0.5,\ \alpha_4=1.6", font_size=40, color="#343434"),
+            MathTex(r"\lambda_3=1,\ \alpha_3=0,7", font_size=40, color="#343434"),
+            MathTex(r"\lambda_4=0,5,\ \alpha_4=1,6", font_size=40, color="#343434"),
         ]
 
         # Строим таблицу
@@ -1219,30 +1219,30 @@ class Presentation(Slide):
         ).to_edge(UP, buff=0.3)
 
         table_data_1 = [
-            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.97",
-             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.97",
-             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.97",
-             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.97"],
-            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.01",
-             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.01",
-             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.01",
-             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.01"],
-            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.01",
-             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.01",
-             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.01",
-             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.01"],
-            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.01",
-             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.01",
-             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.01",
-             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.01"],
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0,97",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0,97",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0,97",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0,97"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0,01",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0,01",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0,01",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0,01"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0,01",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0,01",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0,01",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0,01"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0,01",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0,01",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0,01",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0,01"],
         ]
 
         # Подписи столбцов — сразу MathTex
         col_labels_1 = [
             MathTex(r"\lambda_1=4,\ \alpha_1=4", font_size=40, color="#343434"),
             MathTex(r"\lambda_2=2,\ \alpha_2=2", font_size=40, color="#343434"),
-            MathTex(r"\lambda_3=1,\ \alpha_3=0.7", font_size=40, color="#343434"),
-            MathTex(r"\lambda_4=0.5,\ \alpha_4=1.6", font_size=40, color="#343434"),
+            MathTex(r"\lambda_3=1,\ \alpha_3=0,7", font_size=40, color="#343434"),
+            MathTex(r"\lambda_4=0,5,\ \alpha_4=1,6", font_size=40, color="#343434"),
         ]
 
         # Строим таблицу
@@ -1277,22 +1277,22 @@ class Presentation(Slide):
         # Данные ячеек — передаём чистые строки,
         #    но Table обернёт их в MathTex:
         table_data_2 = [
-            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.97",
-             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.97",
-             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.97",
-             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.97"],
-            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.01",
-             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.01",
-             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.01",
-             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.01"],
-            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.01",
-             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.01",
-             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.01",
-             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.01"],
-            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.01",
-             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.01",
-             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.01",
-             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.01"],
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0,97",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0,97",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0,97",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0,97"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0,01",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0,01",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0,01",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0,01"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0,01",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0,01",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0,01",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0,01"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0,01",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0,01",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0,01",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0,01"],
         ]
 
         # Подписи столбцов — сразу MathTex
