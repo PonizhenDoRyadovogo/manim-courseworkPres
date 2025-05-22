@@ -216,67 +216,103 @@ class Presentation(Slide):
         self.play(Transform(slide_1, slide_3))
 
         model_title = Text("Математическая модель", font_size=36, weight=BOLD, fill_color="#343434")
-        model_title.to_edge(UP, buff=1)
+        model_title.to_edge(UP, buff=0.2)
         model_title_ul = Underline(model_title, color="#343434")
 
         self.play(Write(model_title), Write(model_title_ul))
-        model_text_1 = MathTex( r"\lambda(t) ", color="#343434")
-        model_text_1.to_edge(UP*4 + LEFT*0.75)
-        model_text_1_continius = Text("– кусочно-постоянный процесс с n состояниями:", font_size=28, fill_color="#343434")
+        model_text_1 = MathTex(r"\lambda(t) ", color="#343434")
+        model_text_1.to_edge(UP * 2 + LEFT * 0.75)
+        model_text_1_continius = Text("– кусочно-постоянный процесс с", font_size=28,
+                                      fill_color="#343434")
         model_text_1_continius.next_to(model_text_1, RIGHT, buff=0.1)
-        state_text = MathTex("S_1, S_2, ..., S_n", color="#343434")
-        state_text.next_to(model_text_1_continius, RIGHT,buff=0.1)
+        model_text_1_continius_n = MathTex(r"n", color="#343434")
+        model_text_1_continius_n.next_to(model_text_1_continius, RIGHT, buff=0.1)
+        model_text_1_continius_states = Text("состояниями:", font_size=28, fill_color="#343434")
+        model_text_1_continius_states.next_to(model_text_1_continius_n, RIGHT, buff=0.1)
+        state_text = MathTex("S_1, S_2, ..., S_n;", color="#343434")
+        state_text.next_to(model_text_1_continius_states, RIGHT, buff=0.1)
         self.play(Write(model_text_1), Write(model_text_1_continius))
+        self.play(Write(model_text_1_continius_n), Write(model_text_1_continius_states))
         self.play(Write(state_text))
 
         self.wait()
         self.next_slide()
 
-        lambda_text_1 = Text("Если ", font_size=28, fill_color="#343434")
-        lambda_text_1.to_edge(UP*6 + LEFT*0.75)
-        self.play(Write(lambda_text_1))
-        lambda_text_2 = MathTex(r"\lambda(t)=\lambda_i,", color="#343434")
-        lambda_text_2.next_to(lambda_text_1, RIGHT, buff=0.1)
-        lambda_text_3 = Text("то имеет место i-ое состояние процесса ", font_size=28, fill_color="#343434")
-        lambda_text_3.next_to(lambda_text_2, RIGHT, buff=0.1)
-        self.play(Write(lambda_text_2))
-        self.play(Write(lambda_text_3))
+        stream_text_1 = MathTex(r"\lambda(t) -", fill_color="#343434")
+        stream_text_1.to_edge(UP * 4 + LEFT * 0.75)
+        stream_text_2 = Text("принципиально ненаблюдаемый случайный марковский процесс;",
+                             font_size=28, fill_color="#343434")
+        stream_text_2.next_to(stream_text_1, RIGHT, buff=0.1)
+        self.play(Write(stream_text_1))
+        self.play(Write(stream_text_2))
 
         self.wait()
         self.next_slide()
 
-        lambda_text_4 = MathTex(r"\lambda(t), i = 1,2,...,n; \lambda_1>\lambda_2>...>\lambda_n", color="#343434")
-        lambda_text_4.to_edge(DOWN*7.5 + LEFT*0.75)
+        lambda_text_1 = Text("Если ", font_size=28, fill_color="#343434")
+        lambda_text_1.to_edge(UP * 6 + LEFT * 0.75)
+        lambda_text_2 = MathTex(r"\lambda(t)=\lambda_i,", color="#343434")
+        lambda_text_2.next_to(lambda_text_1, RIGHT, buff=0.1)
+        lambda_text_3 = Text("то имеет место", font_size=28, fill_color="#343434")
+        lambda_text_3.next_to(lambda_text_2, RIGHT, buff=0.1)
+        lambda_text_3_1 = MathTex(r"S_i", fill_color="#343434")
+        lambda_text_3_1.next_to(lambda_text_3, RIGHT, buff=0.1)
+        lambda_text_3_2 = Text("-е состояние процесса;", font_size=28, fill_color="#343434")
+        lambda_text_3_2.next_to(lambda_text_3, RIGHT, buff=0.6)
+        self.play(Write(lambda_text_1))
+        self.play(Write(lambda_text_2))
+        self.play(Write(lambda_text_3))
+        self.play(Write(lambda_text_3_1))
+        self.play(Write(lambda_text_3_2))
+
+        self.wait()
+        self.next_slide()
+
+        lambda_text_4 = MathTex(r"\lambda(t), i = 1,2,...,n; \quad \lambda_1>\lambda_2>...>\lambda_n;", color="#343434")
+        lambda_text_4.to_edge(DOWN * 7.5 + LEFT * 0.75)
         self.play(Write(lambda_text_4))
 
         self.wait()
         self.next_slide()
 
-        lambda_text_5 = MathTex(r"F_i^{(1)}(t) = 1-e^{-\lambda_it}, F_i^{(2)}(t)=1-e^{-\alpha_it}", color="#343434")
-        lambda_text_5.to_edge(DOWN*5.75 + LEFT*0.75)
+        eta_text_1 = MathTex(r"\eta=\min(\eta^{(1)},\eta^{(2)});", fill_color="#343434")
+        eta_text_1.to_edge(DOWN * 5.75 + LEFT * 0.75)
+        self.play(Write(eta_text_1))
+
+        self.wait()
+        self.next_slide()
+
+        lambda_text_5 = MathTex(
+            r"\eta^{(1)}: F_i^{(1)}(t) = 1-e^{-\lambda_it}, \quad \eta^{(2)}: F_i^{(2)}(t)=1-e^{-\alpha_it};",
+            color="#343434")
+        lambda_text_5.to_edge(DOWN * 4 + LEFT * 0.75)
         self.play(Write(lambda_text_5))
 
         self.wait()
         self.next_slide()
 
-        lambda_text_6 = MathTex(r"P_1^{(1)}(\lambda_j|\lambda_i), P_1^{(2)}(\lambda_j|\lambda_i), i,j=\overline{1,n}", color="#343434")
-        lambda_text_6.to_edge(DOWN*4 + LEFT*0.75)
+        lambda_text_6 = MathTex(r"P_1^{(1)}(\lambda_j|\lambda_i), P_1^{(2)}(\lambda_j|\lambda_i), i,j=\overline{1,n};",
+                                color="#343434")
+        lambda_text_6.to_edge(DOWN * 2 + LEFT * 0.75)
         self.play(Write(lambda_text_6))
 
         self.wait()
         self.next_slide()
 
-        lambda_text_7 = MathTex(r"\sum_{i=1}^nP_1^{(1)}(\lambda_j|\lambda_i)=1, j=\overline{1,n}; \sum_{i=1}^nP_1^{(2)}(\lambda_j|\lambda_i)=1, j=\overline{1,n}",
-                                 color="#343434")
-        lambda_text_7.to_edge(DOWN + LEFT*0.75)
-        self.play(Write(lambda_text_7))
+        lambda_text_7 = MathTex(
+            r"\sum_{i=1}^nP_1^{(1)}(\lambda_j|\lambda_i)=1, j=\overline{1,n}; \sum_{i=1}^nP_1^{(2)}(\lambda_j|\lambda_i)=1, j=\overline{1,n};",
+            color="#343434")
+        lambda_text_7.to_edge(DOWN + LEFT * 0.75)
+        self.play(Transform(lambda_text_6, lambda_text_7))
 
         self.wait()
         self.next_slide()
 
         self.play(Unwrite(model_title), Unwrite(model_title_ul), Unwrite(model_text_1), Unwrite(model_text_1_continius),
-                  Unwrite(state_text), Unwrite(lambda_text_1), Unwrite(lambda_text_2), Unwrite(lambda_text_3), Unwrite(lambda_text_4),
-                  Unwrite(lambda_text_5), Unwrite(lambda_text_6), Unwrite(lambda_text_7))
+                  Unwrite(model_text_1_continius_n), Unwrite(model_text_1_continius_states),
+                  Unwrite(stream_text_1), Unwrite(stream_text_2), Unwrite(state_text), Unwrite(lambda_text_1),
+                  Unwrite(lambda_text_2), Unwrite(lambda_text_3), Unwrite(lambda_text_3_1), Unwrite(lambda_text_3_2),
+                  Unwrite(lambda_text_4), Unwrite(eta_text_1), Unwrite(lambda_text_5), Unwrite(lambda_text_6))
 
         slide_4 = Text("4", font_size=20, fill_color="#343434")
         slide_4.to_corner(DR, buff=0.1)
