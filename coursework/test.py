@@ -9,73 +9,197 @@ class Tmp(Slide):
         box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
         self.play(Write(box_backgrund))
 
-        imitation_title = Text("Метод обратных функций", font_size=36, weight=BOLD, fill_color="#343434")
-        imitation_title.to_edge(UP, buff=0.1)
-        imitation_title_ul = Underline(imitation_title, color="#343434")
-        self.play(Write(imitation_title), Write(imitation_title_ul))
+        experiment_1_title = Text("1 статистический эксперимент", font_size=36, weight=BOLD, fill_color="#343434")
+        experiment_1_title.to_edge(UP, buff=0.1)
+        experiment_1_title_ul = Underline(experiment_1_title, color="#343434")
+        self.play(Write(experiment_1_title), Write(experiment_1_title_ul))
 
-        imitation_modeling = MarkupText(
-            "<i>Имитационное моделирование</i> представляет собой метод исследования сложных\nсистем путем их воспроизведения"
-            "в виде компьютерных моделей. "
-            "Имитационное\nмоделирование является мощным инструментом анализа сложных систем,\nпозволяя воспроизводить их поведение с учетом"
-            "вероятностных характеристик.\nОдним из ключевых методов генерации "
-            "случайных событий в таких моделях\nявляется <i>метод обратных  функций</i>", font_size=25, fill_color="#343434")
-        imitation_modeling.to_edge(UP * 2 + LEFT)
-        self.play(Write(imitation_modeling), run_time=3)
+        target_text = MarkupText("<b>Цель</b> - установление стационарного режима", font_size=20, fill_color="#343434")
+        target_text.to_edge(UP * 2 + LEFT)
+        self.play(Write(target_text))
 
-        reverse_function = Text("Применение метода обратных функций включает следующие этапы:", font_size=25,
-                                fill_color="#343434")
-        reverse_function.to_edge(UP * 7 + LEFT)
-        self.play(Write(reverse_function))
-        block_1 = Text("1) Генерация случайного числа", font_size=25,
-                       fill_color="#343434")
-        block_1.to_edge(UP * 8 + LEFT)
-        block_1_1 = MathTex(r"U", fill_color="#343434").scale(0.75)
-        block_1_1.next_to(block_1, RIGHT, buff=0.1)
-        block_1_2 = Text("из равномерного распределения [0;1];", font_size=25, fill_color="#343434")
-        block_1_2.next_to(block_1_1, RIGHT, buff=0.1)
-        self.play(Write(block_1), Write(block_1_1), Write(block_1_2), run_time=0.5)
-
-        block_2 = Text("2) Вычисление значения", font_size=25, fill_color="#343434")
-        block_2.to_edge(UP * 9 + LEFT)
-        block_2_continius = MathTex(r"X=F^{-1}(U);", fill_color="#343434").scale(0.75)
-        block_2_continius.next_to(block_2, RIGHT, buff=0.1)
-        self.play(Write(block_2), Write(block_2_continius), run_time=0.5)
-
-        block_3 = Text("3) Использование полученного значения", font_size=25, fill_color="#343434")
-        block_3.to_edge(UP * 10 + LEFT)
-        block_3_1 = MathTex(r"X", fill_color="#343434").scale(0.75)
-        block_3_1.next_to(block_3, RIGHT, buff=0.1)
-        block_3_2 = Text("в моделировании системы", font_size=25, fill_color="#343434")
-        block_3_2.next_to(block_3_1, RIGHT, buff=0.1)
-        self.play(Write(block_3), Write(block_3_1), Write(block_3_2), run_time=0.5)
-
-        block_4 = Text(
-            "Применение метода обратных функций для получения случайной величины,\nраспределенной экспоненциально:",
-            font_size=25, fill_color="#343434")
-        block_4.to_edge(UP * 11 + LEFT)
-        self.play(Write(block_4))
-        block_5 = Text("1) Генерируется равномерно распределенное случайное число", font_size=25,
-                       fill_color="#343434")
-        block_5.to_edge(UP * 13 + LEFT)
-        block_5_1 = MathTex(r"U", fill_color="#343434").scale(0.75)
-        block_5_1.next_to(block_5, RIGHT, buff=0.1)
-        block_5_2 = Text("на отрезке [0;1)", font_size=25, fill_color="#343434")
-        block_5_2.next_to(block_5_1, RIGHT, buff=0.1)
-        self.play(Write(block_5), Write(block_5_1), Write(block_5_2), run_time=0.5)
-
-        block_6 = MathTex(r"2) \quad t=F^{-1}(U), t=-\frac{1}{\theta_i}ln(1-U), \theta_i \in \{\lambda_i,\alpha_i\} \quad \quad (*)",
-                          fill_color="#343434").scale(0.75)
-        block_6.to_edge(UP * 14 + LEFT)
-        self.play(Write(block_6))
+        experiment_body_1 = MarkupText(
+            "<i>Этапы эксперимента</i>:\n1) для фиксированного набора параметров, вероятностей переходов и длительности времени наблюдения\nза потоком моделируется поток;",
+            font_size=20, fill_color="#343434")
+        experiment_body_1.to_edge(UP * 3 + LEFT)
+        self.play(Write(experiment_body_1))
 
         self.wait()
         self.next_slide()
 
-        self.play(Unwrite(imitation_title), Unwrite(imitation_title_ul), Unwrite(imitation_modeling),
-                  Unwrite(reverse_function), Unwrite(block_1), Unwrite(block_1_1), Unwrite(block_1_2),
-                  Unwrite(block_2), Unwrite(block_2_continius), Unwrite(block_3), Unwrite(block_3_1), Unwrite(block_3_2),
-                  Unwrite(block_4), Unwrite(block_5), Unwrite(block_5_1), Unwrite(block_5_2), Unwrite(block_6), run_time=2)
+        experiment_body_2 = Text("2) осуществляется расчет длительности пребывания процесса в",
+                                 font_size=20, fill_color="#343434")
+        experiment_body_2.to_edge(UP * 5 + LEFT)
+        experiment_body_2_i = MathTex(r"S_i", fill_color="#343434").scale(0.5)
+        experiment_body_2_i.next_to(experiment_body_2, RIGHT, buff=0.1)
+        experiment_body_2_state = Text("-м состоянии системы:", font_size=20, fill_color="#343434")
+        experiment_body_2_state.next_to(experiment_body_2, RIGHT, buff=0.4)
+        experiment_body_2_continius = MathTex(r"T_i^{(j)}, \binom{i=\overline{1,n},} {j=\overline{1,n}}",
+                                              color="#343434").scale(0.5)
+        experiment_body_2_continius.next_to(experiment_body_2_state, RIGHT, buff=0.1)
+        self.play(Write(experiment_body_2))
+        self.play(Write(experiment_body_2_i), run_time=0.1)
+        self.play(Write(experiment_body_2_state))
+        self.play(Write(experiment_body_2_continius), run_time=0.5)
+
+        self.wait()
+        self.next_slide()
+
+        experiment_body_3 = Text("3) повторяем", font_size=20, fill_color="#343434")
+        experiment_body_3.to_edge(UP * 6 + LEFT)
+        experiment_body_3_1 = MathTex(r"N", fill_color="#343434").scale(0.5).next_to(experiment_body_3, RIGHT, buff=0.1)
+        experiment_body_3_2 = Text("раз шаги 1), 2)", font_size=20, fill_color="#343434").next_to(experiment_body_3_1, RIGHT, buff=0.1)
+        self.play(Write(experiment_body_3))
+        self.play(Write(experiment_body_3_1), run_time=0.1)
+        self.play(Write(experiment_body_3_2))
+
+        self.wait()
+        self.next_slide()
+
+        experiment_body_4 = Text(
+            "Вычисляются выборочные средние (оценки) значения длительностей пребывания процесса в",
+            font_size=20, fill_color="#343434")
+        experiment_body_4.to_edge(UP * 7 + LEFT)
+        experiment_body_4_1 = MathTex(r"i", fill_color="#343434").scale(0.5).to_edge(UP * 7.5 + LEFT)
+        experiment_body_4_2 = Text("-м состоянии:", font_size=20, fill_color="#343434")
+        experiment_body_4_2.next_to(experiment_body_4_1, RIGHT, buff=0.1)
+        self.play(Write(experiment_body_4))
+        self.play(Write(experiment_body_4_1), run_time=0.1)
+        self.play(Write(experiment_body_4_2))
+
+        experiment_body_5 = MathTex(r"\hat{T}_i=\frac{1}{N}\sum_{j=1}^{N}T_i^{(j)}, i=\overline{1,n}", font_size=28,
+                                    color="#343434")
+        experiment_body_5.to_edge(ORIGIN + DOWN * 5.75 + LEFT)
+        experiment_body_5_rect = SurroundingRectangle(experiment_body_5, color="#343434", buff=0.1)
+        self.play(Write(experiment_body_5), Create(experiment_body_5_rect))
+
+        self.wait()
+        self.next_slide()
+
+        # Заголовок таблицы
+        title_1 = Text(
+            "Вероятности переходов по первой случайной величине",
+            font_size=14,
+            color="#343434"
+        ).to_edge(UP, buff=0.3)
+
+        # Данные ячеек — передаём чистые строки,
+        #    но Table обернёт их в MathTex:
+        table_data_1 = [
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.5",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.4",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.1",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.3"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.125",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.2",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.5",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.5"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.125",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.2",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.2",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.1"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.25",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.2",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.2",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.1"],
+        ]
+
+        # Подписи столбцов — сразу MathTex
+        col_labels_1 = [
+            MathTex(r"\lambda_1=4,\ \alpha_1=4", font_size=40, color="#343434"),
+            MathTex(r"\lambda_2=2,\ \alpha_2=2", font_size=40, color="#343434"),
+            MathTex(r"\lambda_3=1,\ \alpha_3=0.7", font_size=40, color="#343434"),
+            MathTex(r"\lambda_4=0.5,\ \alpha_4=1.6", font_size=40, color="#343434"),
+        ]
+
+        # Строим таблицу
+        table_1 = MathTable(
+            table_data_1,
+            col_labels=col_labels_1,
+            include_outer_lines=True,
+            line_config={
+                "stroke_color": "#343434",
+                "stroke_width": 2,  # при желании можно прописать толщину
+            },
+            top_left_entry=MathTex("", font_size=40, color="#343434"),
+            # оборачивать каждую ячейку в MathTex
+            element_to_mobject=MathTex,
+            element_to_mobject_config={
+                "font_size": 40,
+                "color": "#343434",
+            },
+        )
+        table_1.scale(0.35).shift(LEFT * 3.5 + DOWN * 2.5)
+        title_1.next_to(table_1, DOWN, buff=0.1)
+
+        # Заголовок таблицы
+        title_2 = Text(
+            "Вероятности переходов по второй случайной величине",
+            font_size=14,
+            color="#343434"
+        ).to_edge(UP, buff=0.3)
+
+        # Данные ячеек — передаём чистые строки,
+        #    но Table обернёт их в MathTex:
+        table_data_2 = [
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.2",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.125",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.6",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.25"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.5",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.5",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.15",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.25"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.15",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.125",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.15",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.125"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.15",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.25",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.1",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.375"],
+        ]
+
+        # Подписи столбцов — сразу MathTex
+        col_labels_2 = [
+            MathTex(r"\lambda_1=4,\ \alpha_1=4", font_size=40, color="#343434"),
+            MathTex(r"\lambda_2=2,\ \alpha_2=2", font_size=40, color="#343434"),
+            MathTex(r"\lambda_3=1,\ \alpha_3=0.7", font_size=40, color="#343434"),
+            MathTex(r"\lambda_4=0.5,\ \alpha_4=1.6", font_size=40, color="#343434"),
+        ]
+
+        # Строим таблицу
+        table_2 = MathTable(
+            table_data_2,
+            col_labels=col_labels_2,
+            include_outer_lines=True,
+            line_config={
+                "stroke_color": "#343434",
+                "stroke_width": 2,  # при желании можно прописать толщину
+            },
+            top_left_entry=MathTex("", font_size=40, color="#343434"),
+            # оборачивать каждую ячейку в MathTex
+            element_to_mobject=MathTex,
+            element_to_mobject_config={
+                "font_size": 40,
+                "color": "#343434",
+            },
+        )
+        table_2.scale(0.35).shift(RIGHT * 3.5 + DOWN * 2.5)
+        title_2.next_to(table_2, DOWN, buff=0.1)
+
+        # Анимация
+        self.play(Write(title_1), Write(title_2))
+        self.play(Write(table_1), Write(table_2), run_time=3)
+        self.wait()
+        self.next_slide()
+
+        self.play(Unwrite(experiment_1_title), Unwrite(experiment_1_title_ul), Unwrite(target_text), Unwrite(experiment_body_1),
+                  Unwrite(experiment_body_2), Unwrite(experiment_body_2_i), Unwrite(experiment_body_2_state), Unwrite(experiment_body_2_continius),
+                  Unwrite(experiment_body_3), Unwrite(experiment_body_3_1), Unwrite(experiment_body_3_2), Unwrite(experiment_body_4),
+                  Unwrite(experiment_body_4_1), Unwrite(experiment_body_4_2),
+                  Unwrite(experiment_body_5), Unwrite(experiment_body_5_rect), Unwrite(title_1),
+                  Unwrite(title_2), Unwrite(table_1), Unwrite(table_2))
 
 class Begin(Slide):
     def construct(self):

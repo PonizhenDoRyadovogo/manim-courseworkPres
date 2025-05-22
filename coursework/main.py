@@ -455,7 +455,7 @@ class Presentation(Slide):
         self.play(Unwrite(rand_x), Unwrite(text_eta_1), Unwrite(text_eta_2))
         text_eta = MathTex(r"\eta=", color="#343434")
         text_eta.to_edge(UP*3 + RIGHT*7)
-        text_eta_continius = MathTex(r"min(\eta^{(1)},\eta{(2)})", color="#343434")
+        text_eta_continius = MathTex(r"min(\eta^{(1)},\eta^{(2)})", color="#343434")
         text_eta_continius.to_edge(UP*2.5 + RIGHT*0.5)
         self.play(Write(text_eta), Write(text_eta_continius))
         text_eta_transform = MathTex(r"\eta^{(1)}", color="#343434")
@@ -696,47 +696,64 @@ class Presentation(Slide):
         experiment_1_title_ul = Underline(experiment_1_title, color="#343434")
         self.play(Write(experiment_1_title), Write(experiment_1_title_ul))
 
-        experiment_body_1 = Text(
-            "Этапы эксперимента:\n1)для фиксированного набора параметров, вероятностей переходов и длительности\n"
-            "времени наблюдения за потоком моделируется обобщенный синхронный поток событий\nвторого порядка с произвольным числом состояний;",
+        target_text = MarkupText("<b>Цель</b> - установление стационарного режима", font_size=20, fill_color="#343434")
+        target_text.to_edge(UP * 2 + LEFT)
+        self.play(Write(target_text))
+
+        experiment_body_1 = MarkupText(
+            "<i>Этапы эксперимента</i>:\n1) для фиксированного набора параметров, вероятностей переходов и длительности времени наблюдения\nза потоком моделируется поток;",
             font_size=20, fill_color="#343434")
-        experiment_body_1.to_edge(UP * 2 + LEFT)
+        experiment_body_1.to_edge(UP * 3 + LEFT)
         self.play(Write(experiment_body_1))
 
         self.wait()
         self.next_slide()
 
-        experiment_body_2 = Text("2)осуществляется расчет длительности пребывания процесса в i-ом состоянии системы: ",
+        experiment_body_2 = Text("2) осуществляется расчет длительности пребывания процесса в",
                                  font_size=20, fill_color="#343434")
-        experiment_body_2.next_to(experiment_body_1, DOWN, buff=0.1)
-        experiment_body_2_continius = MathTex(r"T_i^{(j)}, i=\overline{1,n}, j=\overline{1,n}", font_size=22,
-                                              color="#343434")
-        experiment_body_2_continius.next_to(experiment_body_2, RIGHT, buff=0.1)
+        experiment_body_2.to_edge(UP * 5 + LEFT)
+        experiment_body_2_i = MathTex(r"S_i", fill_color="#343434").scale(0.5)
+        experiment_body_2_i.next_to(experiment_body_2, RIGHT, buff=0.1)
+        experiment_body_2_state = Text("-м состоянии системы:", font_size=20, fill_color="#343434")
+        experiment_body_2_state.next_to(experiment_body_2, RIGHT, buff=0.4)
+        experiment_body_2_continius = MathTex(r"T_i^{(j)}, \binom{i=\overline{1,n},} {j=\overline{1,n}}",
+                                              color="#343434").scale(0.5)
+        experiment_body_2_continius.next_to(experiment_body_2_state, RIGHT, buff=0.1)
         self.play(Write(experiment_body_2))
-        self.play(Write(experiment_body_2_continius))
+        self.play(Write(experiment_body_2_i), run_time=0.1)
+        self.play(Write(experiment_body_2_state))
+        self.play(Write(experiment_body_2_continius), run_time=0.5)
 
         self.wait()
         self.next_slide()
 
-        experiment_body_3 = Text("3)повторяем N раз шаги 1, 2", font_size=20, fill_color="#343434")
-        experiment_body_3.next_to(experiment_body_2, DOWN, buff=0.1)
-        experiment_body_3.shift(LEFT * 4)
+        experiment_body_3 = Text("3) повторяем", font_size=20, fill_color="#343434")
+        experiment_body_3.to_edge(UP * 6 + LEFT)
+        experiment_body_3_1 = MathTex(r"N", fill_color="#343434").scale(0.5).next_to(experiment_body_3, RIGHT, buff=0.1)
+        experiment_body_3_2 = Text("раз шаги 1), 2)", font_size=20, fill_color="#343434").next_to(experiment_body_3_1,
+                                                                                                  RIGHT, buff=0.1)
         self.play(Write(experiment_body_3))
+        self.play(Write(experiment_body_3_1), run_time=0.1)
+        self.play(Write(experiment_body_3_2))
 
         self.wait()
         self.next_slide()
 
         experiment_body_4 = Text(
-            "Вычисляем выборочные средние (оценки) значения длительностей пребывания процесса\nв i-ом состоянии:",
+            "Вычисляются выборочные средние (оценки) значения длительностей пребывания процесса в",
             font_size=20, fill_color="#343434")
-        experiment_body_4.next_to(experiment_body_3, DOWN)
-        experiment_body_4.shift(RIGHT * 4.1)
+        experiment_body_4.to_edge(UP * 7 + LEFT)
+        experiment_body_4_1 = MathTex(r"i", fill_color="#343434").scale(0.5).to_edge(UP * 7.5 + LEFT)
+        experiment_body_4_2 = Text("-м состоянии:", font_size=20, fill_color="#343434")
+        experiment_body_4_2.next_to(experiment_body_4_1, RIGHT, buff=0.1)
         self.play(Write(experiment_body_4))
+        self.play(Write(experiment_body_4_1), run_time=0.1)
+        self.play(Write(experiment_body_4_2))
 
         experiment_body_5 = MathTex(r"\hat{T}_i=\frac{1}{N}\sum_{j=1}^{N}T_i^{(j)}, i=\overline{1,n}", font_size=28,
                                     color="#343434")
-        experiment_body_5.to_edge(ORIGIN + DOWN * 6)
-        experiment_body_5_rect = SurroundingRectangle(experiment_body_5, color="#343434", buff=0.2)
+        experiment_body_5.to_edge(ORIGIN + DOWN * 5.75 + LEFT)
+        experiment_body_5_rect = SurroundingRectangle(experiment_body_5, color="#343434", buff=0.1)
         self.play(Write(experiment_body_5), Create(experiment_body_5_rect))
 
         self.wait()
@@ -860,9 +877,13 @@ class Presentation(Slide):
         self.wait()
         self.next_slide()
 
-        self.play(Unwrite(experiment_1_title), Unwrite(experiment_1_title_ul), Unwrite(experiment_body_1),
-                  Unwrite(experiment_body_2),
-                  Unwrite(experiment_body_2_continius), Unwrite(experiment_body_3), Unwrite(experiment_body_4),
+        self.play(Unwrite(experiment_1_title), Unwrite(experiment_1_title_ul), Unwrite(target_text),
+                  Unwrite(experiment_body_1),
+                  Unwrite(experiment_body_2), Unwrite(experiment_body_2_i), Unwrite(experiment_body_2_state),
+                  Unwrite(experiment_body_2_continius),
+                  Unwrite(experiment_body_3), Unwrite(experiment_body_3_1), Unwrite(experiment_body_3_2),
+                  Unwrite(experiment_body_4),
+                  Unwrite(experiment_body_4_1), Unwrite(experiment_body_4_2),
                   Unwrite(experiment_body_5), Unwrite(experiment_body_5_rect), Unwrite(title_1),
                   Unwrite(title_2), Unwrite(table_1), Unwrite(table_2))
 
