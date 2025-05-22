@@ -1186,10 +1186,27 @@ class Presentation(Slide):
         experiment_2_title_ul = Underline(experiment_2_title, color="#343434")
         self.play(Write(experiment_2_title), Write(experiment_2_title_ul))
 
-        experiment_2 = Text(
-            "Изменим вероятности переходов по первой и второй случайной величине, \nтак чтобы вероятность оказаться в первом состоянии была максимальна",
+        target_exp_2 = MarkupText("<b>Цель</b> - исследование зависимости значений оценок", font_size=20,
+                                  fill_color="#343434")
+        target_exp_2.to_edge(UP * 2 + LEFT)
+        target_exp_2_1 = MathTex(r"\hat{T_i}, i=\overline{1,4}", fill_color="#343434").scale(0.5).next_to(target_exp_2,
+                                                                                                          RIGHT,
+                                                                                                          buff=0.1)
+        target_exp_2_2 = Text("от вероятностей переходов", font_size=20, fill_color="#343434").next_to(target_exp_2_1,
+                                                                                                       RIGHT, buff=0.1)
+        target_exp_2_3 = MathTex(r"S_i \to S_1, i = \overline{1,4}", fill_color="#343434").scale(0.5).next_to(
+            target_exp_2_2, RIGHT, buff=0.1)
+        self.play(Write(target_exp_2))
+        self.play(Write(target_exp_2_1), run_time=0.5)
+        self.play(Write(target_exp_2_2))
+        self.play(Write(target_exp_2_3), run_time=0.5)
+        self.wait()
+        self.next_slide()
+
+        experiment_2 = MarkupText(
+            "<i>Эксперимент</i>:\nВероятности переходов по первой и второй случайной величине изменятся так, чтобы вероятность\nоказаться в первом состоянии была максимальна",
             font_size=20, fill_color="#343434")
-        experiment_2.to_edge(UP * 2 + LEFT)
+        experiment_2.to_edge(UP * 3 + LEFT)
         self.play(Write(experiment_2))
         self.wait()
         self.next_slide()
@@ -1245,7 +1262,7 @@ class Presentation(Slide):
                 "color": "#343434",
             },
         )
-        table_1.scale(0.35).shift(UP)
+        table_1.scale(0.35).shift(LEFT * 3.5 + DOWN * 0.5)
         title_1.next_to(table_1, DOWN, buff=0.1)
 
         self.play(Write(table_1), Write(title_1))
@@ -1303,14 +1320,15 @@ class Presentation(Slide):
                 "color": "#343434",
             },
         )
-        table_2.scale(0.35).shift(DOWN * 2)
+        table_2.scale(0.35).shift(RIGHT * 3.5 + DOWN * 0.5)
         title_2.next_to(table_2, DOWN, buff=0.1)
         self.play(Write(table_2), Write(title_2))
         self.wait()
         self.next_slide()
 
         self.play(Unwrite(title_1), Unwrite(title_2), Unwrite(table_1), Unwrite(table_2), Unwrite(experiment_2_title),
-                  Unwrite(experiment_2_title_ul),
+                  Unwrite(experiment_2_title_ul), Unwrite(target_exp_2), Unwrite(target_exp_2_1),
+                  Unwrite(target_exp_2_2), Unwrite(target_exp_2_3),
                   Unwrite(experiment_2), run_time=2)
 
         slide_21 = Text("21", font_size=20, fill_color="#343434")

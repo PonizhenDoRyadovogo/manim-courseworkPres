@@ -9,70 +9,28 @@ class Tmp(Slide):
         box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
         self.play(Write(box_backgrund))
 
-        experiment_1_title = Text("1 статистический эксперимент", font_size=36, weight=BOLD, fill_color="#343434")
-        experiment_1_title.to_edge(UP, buff=0.1)
-        experiment_1_title_ul = Underline(experiment_1_title, color="#343434")
-        self.play(Write(experiment_1_title), Write(experiment_1_title_ul))
+        experiment_2_title = Text("2 статистический эксперимент", font_size=36, weight=BOLD, fill_color="#343434")
+        experiment_2_title.to_edge(UP, buff=0.1)
+        experiment_2_title_ul = Underline(experiment_2_title, color="#343434")
+        self.play(Write(experiment_2_title), Write(experiment_2_title_ul))
 
-        target_text = MarkupText("<b>Цель</b> - установление стационарного режима", font_size=20, fill_color="#343434")
-        target_text.to_edge(UP * 2 + LEFT)
-        self.play(Write(target_text))
+        target_exp_2 = MarkupText("<b>Цель</b> - исследование зависимости значений оценок", font_size=20, fill_color="#343434")
+        target_exp_2.to_edge(UP * 2 + LEFT)
+        target_exp_2_1 = MathTex(r"\hat{T_i}, i=\overline{1,4}", fill_color="#343434").scale(0.5).next_to(target_exp_2, RIGHT, buff=0.1)
+        target_exp_2_2 = Text("от вероятностей переходов", font_size=20, fill_color="#343434").next_to(target_exp_2_1, RIGHT, buff=0.1)
+        target_exp_2_3 = MathTex(r"S_i \to S_1, i = \overline{1,4}", fill_color="#343434").scale(0.5).next_to(target_exp_2_2, RIGHT, buff=0.1)
+        self.play(Write(target_exp_2))
+        self.play(Write(target_exp_2_1), run_time=0.5)
+        self.play(Write(target_exp_2_2))
+        self.play(Write(target_exp_2_3), run_time=0.5)
+        self.wait()
+        self.next_slide()
 
-        experiment_body_1 = MarkupText(
-            "<i>Этапы эксперимента</i>:\n1) для фиксированного набора параметров, вероятностей переходов и длительности времени наблюдения\nза потоком моделируется поток;",
+        experiment_2 = MarkupText(
+            "<i>Эксперимент</i>:\nВероятности переходов по первой и второй случайной величине изменятся так, чтобы вероятность\nоказаться в первом состоянии была максимальна",
             font_size=20, fill_color="#343434")
-        experiment_body_1.to_edge(UP * 3 + LEFT)
-        self.play(Write(experiment_body_1))
-
-        self.wait()
-        self.next_slide()
-
-        experiment_body_2 = Text("2) осуществляется расчет длительности пребывания процесса в",
-                                 font_size=20, fill_color="#343434")
-        experiment_body_2.to_edge(UP * 5 + LEFT)
-        experiment_body_2_i = MathTex(r"S_i", fill_color="#343434").scale(0.5)
-        experiment_body_2_i.next_to(experiment_body_2, RIGHT, buff=0.1)
-        experiment_body_2_state = Text("-м состоянии системы:", font_size=20, fill_color="#343434")
-        experiment_body_2_state.next_to(experiment_body_2, RIGHT, buff=0.4)
-        experiment_body_2_continius = MathTex(r"T_i^{(j)}, \binom{i=\overline{1,n},} {j=\overline{1,n}}",
-                                              color="#343434").scale(0.5)
-        experiment_body_2_continius.next_to(experiment_body_2_state, RIGHT, buff=0.1)
-        self.play(Write(experiment_body_2))
-        self.play(Write(experiment_body_2_i), run_time=0.1)
-        self.play(Write(experiment_body_2_state))
-        self.play(Write(experiment_body_2_continius), run_time=0.5)
-
-        self.wait()
-        self.next_slide()
-
-        experiment_body_3 = Text("3) повторяем", font_size=20, fill_color="#343434")
-        experiment_body_3.to_edge(UP * 6 + LEFT)
-        experiment_body_3_1 = MathTex(r"N", fill_color="#343434").scale(0.5).next_to(experiment_body_3, RIGHT, buff=0.1)
-        experiment_body_3_2 = Text("раз шаги 1), 2)", font_size=20, fill_color="#343434").next_to(experiment_body_3_1, RIGHT, buff=0.1)
-        self.play(Write(experiment_body_3))
-        self.play(Write(experiment_body_3_1), run_time=0.1)
-        self.play(Write(experiment_body_3_2))
-
-        self.wait()
-        self.next_slide()
-
-        experiment_body_4 = Text(
-            "Вычисляются выборочные средние (оценки) значения длительностей пребывания процесса в",
-            font_size=20, fill_color="#343434")
-        experiment_body_4.to_edge(UP * 7 + LEFT)
-        experiment_body_4_1 = MathTex(r"i", fill_color="#343434").scale(0.5).to_edge(UP * 7.5 + LEFT)
-        experiment_body_4_2 = Text("-м состоянии:", font_size=20, fill_color="#343434")
-        experiment_body_4_2.next_to(experiment_body_4_1, RIGHT, buff=0.1)
-        self.play(Write(experiment_body_4))
-        self.play(Write(experiment_body_4_1), run_time=0.1)
-        self.play(Write(experiment_body_4_2))
-
-        experiment_body_5 = MathTex(r"\hat{T}_i=\frac{1}{N}\sum_{j=1}^{N}T_i^{(j)}, i=\overline{1,n}", font_size=28,
-                                    color="#343434")
-        experiment_body_5.to_edge(ORIGIN + DOWN * 5.75 + LEFT)
-        experiment_body_5_rect = SurroundingRectangle(experiment_body_5, color="#343434", buff=0.1)
-        self.play(Write(experiment_body_5), Create(experiment_body_5_rect))
-
+        experiment_2.to_edge(UP * 3 + LEFT)
+        self.play(Write(experiment_2))
         self.wait()
         self.next_slide()
 
@@ -83,25 +41,23 @@ class Tmp(Slide):
             color="#343434"
         ).to_edge(UP, buff=0.3)
 
-        # Данные ячеек — передаём чистые строки,
-        #    но Table обернёт их в MathTex:
         table_data_1 = [
-            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.5",
-             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.4",
-             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.1",
-             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.3"],
-            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.125",
-             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.2",
-             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.5",
-             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.5"],
-            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.125",
-             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.2",
-             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.2",
-             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.1"],
-            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.25",
-             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.2",
-             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.2",
-             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.1"],
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.97"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.01"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.01"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.01"],
         ]
 
         # Подписи столбцов — сразу MathTex
@@ -129,8 +85,10 @@ class Tmp(Slide):
                 "color": "#343434",
             },
         )
-        table_1.scale(0.35).shift(LEFT * 3.5 + DOWN * 2.5)
+        table_1.scale(0.35).shift(LEFT * 3.5 + DOWN * 0.5)
         title_1.next_to(table_1, DOWN, buff=0.1)
+
+        self.play(Write(table_1), Write(title_1))
 
         # Заголовок таблицы
         title_2 = Text(
@@ -142,22 +100,22 @@ class Tmp(Slide):
         # Данные ячеек — передаём чистые строки,
         #    но Table обернёт их в MathTex:
         table_data_2 = [
-            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.2",
-             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.125",
-             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.6",
-             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.25"],
-            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.5",
-             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.5",
-             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.15",
-             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.25"],
-            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.15",
-             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.125",
-             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.15",
-             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.125"],
-            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.15",
-             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.25",
-             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.1",
-             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.375"],
+            [r"P_1^{(1)}(\lambda_1|\lambda_1)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_2)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_3)=0.97",
+             r"P_1^{(1)}(\lambda_1|\lambda_4)=0.97"],
+            [r"P_1^{(1)}(\lambda_2|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_2|\lambda_4)=0.01"],
+            [r"P_1^{(1)}(\lambda_3|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_3|\lambda_4)=0.01"],
+            [r"P_1^{(1)}(\lambda_4|\lambda_1)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_2)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_3)=0.01",
+             r"P_1^{(1)}(\lambda_4|\lambda_4)=0.01"],
         ]
 
         # Подписи столбцов — сразу MathTex
@@ -185,21 +143,15 @@ class Tmp(Slide):
                 "color": "#343434",
             },
         )
-        table_2.scale(0.35).shift(RIGHT * 3.5 + DOWN * 2.5)
+        table_2.scale(0.35).shift(RIGHT * 3.5 + DOWN * 0.5)
         title_2.next_to(table_2, DOWN, buff=0.1)
-
-        # Анимация
-        self.play(Write(title_1), Write(title_2))
-        self.play(Write(table_1), Write(table_2), run_time=3)
+        self.play(Write(table_2), Write(title_2))
         self.wait()
         self.next_slide()
 
-        self.play(Unwrite(experiment_1_title), Unwrite(experiment_1_title_ul), Unwrite(target_text), Unwrite(experiment_body_1),
-                  Unwrite(experiment_body_2), Unwrite(experiment_body_2_i), Unwrite(experiment_body_2_state), Unwrite(experiment_body_2_continius),
-                  Unwrite(experiment_body_3), Unwrite(experiment_body_3_1), Unwrite(experiment_body_3_2), Unwrite(experiment_body_4),
-                  Unwrite(experiment_body_4_1), Unwrite(experiment_body_4_2),
-                  Unwrite(experiment_body_5), Unwrite(experiment_body_5_rect), Unwrite(title_1),
-                  Unwrite(title_2), Unwrite(table_1), Unwrite(table_2))
+        self.play(Unwrite(title_1), Unwrite(title_2), Unwrite(table_1), Unwrite(table_2), Unwrite(experiment_2_title),
+                  Unwrite(experiment_2_title_ul), Unwrite(target_exp_2), Unwrite(target_exp_2_1), Unwrite(target_exp_2_2), Unwrite(target_exp_2_3),
+                  Unwrite(experiment_2), run_time=2)
 
 class Begin(Slide):
     def construct(self):
