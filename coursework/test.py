@@ -9,102 +9,73 @@ class Tmp(Slide):
         box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
         self.play(Write(box_backgrund))
 
-        model_title = Text("Математическая модель", font_size=36, weight=BOLD, fill_color="#343434")
-        model_title.to_edge(UP, buff=0.2)
-        model_title_ul = Underline(model_title, color="#343434")
+        imitation_title = Text("Метод обратных функций", font_size=36, weight=BOLD, fill_color="#343434")
+        imitation_title.to_edge(UP, buff=0.1)
+        imitation_title_ul = Underline(imitation_title, color="#343434")
+        self.play(Write(imitation_title), Write(imitation_title_ul))
 
-        self.play(Write(model_title), Write(model_title_ul))
-        model_text_1 = MathTex(r"\lambda(t) ", color="#343434")
-        model_text_1.to_edge(UP * 2 + LEFT * 0.75)
-        model_text_1_continius = Text("– кусочно-постоянный процесс с", font_size=28,
-                                      fill_color="#343434")
-        model_text_1_continius.next_to(model_text_1, RIGHT, buff=0.1)
-        model_text_1_continius_n = MathTex(r"n", color="#343434")
-        model_text_1_continius_n.next_to(model_text_1_continius, RIGHT, buff=0.1)
-        model_text_1_continius_states = Text("состояниями:", font_size=28, fill_color="#343434")
-        model_text_1_continius_states.next_to(model_text_1_continius_n, RIGHT, buff=0.1)
-        state_text = MathTex("S_1, S_2, ..., S_n;", color="#343434")
-        state_text.next_to(model_text_1_continius_states, RIGHT, buff=0.1)
-        self.play(Write(model_text_1), Write(model_text_1_continius))
-        self.play(Write(model_text_1_continius_n), Write(model_text_1_continius_states))
-        self.play(Write(state_text))
+        imitation_modeling = MarkupText(
+            "<i>Имитационное моделирование</i> представляет собой метод исследования сложных\nсистем путем их воспроизведения"
+            "в виде компьютерных моделей. "
+            "Имитационное\nмоделирование является мощным инструментом анализа сложных систем,\nпозволяя воспроизводить их поведение с учетом"
+            "вероятностных характеристик.\nОдним из ключевых методов генерации "
+            "случайных событий в таких моделях\nявляется <i>метод обратных  функций</i>", font_size=25, fill_color="#343434")
+        imitation_modeling.to_edge(UP * 2 + LEFT)
+        self.play(Write(imitation_modeling), run_time=3)
 
-        self.wait()
-        self.next_slide()
+        reverse_function = Text("Применение метода обратных функций включает следующие этапы:", font_size=25,
+                                fill_color="#343434")
+        reverse_function.to_edge(UP * 7 + LEFT)
+        self.play(Write(reverse_function))
+        block_1 = Text("1) Генерация случайного числа", font_size=25,
+                       fill_color="#343434")
+        block_1.to_edge(UP * 8 + LEFT)
+        block_1_1 = MathTex(r"U", fill_color="#343434").scale(0.75)
+        block_1_1.next_to(block_1, RIGHT, buff=0.1)
+        block_1_2 = Text("из равномерного распределения [0;1];", font_size=25, fill_color="#343434")
+        block_1_2.next_to(block_1_1, RIGHT, buff=0.1)
+        self.play(Write(block_1), Write(block_1_1), Write(block_1_2), run_time=0.5)
 
-        stream_text_1 = MathTex(r"\lambda(t) -", fill_color="#343434")
-        stream_text_1.to_edge(UP * 4 + LEFT * 0.75)
-        stream_text_2 = Text("принципиально ненаблюдаемый случайный марковский процесс;",
-                             font_size=28, fill_color="#343434")
-        stream_text_2.next_to(stream_text_1, RIGHT, buff=0.1)
-        self.play(Write(stream_text_1))
-        self.play(Write(stream_text_2))
+        block_2 = Text("2) Вычисление значения", font_size=25, fill_color="#343434")
+        block_2.to_edge(UP * 9 + LEFT)
+        block_2_continius = MathTex(r"X=F^{-1}(U);", fill_color="#343434").scale(0.75)
+        block_2_continius.next_to(block_2, RIGHT, buff=0.1)
+        self.play(Write(block_2), Write(block_2_continius), run_time=0.5)
 
-        self.wait()
-        self.next_slide()
+        block_3 = Text("3) Использование полученного значения", font_size=25, fill_color="#343434")
+        block_3.to_edge(UP * 10 + LEFT)
+        block_3_1 = MathTex(r"X", fill_color="#343434").scale(0.75)
+        block_3_1.next_to(block_3, RIGHT, buff=0.1)
+        block_3_2 = Text("в моделировании системы", font_size=25, fill_color="#343434")
+        block_3_2.next_to(block_3_1, RIGHT, buff=0.1)
+        self.play(Write(block_3), Write(block_3_1), Write(block_3_2), run_time=0.5)
 
-        lambda_text_1 = Text("Если ", font_size=28, fill_color="#343434")
-        lambda_text_1.to_edge(UP * 6 + LEFT * 0.75)
-        lambda_text_2 = MathTex(r"\lambda(t)=\lambda_i,", color="#343434")
-        lambda_text_2.next_to(lambda_text_1, RIGHT, buff=0.1)
-        lambda_text_3 = Text("то имеет место", font_size=28, fill_color="#343434")
-        lambda_text_3.next_to(lambda_text_2, RIGHT, buff=0.1)
-        lambda_text_3_1 = MathTex(r"S_i", fill_color="#343434")
-        lambda_text_3_1.next_to(lambda_text_3, RIGHT, buff=0.1)
-        lambda_text_3_2 = Text("-е состояние процесса;", font_size=28, fill_color="#343434")
-        lambda_text_3_2.next_to(lambda_text_3, RIGHT, buff=0.6)
-        self.play(Write(lambda_text_1))
-        self.play(Write(lambda_text_2))
-        self.play(Write(lambda_text_3))
-        self.play(Write(lambda_text_3_1))
-        self.play(Write(lambda_text_3_2))
+        block_4 = Text(
+            "Применение метода обратных функций для получения случайной величины,\nраспределенной экспоненциально:",
+            font_size=25, fill_color="#343434")
+        block_4.to_edge(UP * 11 + LEFT)
+        self.play(Write(block_4))
+        block_5 = Text("1) Генерируется равномерно распределенное случайное число", font_size=25,
+                       fill_color="#343434")
+        block_5.to_edge(UP * 13 + LEFT)
+        block_5_1 = MathTex(r"U", fill_color="#343434").scale(0.75)
+        block_5_1.next_to(block_5, RIGHT, buff=0.1)
+        block_5_2 = Text("на отрезке [0;1)", font_size=25, fill_color="#343434")
+        block_5_2.next_to(block_5_1, RIGHT, buff=0.1)
+        self.play(Write(block_5), Write(block_5_1), Write(block_5_2), run_time=0.5)
 
-        self.wait()
-        self.next_slide()
-
-        lambda_text_4 = MathTex(r"\lambda(t), i = 1,2,...,n; \quad \lambda_1>\lambda_2>...>\lambda_n;", color="#343434")
-        lambda_text_4.to_edge(DOWN * 7.5 + LEFT * 0.75)
-        self.play(Write(lambda_text_4))
-
-        self.wait()
-        self.next_slide()
-
-        eta_text_1 = MathTex(r"\eta=\min(\eta^{(1)},\eta^{(2)});", fill_color="#343434")
-        eta_text_1.to_edge(DOWN * 5.75 + LEFT * 0.75)
-        self.play(Write(eta_text_1))
+        block_6 = MathTex(r"2) \quad t=F^{-1}(U), t=-\frac{1}{\theta_i}ln(1-U), \theta_i \in \{\lambda_i,\alpha_i\} \quad \quad (*)",
+                          fill_color="#343434").scale(0.75)
+        block_6.to_edge(UP * 14 + LEFT)
+        self.play(Write(block_6))
 
         self.wait()
         self.next_slide()
 
-        lambda_text_5 = MathTex(r"\eta^{(1)}: F_i^{(1)}(t) = 1-e^{-\lambda_it}, \quad \eta^{(2)}: F_i^{(2)}(t)=1-e^{-\alpha_it};", color="#343434")
-        lambda_text_5.to_edge(DOWN * 4 + LEFT * 0.75)
-        self.play(Write(lambda_text_5))
-
-        self.wait()
-        self.next_slide()
-
-        lambda_text_6 = MathTex(r"P_1^{(1)}(\lambda_j|\lambda_i), P_1^{(2)}(\lambda_j|\lambda_i), i,j=\overline{1,n};",
-                                color="#343434")
-        lambda_text_6.to_edge(DOWN * 2 + LEFT * 0.75)
-        self.play(Write(lambda_text_6))
-
-        self.wait()
-        self.next_slide()
-
-        lambda_text_7 = MathTex(
-            r"\sum_{i=1}^nP_1^{(1)}(\lambda_j|\lambda_i)=1, j=\overline{1,n}; \sum_{i=1}^nP_1^{(2)}(\lambda_j|\lambda_i)=1, j=\overline{1,n};",
-            color="#343434")
-        lambda_text_7.to_edge(DOWN + LEFT * 0.75)
-        self.play(Transform(lambda_text_6, lambda_text_7))
-
-        self.wait()
-        self.next_slide()
-
-        self.play(Unwrite(model_title), Unwrite(model_title_ul), Unwrite(model_text_1), Unwrite(model_text_1_continius),
-                  Unwrite(model_text_1_continius_n), Unwrite(model_text_1_continius_states),
-                  Unwrite(stream_text_1), Unwrite(stream_text_2), Unwrite(state_text), Unwrite(lambda_text_1),
-                  Unwrite(lambda_text_2), Unwrite(lambda_text_3), Unwrite(lambda_text_3_1), Unwrite(lambda_text_3_2),
-                  Unwrite(lambda_text_4), Unwrite(eta_text_1), Unwrite(lambda_text_5), Unwrite(lambda_text_6))
+        self.play(Unwrite(imitation_title), Unwrite(imitation_title_ul), Unwrite(imitation_modeling),
+                  Unwrite(reverse_function), Unwrite(block_1), Unwrite(block_1_1), Unwrite(block_1_2),
+                  Unwrite(block_2), Unwrite(block_2_continius), Unwrite(block_3), Unwrite(block_3_1), Unwrite(block_3_2),
+                  Unwrite(block_4), Unwrite(block_5), Unwrite(block_5_1), Unwrite(block_5_2), Unwrite(block_6), run_time=2)
 
 class Begin(Slide):
     def construct(self):

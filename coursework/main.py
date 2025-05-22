@@ -323,78 +323,72 @@ class Presentation(Slide):
         imitation_title_ul = Underline(imitation_title, color="#343434")
         self.play(Write(imitation_title), Write(imitation_title_ul))
 
-        imitation_modeling = Text(
-            "Имитационное моделирование представляет собой метод исследования сложных систем путем\nих воспроизведения"
+        imitation_modeling = MarkupText(
+            "<i>Имитационное моделирование</i> представляет собой метод исследования сложных\nсистем путем их воспроизведения"
             "в виде компьютерных моделей. "
-            "Имитационное моделирование является\nмощным инструментом анализа сложных систем, позволяя воспроизводить их поведение с учетом\n"
-            "вероятностных характеристик. Одним из ключевых методов генерации "
-            "случайных событий в таких\nмоделях является метод обратных функций", font_size=20, fill_color="#343434")
+            "Имитационное\nмоделирование является мощным инструментом анализа сложных систем,\nпозволяя воспроизводить их поведение с учетом"
+            "вероятностных характеристик.\nОдним из ключевых методов генерации "
+            "случайных событий в таких моделях\nявляется <i>метод обратных  функций</i>", font_size=25,
+            fill_color="#343434")
         imitation_modeling.to_edge(UP * 2 + LEFT)
-        self.play(Write(imitation_modeling))
+        self.play(Write(imitation_modeling), run_time=3)
+
+        reverse_function = Text("Применение метода обратных функций включает следующие этапы:", font_size=25,
+                                fill_color="#343434")
+        reverse_function.to_edge(UP * 7 + LEFT)
+        self.play(Write(reverse_function))
+        block_1 = Text("1) Генерация случайного числа", font_size=25,
+                       fill_color="#343434")
+        block_1.to_edge(UP * 8 + LEFT)
+        block_1_1 = MathTex(r"U", fill_color="#343434").scale(0.75)
+        block_1_1.next_to(block_1, RIGHT, buff=0.1)
+        block_1_2 = Text("из равномерного распределения [0;1];", font_size=25, fill_color="#343434")
+        block_1_2.next_to(block_1_1, RIGHT, buff=0.1)
+        self.play(Write(block_1), Write(block_1_1), Write(block_1_2), run_time=0.5)
+
+        block_2 = Text("2) Вычисление значения", font_size=25, fill_color="#343434")
+        block_2.to_edge(UP * 9 + LEFT)
+        block_2_continius = MathTex(r"X=F^{-1}(U);", fill_color="#343434").scale(0.75)
+        block_2_continius.next_to(block_2, RIGHT, buff=0.1)
+        self.play(Write(block_2), Write(block_2_continius), run_time=0.5)
+
+        block_3 = Text("3) Использование полученного значения", font_size=25, fill_color="#343434")
+        block_3.to_edge(UP * 10 + LEFT)
+        block_3_1 = MathTex(r"X", fill_color="#343434").scale(0.75)
+        block_3_1.next_to(block_3, RIGHT, buff=0.1)
+        block_3_2 = Text("в моделировании системы", font_size=25, fill_color="#343434")
+        block_3_2.next_to(block_3_1, RIGHT, buff=0.1)
+        self.play(Write(block_3), Write(block_3_1), Write(block_3_2), run_time=0.5)
+
+        block_4 = Text(
+            "Применение метода обратных функций для получения случайной величины,\nраспределенной экспоненциально:",
+            font_size=25, fill_color="#343434")
+        block_4.to_edge(UP * 11 + LEFT)
+        self.play(Write(block_4))
+        block_5 = Text("1) Генерируется равномерно распределенное случайное число", font_size=25,
+                       fill_color="#343434")
+        block_5.to_edge(UP * 13 + LEFT)
+        block_5_1 = MathTex(r"U", fill_color="#343434").scale(0.75)
+        block_5_1.next_to(block_5, RIGHT, buff=0.1)
+        block_5_2 = Text("на отрезке [0;1)", font_size=25, fill_color="#343434")
+        block_5_2.next_to(block_5_1, RIGHT, buff=0.1)
+        self.play(Write(block_5), Write(block_5_1), Write(block_5_2), run_time=0.5)
+
+        block_6 = MathTex(
+            r"2) \quad t=F^{-1}(U), t=-\frac{1}{\theta_i}ln(1-U), \theta_i \in \{\lambda_i,\alpha_i\} \quad \quad (*)",
+            fill_color="#343434").scale(0.75)
+        block_6.to_edge(UP * 14 + LEFT)
+        self.play(Write(block_6))
+
         self.wait()
         self.next_slide()
 
-        reverse_function = Text("Применение метода обратных функций включает следующие этапы:", font_size=20,
-                                fill_color="#343434")
-        reverse_function.next_to(imitation_modeling, DOWN, buff=0.1)
-        self.play(Write(reverse_function))
-        self.wait()
-        block_1 = Text("1) Генерация случайного числа U из равномерного распределения [0;1]", font_size=20,
-                       fill_color="#343434")
-        block_1.next_to(reverse_function, DOWN, buff=0.1)
-        block_1.shift(LEFT * 2)
-        self.play(Write(block_1))
-        self.wait()
-        self.next_slide()
-        block_2 = Text("2) Вычисление значения", font_size=20, fill_color="#343434")
-        block_2.next_to(block_1, DOWN, buff=0.1)
-        block_2.shift(LEFT * 2.9)
-        block_2_continius = MathTex(r"X=F^{-1}(U)", fill_color="#343434").scale(0.5)
-        block_2_continius.next_to(block_2, RIGHT, buff=0.1)
-        self.play(Write(block_2))
-        self.play(Write(block_2_continius))
-        self.wait()
-        self.next_slide()
-        block_3 = Text("3) Использование полученного значения X в моделировании системы", font_size=20,
-                       fill_color="#343434")
-        block_3.next_to(block_2, DOWN, buff=0.1)
-        block_3.shift(RIGHT * 2.9)
-        self.play(Write(block_3))
-        self.wait()
-        self.next_slide()
-        block_4 = Text(
-            "Применение метода обратных функций для получения случайной величины, распределенной\nэкспоненциально:",
-            font_size=20, fill_color="#343434")
-        block_4.next_to(block_3, DOWN, buff=0.2)
-        block_4.shift(RIGHT * 1.5)
-        self.play(Write(block_4))
-        self.wait()
-        self.next_slide()
-        block_5 = Text("1) Генерируется равномерно распределенное случайное число U на отрезке [0;1)", font_size=20,
-                       fill_color="#343434")
-        block_5.next_to(block_4, DOWN, buff=0.1)
-        block_5.shift(LEFT * 0.75)
-        self.play(Write(block_5))
-        self.wait()
-        self.next_slide()
-        block_6 = MathTex(r"2) t=F^{-1}(U), t=-\frac{1}{\theta_i}ln(1-U), \theta_i \in \{\lambda_i,\alpha_i\}",
-                          fill_color="#343434").scale(0.6)
-        block_6.next_to(block_5, DOWN, buff=0.1)
-        block_6.shift(LEFT * 2.2)
-        self.play(Write(block_6))
-        self.wait()
-        self.next_slide()
-        block_7 = Text("Таким образом, получается случайная величина t, распределенная по экспоненциальному закону",
-                       font_size=20, fill_color="#343434")
-        block_7.next_to(block_6, DOWN, buff=0.2)
-        block_7.shift(RIGHT * 3.25)
-        self.play(Write(block_7))
-        self.wait()
-        self.next_slide()
         self.play(Unwrite(imitation_title), Unwrite(imitation_title_ul), Unwrite(imitation_modeling),
-                  Unwrite(reverse_function),
-                  Unwrite(block_1), Unwrite(block_2), Unwrite(block_2_continius), Unwrite(block_3), Unwrite(block_4),
-                  Unwrite(block_5), Unwrite(block_6), Unwrite(block_7))
+                  Unwrite(reverse_function), Unwrite(block_1), Unwrite(block_1_1), Unwrite(block_1_2),
+                  Unwrite(block_2), Unwrite(block_2_continius), Unwrite(block_3), Unwrite(block_3_1),
+                  Unwrite(block_3_2),
+                  Unwrite(block_4), Unwrite(block_5), Unwrite(block_5_1), Unwrite(block_5_2), Unwrite(block_6),
+                  run_time=2)
 
         slide_5 = Text("5", font_size=20, fill_color="#343434")
         slide_5.to_corner(DR, buff=0.1)
