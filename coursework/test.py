@@ -4,91 +4,224 @@ from manim import MarkupText
 from manim_slides.slide import Slide
 import random
 
+class FourGridPlotsCustom(Slide):
+    def make_axes_group(self, cfg, y_label_text):
+        axes = Axes(
+            x_range=cfg["x_range"],
+            y_range=cfg["y_range"],
+            axis_config={"include_tip": True, "color": "#343434"},
+        )
+        # подписи осей
+        x_lab = MathTex("N", color="#343434")\
+            .scale(0.75)\
+            .next_to(axes.x_axis.get_end(), RIGHT * 0.3 + DOWN * 0.1)
+        y_lab = MathTex(y_label_text, color="#343434")\
+            .scale(0.75)\
+            .next_to(axes.y_axis.get_end(), LEFT * 1.5)
+        # метки по Y
+        y_ticks = VGroup(*[
+            MathTex(f"{v:.1f}", color="#343434").scale(0.75)
+                .next_to(axes.c2p(0, v), LEFT * 3, buff=0.05)
+            for v in np.arange(*cfg["y_range"])
+        ])
+        # метки по X
+        x_ticks = VGroup(*[
+            MathTex(str(int(x)), color="#343434").scale(0.75)
+                .next_to(axes.x_axis.n2p(x), DOWN * 3, buff=0.05)
+            for x in np.arange(*cfg["x_range"]) if x != 0
+        ])
+        group = VGroup(axes, x_lab, y_lab, y_ticks, x_ticks)
+        return group, axes
+
+    def construct(self):
+        box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
+        self.play(Write(box_backgrund))
+
+        # 1) Параметры для четырёх графиков
+        configs = [
+            {"x_range": (0, 1050, 100), "y_range": (23, 26, 0.5)},
+            {"x_range": (0, 1050, 100), "y_range": (51, 54, 0.5)},
+            {"x_range": (0, 1050, 100), "y_range": (53, 57, 0.5)},
+            {"x_range": (0, 1050, 100), "y_range": (66, 70, 0.5)},
+        ]
+        y_labels = ["\hat{T_1}", "\hat{T_2}", "\hat{T_3}", "\hat{T_4}"]
+        x_vals = list(range(50, 1001, 50))
+        y_vals_list = [
+            [24.3, 24.35, 24.35, 24.5, 24.15, 24.1, 23.9, 24.2,
+             24.15, 24.2, 23.9, 24.35, 23.9, 24.05, 23.8, 24.05,
+             23.95, 24.15, 24.1, 24.1],
+            [52.56, 52.38, 51.98, 52.20, 52.22, 52.28, 51.85, 52.40,
+             51.85, 52.22, 52.28, 52.15, 52.23, 52.05, 52.30, 52.30,
+             52.15, 52.10, 52.03, 52.02],
+            [56.4, 53.85, 55.80, 55.60, 55.20, 54.90, 55.70, 55.70,
+             54.85, 55.10, 55.05, 54.95, 55.27, 55.40, 55.35, 55.35,
+             55.15, 55.20, 55.10, 55.15],
+            [66.75, 69.40, 67.85, 67.70, 68.45, 68.75, 68.55, 68.55,
+             69.20, 68.55, 68.75, 68.65, 68.55, 68.45, 68.70, 68.75,
+             68.30, 68.30, 68.75, 68.80],
+        ]
+
+        # 2) Делаем по 4 группы осей
+        axes_groups = []
+        axes_objects = []
+        for cfg, lab in zip(configs, y_labels):
+            group, axes = self.make_axes_group(cfg, lab)
+            axes_groups.append(group)
+            axes_objects.append(axes)
+
+        # 3) Уменьшаем их и раскладываем в 2×2
+        grid = VGroup(*axes_groups)
+        grid.scale(0.5).arrange_in_grid(rows=2, cols=2, buff=1.0)
+        # сдвигаем левый столбец чуть вправо
+        for i in (0, 2):
+            grid[i].shift(RIGHT * 0.3)
+
+        # 4) Анимируем появление осей + меток
+        self.play(*[Create(g) for g in grid], run_time=2.0)
+
+        title_graph_1 = MarkupText("<i>График зависимости</i>", font_size=15, fill_color="#343434")
+        title_graph_1.next_to(grid[0], UP, buff=0).shift(LEFT)
+        title_graph_1_t = MathTex(r"\hat{T_1}", fill_color="#343434").scale(0.4).next_to(title_graph_1, RIGHT, buff=0.1)
+        title_graph_1_continus = Text("от", font_size=15, fill_color="#343434").next_to(title_graph_1_t, RIGHT,
+                                                                                        buff=0.1)
+        title_graph_1_n = MathTex(r"N", fill_color="#343434").scale(0.4).next_to(title_graph_1_continus, RIGHT,
+                                                                                 buff=0.1)
+        title_chart_1 = VGroup(title_graph_1, title_graph_1_t, title_graph_1_n, title_graph_1_continus)
+
+        title_graph_2 = MarkupText("<i>График зависимости</i>", font_size=15, fill_color="#343434")
+        title_graph_2.next_to(grid[1], UP, buff=0).shift(LEFT)
+        title_graph_2_t = MathTex(r"\hat{T_2}", fill_color="#343434").scale(0.4).next_to(title_graph_2, RIGHT, buff=0.1)
+        title_graph_2_continus = Text("от", font_size=15, fill_color="#343434").next_to(title_graph_2_t, RIGHT,
+                                                                                        buff=0.1)
+        title_graph_2_n = MathTex(r"N", fill_color="#343434").scale(0.4).next_to(title_graph_2_continus, RIGHT,
+                                                                                 buff=0.1)
+        title_chart_2 = VGroup(title_graph_2, title_graph_2_t, title_graph_2_continus, title_graph_2_n)
+
+        title_graph_3 = MarkupText("<i>График зависимости</i>", font_size=15, fill_color="#343434")
+        title_graph_3.next_to(grid[2], UP, buff=0).shift(LEFT)
+        title_graph_3_t = MathTex(r"\hat{T_3}", fill_color="#343434").scale(0.4).next_to(title_graph_3, RIGHT, buff=0.1)
+        title_graph_3_continus = Text("от", font_size=15, fill_color="#343434").next_to(title_graph_3_t, RIGHT,
+                                                                                        buff=0.1)
+        title_graph_3_n = MathTex(r"N", fill_color="#343434").scale(0.4).next_to(title_graph_3_continus, RIGHT,
+                                                                                 buff=0.1)
+        title_chart_3 = VGroup(title_graph_3, title_graph_3_t, title_graph_3_continus, title_graph_3_n)
+
+        title_graph_4 = MarkupText("<i>График зависимости</i>", font_size=15, fill_color="#343434")
+        title_graph_4.next_to(grid[3], UP, buff=0).shift(LEFT)
+        title_graph_4_t = MathTex(r"\hat{T_4}", fill_color="#343434").scale(0.4).next_to(title_graph_4, RIGHT, buff=0.1)
+        title_graph_4_continus = Text("от", font_size=15, fill_color="#343434").next_to(title_graph_4_t, RIGHT,
+                                                                                        buff=0.1)
+        title_graph_4_n = MathTex(r"N", fill_color="#343434").scale(0.4).next_to(title_graph_4_continus, RIGHT,
+                                                                                 buff=0.1)
+        title_chart_4 = VGroup(title_graph_4, title_graph_4_t, title_graph_4_continus, title_graph_4_n)
+
+        self.play(Write(title_chart_1), Write(title_chart_2), Write(title_chart_3), Write(title_chart_4), run_time=2)
+
+        # 5) Падающие точки
+        all_dots = []
+        for axes, y_vals in zip(axes_objects, y_vals_list):
+            # для каждой точки рисуем её чуть выше, скрываем, а потом «падаем»
+            for x, y in zip(x_vals, y_vals):
+                start = axes.c2p(x, y) + UP * 1.2  # точка изначально выше
+                dot = Dot(start, radius=0.03, color="#343434")
+                dot.set_opacity(0)
+                self.add(dot)
+                all_dots.append(dot)
+                # одновременно делаем видимой и перемещаем на своё место
+                self.play(
+                    dot.animate.set_opacity(1).move_to(axes.c2p(x, y)),
+                    run_time=0.1
+                )
+
+        self.wait()
+        self.next_slide()
+
+        self.play(
+            *[Uncreate(g) for g in grid],  # каждый маленький график «разрисовывается наоборот»
+            run_time=0.5
+        )
+        all_points = VGroup(*all_dots)
+        self.play(Uncreate(all_points), run_time=0.5)
+        self.play(Unwrite(title_chart_1), Unwrite(title_chart_2), Unwrite(title_chart_3), Unwrite(title_chart_4), run_time=1)
+
+        self.wait()
+
+
 class Tmp(Slide):
     def construct(self):
         box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
         self.play(Write(box_backgrund))
 
-        end_title = Text("Заключение", fill_color="#343434", font_size=36)
-        end_title.to_edge(UP, buff=0.5)
-        end_title_ul = Underline(end_title, color="#343434", buff=0.1)
-        self.play(Write(end_title), Write(end_title_ul))
+        result_title = Text("График зависимости", font_size=15, color="#343434")
+        result_title.to_corner(UL, buff=0.1)
+        result_title_1 = MathTex(r"\hat{T}_1", color="#343434").next_to(result_title, RIGHT, buff=0.2)
+        result_title_2 = Text("от значений", font_size=36, color="#343434").next_to(result_title, RIGHT,
+                                                                                    buff=0.8).shift(UP * 0.06)
+        result_title_3 = MathTex(r"N", color="#343434").next_to(result_title_2, RIGHT, buff=0.2)
+        title = VGroup(result_title, result_title_1, result_title_2, result_title_3)
+        result_title_ul = Underline(title, color="#343434")
+        self.play(Write(title), Write(result_title_ul))
 
-        # Список задач
-        items = ["Изучена литература по теме исследования", "Построена мат. модель потока",
-                 "Выведены формулы, по которым производится моделирование",
-                 "Построен алгоритм имитационной модели", "Алгоритм имитационной модели реализован на ЯП C++",
-                 "Написано GUI-приложение", "Проведена серия статистических экспериментов и сделаны выводы"]
-        # 1) квадраты
-        boxes = VGroup(*[
-            Square(side_length=0.4, color="#343434")
-                       .set_fill(None, opacity=0)  # пока пустые
-            for _ in items
-        ])
-        # 2) подписи
-        labels = VGroup(*[
-            Text(text, font_size=26, color="#343434")
-            for text in items
-        ])
-        # 3) сгруппировать пары [квадрат + текст] и расположить вниз
-        rows = VGroup(*[
-            VGroup(box, lbl).arrange(RIGHT, buff=0.2)
-            for box, lbl in zip(boxes, labels)
-        ])
-        rows.arrange(DOWN, aligned_edge=LEFT, buff=0.5)
-        rows.to_edge(UP * 3 + LEFT)
+        axes = Axes(
+            x_range=[0, 1050, 100],
+            y_range=[23, 26, 0.5],
+            axis_config={"include_tip": True, "color": "#343434"},
+        ).to_corner(UL, buff=0.2)
+        x_label = MathTex("N", color="#343434").next_to(axes.x_axis.get_end(), RIGHT + DOWN, buff=0.2)
+        y_label = MathTex("\\hat{T}_1", color="#343434").next_to(axes.y_axis.get_end(), UP + LEFT, buff=0.2)
 
+        # 2) Метки по Y (до 25.5, чтобы не рисовать 26.0 прямо на стрелке)
+        y_values = np.arange(23, 26, 0.5)  # [23.0, 23.5, …, 25.5]
+        y_labels = VGroup(*[
+            MathTex(f"{val:.1f}", color="#343434")
+                          .scale(0.6)
+                          .next_to(axes.c2p(0, val), LEFT, buff=0.2)
+            for val in y_values
+        ])
+        y_labels.set_opacity(1)
+
+        # 3) Падающие точки
+        x_vals = list(range(50, 1001, 50))
+        y_vals = [24.3, 24.35, 24.35, 24.5, 24.15, 24.1, 23.9, 24.2,
+                  24.15, 24.2, 23.9, 24.35, 23.9, 24.05, 23.8, 24.05,
+                  23.95, 24.15, 24.1, 24.1]
+        points = VGroup(*[
+            Dot(axes.c2p(x, y), radius=0.07, color="#343434")
+                        .save_state()
+                        .shift(UP * 3)
+            for x, y in zip(x_vals, y_vals)
+        ])
+
+        # 4) Засечки и подписи по X
+        x_ticks = axes.x_axis.ticks.copy()
+        x_ticks.set_opacity(0)
+
+        tick_vals = np.arange(0, 1001, 100)  # 0,100,200,…1000
+        x_labels = VGroup(*[
+            MathTex(str(int(val)), color="#343434")
+                          .scale(0.5)
+                          # ставим ТОЛЬКО там, где действительно лежит ось:
+                          .next_to(axes.x_axis.n2p(val), DOWN, buff=0.2)
+            for val in tick_vals if val != 0
+        ])
+        x_labels.set_opacity(1)
+
+        # 5) Анимация
+        self.play(Create(axes), run_time=1)
+        self.play(FadeIn(y_label, shift=LEFT), FadeIn(x_label, shift=DOWN), run_time=1)
+        self.play(FadeIn(y_labels, shift=LEFT, lag_ratio=0.1), run_time=1)
+
+        # показываем засечки и их подписи
         self.play(
-            *[Create(box) for box in boxes],
-            *[Write(lbl) for lbl in labels],
-            run_time=1
+            FadeIn(x_ticks, shift=DOWN, lag_ratio=0.1),
+            FadeIn(x_labels, shift=DOWN, lag_ratio=0.1),
+            run_time=0.5
         )
-
-        checks = VGroup(
-            *[
-                VGroup(
-                    # левая ножка галочки
-                    Line(
-                        box.get_corner(UL) + DOWN * 0.2 + RIGHT * 0.1,
-                        box.get_center() + DOWN * 0.1
-                    ),
-                    # правая ножка
-                    Line(
-                        box.get_center() + DOWN * 0.1,
-                        box.get_corner(UR) + DOWN * 0.1 + LEFT * 0.05
-                    ),
-                )
-                .set_color("#83C167")
-                .set_stroke(width=3)
-                for box in boxes
-            ]
-        )
-
+        # падают точки по одной
+        for pt in points:
+            self.play(Restore(pt), run_time=0.15)
         self.wait()
         self.next_slide()
-        self.play(Create(checks[0]), run_time=0.5)
-        self.wait()
-        self.next_slide()
-        self.play(Create(checks[1]), run_time=0.5)
-        self.wait()
-        self.next_slide()
-        self.play(Create(checks[2]), run_time=0.5)
-        self.wait()
-        self.next_slide()
-        self.play(Create(checks[3]), run_time=0.5)
-        self.wait()
-        self.next_slide()
-        self.play(Create(checks[4]), run_time=0.5)
-        self.wait()
-        self.next_slide()
-        self.play(Create(checks[5]), run_time=0.5)
-        self.wait()
-        self.next_slide()
-        self.play(Create(checks[6]), run_time=0.5)
-
-        self.wait()
-        self.next_slide()
-        self.play(Unwrite(end_title), Unwrite(end_title_ul), Uncreate(checks), Uncreate(boxes), Unwrite(labels))
 
 class Begin(Slide):
     def construct(self):
