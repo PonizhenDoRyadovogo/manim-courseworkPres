@@ -1629,32 +1629,53 @@ class Presentation(Slide):
         self.play(Transform(slide_1, slide_25))
 
         experiment_3_title = Text("3 статистический эксперимент", font_size=36, fill_color="#343434")
-        experiment_3_title.to_edge(UP, buff=0.5)
+        experiment_3_title.to_edge(UP, buff=0.2)
         experiment_3_title_ul = Underline(experiment_3_title, color="#343434")
         self.play(Write(experiment_3_title), Write(experiment_3_title_ul))
 
-        experiment_3 = Text(
-            "Этапы эксперимента:\n1)для фиксированного набора параметров, вероятностей переходов и количества\nитераций N/длительности времени "
-            "моделирования реализуется обобщенный синхронный поток событий \nвторого порядка с произвольным кол-ом состояний",
+        self.wait()
+        self.next_slide()
+
+        target_exp_3 = MarkupText("<b>Цель</b> - установление стационарного режима", font_size=20, fill_color="#343434")
+        target_exp_3.to_edge(UP * 2 + LEFT)
+        self.play(Write(target_exp_3))
+
+        self.wait()
+        self.next_slide()
+
+        experiment_3 = MarkupText(
+            "<i>Этапы эксперимента</i>:\n1) для фиксированного набора параметров, вероятностей переходов и количества итераций",
             font_size=20, fill_color="#343434")
         experiment_3.to_edge(UP * 3 + LEFT)
+        experiment_3_n = MathTex(r"N", fill_color="#343434").scale(0.75)
+        experiment_3_n.next_to(experiment_3, RIGHT, buff=0.1).shift(DOWN * 0.1)
+        experiment_3_continus = Text("или длительности времени "
+                                     "моделирования реализуется поток;", font_size=20, fill_color="#343434").to_edge(
+            UP * 4.5 + LEFT)
         self.play(Write(experiment_3))
+        self.play(Write(experiment_3_n), run_time=0.3)
+        self.play(Write(experiment_3_continus))
+
         self.wait()
         self.next_slide()
 
-        experiment_3_1 = MathTex(r"2)\hat{\tau}_j=\frac{1}{k_j}\sum_{i=1}^{k_j}\tau_i^{(j)},j=\overline{1,N}",
-                                 color="#343434",
-                                 font_size=28)
-        experiment_3_1.next_to(experiment_3, DOWN)
-        experiment_3_1.shift(LEFT * 5.05)
+        experiment_3_1 = MathTex(
+            r"2)\quad \hat{\tau}_j=\frac{1}{k_j}\sum_{i=1}^{k_j}\tau_i^{(j)},j=\overline{1,N}; \quad \quad (**)",
+            color="#343434").scale(0.75)
+        experiment_3_1.to_edge(UP * 5 + LEFT)
         self.play(Write(experiment_3_1))
+
         self.wait()
         self.next_slide()
 
-        experiment_3_2 = Text("3) осуществляем повторение N раз шагов 1, 2", font_size=20, fill_color="#343434")
-        experiment_3_2.next_to(experiment_3_1, DOWN)
-        experiment_3_2.shift(RIGHT * 1.2)
+        experiment_3_2 = Text("3) осуществляем повторение", font_size=20, fill_color="#343434")
+        experiment_3_2.to_edge(UP * 7.5 + LEFT)
+        experiment_3_2_n = MathTex(r"N", fill_color="#343434").scale(0.5).next_to(experiment_3_2, RIGHT, buff=0.1)
+        experiment_3_2_continus = Text("раз шагов 1), 2)", font_size=20, fill_color="#343434").next_to(experiment_3_2_n,
+                                                                                                       RIGHT, buff=0.1)
         self.play(Write(experiment_3_2))
+        self.play(Write(experiment_3_2_n), run_time=0.3)
+        self.play(Write(experiment_3_2_continus))
 
         self.wait()
         self.next_slide()
@@ -1662,22 +1683,26 @@ class Presentation(Slide):
         experiment_3_3 = Text(
             "Вычисляем выборочные средние (оценки) значения длительности интервала между моментами\nнаступления событий в рассматриваемом потоке:",
             font_size=20, fill_color="#343434")
-        experiment_3_3.next_to(experiment_3_2, DOWN, buff=0.2)
-        experiment_3_3.shift(RIGHT * 3.25)
+        experiment_3_3.to_edge(UP * 9 + LEFT)
         self.play(Write(experiment_3_3))
+
         self.wait()
         self.next_slide()
 
         experiment_3_4 = MathTex(r"\hat{\overline{\tau}}=\frac{1}{N}\sum_{j=1}^N \hat{\tau}_j", fill_color="#343434")
-        experiment_3_4.next_to(experiment_3_3, DOWN, buff=0.5)
+        experiment_3_4.to_edge(UP * 11 + ORIGIN)
         experiment_3_4_rect = SurroundingRectangle(experiment_3_4, color="#343434", buff=0.2)
 
         self.play(Write(experiment_3_4), Write(experiment_3_4_rect))
         self.wait()
         self.next_slide()
 
-        self.play(Unwrite(experiment_3_title), Unwrite(experiment_3_title_ul), Unwrite(experiment_3), Unwrite(experiment_3_1), Unwrite(experiment_3_2), Unwrite(experiment_3_3),
-                  Unwrite(experiment_3_4), Unwrite(experiment_3_4_rect))
+        self.play(Unwrite(experiment_3_title), Unwrite(experiment_3_title_ul), Unwrite(experiment_3),
+                  Unwrite(target_exp_3),
+                  Unwrite(experiment_3_n), Unwrite(experiment_3_continus),
+                  Unwrite(experiment_3_1), Unwrite(experiment_3_2), Unwrite(experiment_3_2_n),
+                  Unwrite(experiment_3_2_continus), Unwrite(experiment_3_3),
+                  Unwrite(experiment_3_4), Unwrite(experiment_3_4_rect), run_time=2)
 
         slide_26 = Text("26", font_size=20, fill_color="#343434")
         slide_26.to_corner(DR, buff=0.1)
@@ -1855,8 +1880,8 @@ class Presentation(Slide):
         # Список задач
         items = ["Изучена литература по теме исследования", "Построена мат. модель потока",
                  "Выведены формулы, по которым производится моделирование",
-                 "Построен алгоритм имитационной модели", "Алгорит имитационной модели реализован на ЯП C++",
-                 "Написано GUI-приложение", "Проведена серия статистических экспериментов"]
+                 "Построен алгоритм имитационной модели", "Алгоритм имитационной модели реализован на ЯП C++",
+                 "Написано GUI-приложение", "Проведена серия статистических экспериментов и сделаны выводы"]
         # 1) квадраты
         boxes = VGroup(*[
             Square(side_length=0.4, color="#343434")
