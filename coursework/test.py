@@ -9,76 +9,86 @@ class Tmp(Slide):
         box_backgrund = Square(color="#ece6e2", fill_opacity=1).scale(10)
         self.play(Write(box_backgrund))
 
-        experiment_3_title = Text("3 статистический эксперимент", font_size=36, fill_color="#343434")
-        experiment_3_title.to_edge(UP, buff=0.2)
-        experiment_3_title_ul = Underline(experiment_3_title, color="#343434")
-        self.play(Write(experiment_3_title), Write(experiment_3_title_ul))
+        end_title = Text("Заключение", fill_color="#343434", font_size=36)
+        end_title.to_edge(UP, buff=0.5)
+        end_title_ul = Underline(end_title, color="#343434", buff=0.1)
+        self.play(Write(end_title), Write(end_title_ul))
+
+        # Список задач
+        items = ["Изучена литература по теме исследования", "Построена мат. модель потока",
+                 "Выведены формулы, по которым производится моделирование",
+                 "Построен алгоритм имитационной модели", "Алгоритм имитационной модели реализован на ЯП C++",
+                 "Написано GUI-приложение", "Проведена серия статистических экспериментов и сделаны выводы"]
+        # 1) квадраты
+        boxes = VGroup(*[
+            Square(side_length=0.4, color="#343434")
+                       .set_fill(None, opacity=0)  # пока пустые
+            for _ in items
+        ])
+        # 2) подписи
+        labels = VGroup(*[
+            Text(text, font_size=26, color="#343434")
+            for text in items
+        ])
+        # 3) сгруппировать пары [квадрат + текст] и расположить вниз
+        rows = VGroup(*[
+            VGroup(box, lbl).arrange(RIGHT, buff=0.2)
+            for box, lbl in zip(boxes, labels)
+        ])
+        rows.arrange(DOWN, aligned_edge=LEFT, buff=0.5)
+        rows.to_edge(UP * 3 + LEFT)
+
+        self.play(
+            *[Create(box) for box in boxes],
+            *[Write(lbl) for lbl in labels],
+            run_time=1
+        )
+
+        checks = VGroup(
+            *[
+                VGroup(
+                    # левая ножка галочки
+                    Line(
+                        box.get_corner(UL) + DOWN * 0.2 + RIGHT * 0.1,
+                        box.get_center() + DOWN * 0.1
+                    ),
+                    # правая ножка
+                    Line(
+                        box.get_center() + DOWN * 0.1,
+                        box.get_corner(UR) + DOWN * 0.1 + LEFT * 0.05
+                    ),
+                )
+                .set_color("#83C167")
+                .set_stroke(width=3)
+                for box in boxes
+            ]
+        )
 
         self.wait()
         self.next_slide()
-
-        target_exp_3 = MarkupText("<b>Цель</b> - установление стационарного режима", font_size=20, fill_color="#343434")
-        target_exp_3.to_edge(UP * 2 + LEFT)
-        self.play(Write(target_exp_3))
+        self.play(Create(checks[0]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[1]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[2]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[3]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[4]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[5]), run_time=0.5)
+        self.wait()
+        self.next_slide()
+        self.play(Create(checks[6]), run_time=0.5)
 
         self.wait()
         self.next_slide()
-
-        experiment_3 = MarkupText(
-            "<i>Этапы эксперимента</i>:\n1) для фиксированного набора параметров, вероятностей переходов и количества итераций",
-            font_size=20, fill_color="#343434")
-        experiment_3.to_edge(UP * 3 + LEFT)
-        experiment_3_n = MathTex(r"N", fill_color="#343434").scale(0.75)
-        experiment_3_n.next_to(experiment_3, RIGHT, buff=0.1).shift(DOWN * 0.1)
-        experiment_3_continus = Text("или длительности времени "
-            "моделирования реализуется поток;", font_size=20, fill_color="#343434").to_edge(UP * 4.5 + LEFT)
-        self.play(Write(experiment_3))
-        self.play(Write(experiment_3_n), run_time=0.3)
-        self.play(Write(experiment_3_continus))
-
-        self.wait()
-        self.next_slide()
-
-        experiment_3_1 = MathTex(r"2)\quad \hat{\tau}_j=\frac{1}{k_j}\sum_{i=1}^{k_j}\tau_i^{(j)},j=\overline{1,N}; \quad \quad (**)",
-                                 color="#343434").scale(0.75)
-        experiment_3_1.to_edge(UP * 5 + LEFT)
-        self.play(Write(experiment_3_1))
-
-        self.wait()
-        self.next_slide()
-
-        experiment_3_2 = Text("3) осуществляем повторение", font_size=20, fill_color="#343434")
-        experiment_3_2.to_edge(UP * 7.5 + LEFT)
-        experiment_3_2_n = MathTex(r"N", fill_color="#343434").scale(0.5).next_to(experiment_3_2, RIGHT, buff=0.1)
-        experiment_3_2_continus = Text("раз шагов 1), 2)", font_size=20, fill_color="#343434").next_to(experiment_3_2_n, RIGHT, buff=0.1)
-        self.play(Write(experiment_3_2))
-        self.play(Write(experiment_3_2_n), run_time=0.3)
-        self.play(Write(experiment_3_2_continus))
-
-        self.wait()
-        self.next_slide()
-
-        experiment_3_3 = Text(
-            "Вычисляем выборочные средние (оценки) значения длительности интервала между моментами\nнаступления событий в рассматриваемом потоке:",
-            font_size=20, fill_color="#343434")
-        experiment_3_3.to_edge(UP * 9 + LEFT)
-        self.play(Write(experiment_3_3))
-
-        self.wait()
-        self.next_slide()
-
-        experiment_3_4 = MathTex(r"\hat{\overline{\tau}}=\frac{1}{N}\sum_{j=1}^N \hat{\tau}_j", fill_color="#343434")
-        experiment_3_4.to_edge(UP * 11 + ORIGIN)
-        experiment_3_4_rect = SurroundingRectangle(experiment_3_4, color="#343434", buff=0.2)
-
-        self.play(Write(experiment_3_4), Write(experiment_3_4_rect))
-        self.wait()
-        self.next_slide()
-
-        self.play(Unwrite(experiment_3_title), Unwrite(experiment_3_title_ul), Unwrite(experiment_3), Unwrite(target_exp_3),
-                  Unwrite(experiment_3_n), Unwrite(experiment_3_continus),
-                  Unwrite(experiment_3_1), Unwrite(experiment_3_2), Unwrite(experiment_3_2_n), Unwrite(experiment_3_2_continus), Unwrite(experiment_3_3),
-                  Unwrite(experiment_3_4), Unwrite(experiment_3_4_rect), run_time=2)
+        self.play(Unwrite(end_title), Unwrite(end_title_ul), Uncreate(checks), Uncreate(boxes), Unwrite(labels))
 
 class Begin(Slide):
     def construct(self):

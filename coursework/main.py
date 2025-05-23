@@ -1949,8 +1949,17 @@ class Presentation(Slide):
         self.next_slide()
         self.play(Create(checks[6]), run_time=0.5)
 
+        self.wait()
+        self.next_slide()
+        self.play(Unwrite(end_title), Unwrite(end_title_ul), Uncreate(checks), Uncreate(boxes), Unwrite(labels))
 
+        thx_text = Text("Спасибо за внимание!", font_size=55, fill_color="#343434").to_edge(ORIGIN + UP * 5)
+        self.play(Write(thx_text))
 
+        author_text_1 = Text("Контакты:\nА.С. Иванов: art25ivan@gmail.com\nЛ.А. Нежельская: ludne@mail.ru",
+                             font_size=25, fill_color="#343434").to_corner(DR, buff=0.2)
+        self.play(Write(author_text_1))
+        self.wait()
 
 
 
